@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/quentinrossetti/node-7zip/issues"
   },
-  "homepage": "https://github.com/quentinrossetti/node-7zip",
+  "homepage": "http://quentinrossetti.github.io/node-7zip",
   "dependencies": {
     "promise": "^5.0.0"
   },
