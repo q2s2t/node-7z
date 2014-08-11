@@ -1,0 +1,35 @@
+{
+  "name": "7z",
+  "version": "0.0.1",
+  "description": "A Node.js wrapper for 7-Zip",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha --dir .tmp/coverage",
+    "coveralls": "npm install coveralls && cat .tmp/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "doc": "docco index.js -o .tmp/doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quentinrossetti/node-7zip.git"
+  },
+  "keywords": [
+    "node",
+    "7zip",
+    "wrapper"
+  ],
+  "author": "Quentin Rossetti <quentin.rossetti@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quentinrossetti/node-7zip/issues"
+  },
+  "homepage": "https://github.com/quentinrossetti/node-7zip",
+  "dependencies": {
+    "promise": "^5.0.0"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "istanbul": "^0.3.0",
+    "mocha": "^1.21.4"
+  }
+}

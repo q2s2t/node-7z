@@ -1,18 +1,44 @@
+// # node-7zip
+// A Node.js wrapper for 7-Zip.
+// [GitHub](https://github.com/quentinrossetti/node-7zip)
+// I chose to use both promises and callbacks in this library. In all cases the
+// API is consistent with standard use:
+// Promise-style e.g:
+// ```js
+// var seven = require('7z');
+// seven.test('myArchive.7z')
+//   .then(fulfillHandler, rejectHandler);
+// ```
+// Callback-style e.g:
+// ```js
+// var seven = require('7z');
+// seven.test('myArchive.7z', function (err, files) {
+//   if (err) errorHandler;
+//   successHandler;
+// });
+// ```
 'use strict';
-
-var Promise = require('promise');
+var os      = require('os');
+var path    = require('path');
 var process = require('child_process');
-var os = require('os');
-var path = require('path');
+var Promise = require('promise');
 
-module.exports.test = function test(archivePath) {
+// ## API: test
+// Test integrity of archive.
+//
+// ### Arguments
+//  * `archivePath` The path to the archive you want to analyse.
+//
+// ### Return values
+//  * `files` A array of all the files *AND* directories in the archives. The
+//    `/` character is used as a path separator on every platform.
+//  * `err` The error as issued by `child_process.exec`.
+var test = function (archivePath) {
 
-  return new Promise(function (fulfill, reject){
+  return new Promise(function (fulfill, reject) {
     var command = '7z t ' + archivePath;
-    process.exec(command, function (err, stdout, stderr) {
-      //TODO: Custom error
+    process.exec(command, function (err, stdout) {
       if (err) return reject(err);
-      if (stderr) return reject(stderr);
       var r = [];
       stdout.split(os.EOL).forEach(function (_line) {
         if (_line.substr(0, 12) === 'Testing     ') {
@@ -24,3 +50,6 @@ module.exports.test = function test(archivePath) {
   });
 
 };
+
+module.exports.test = test;
+module.exports.testNode = Promise.nodeify(test);

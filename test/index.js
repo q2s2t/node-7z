@@ -20,4 +20,11 @@ describe('Specifications for the `test` function', function(){
       });
   });
 
+  it('should be usable as a non-promise function', function (done) {
+    sevenzip.testNode('test/resource/resource.7z', function (err, files) {
+      expect(files).to.be.an('array');
+      done();
+    });
+  });
+
 });
