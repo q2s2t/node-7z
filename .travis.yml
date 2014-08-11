@@ -1,4 +1,6 @@
-install: p7zip
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y p7zip
 language: node_js
 node_js:
   - '0.10'

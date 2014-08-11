@@ -35,6 +35,7 @@ var Promise = require('promise');
 //  * `err` The error as issued by `child_process.exec`.
 var test = function (archivePath) {
 
+  archivePath     = path.resolve(archivePath);
   return new Promise(function (fulfill, reject) {
     var command = '7z t ' + archivePath;
     process.exec(command, function (err, stdout) {
@@ -53,3 +54,37 @@ var test = function (archivePath) {
 
 module.exports.test = test;
 module.exports.testNode = Promise.nodeify(test);
+
+// ## API: extract
+// Extract with full paths
+//
+// ### Arguments
+//  * `archivePath` The path to the archive you want to analyse.
+//  * `destinationPath` Where to extract the archive.
+//
+// ### Return values
+//  * `files` A array of all the extracted files *AND* directories. The `/`
+//    character is used as a path separator on every platform.
+//  * `err` The error as issued by `child_process.exec`.
+var extract = function (archivePath, destinationPath) {
+
+  archivePath     = path.resolve(archivePath);
+  destinationPath = path.resolve(destinationPath);
+  return new Promise(function (fulfill, reject) {
+    var command = '7z x ' + archivePath + ' -y -o' + destinationPath;
+    process.exec(command, function (err, stdout) {
+      if (err) return reject(err);
+      var r = [];
+      stdout.split(os.EOL).forEach(function (_line) {
+        if (_line.substr(0, 12) === 'Extracting  ') {
+          return r.push(_line.substr(12, _line.length).replace(path.sep, '/'));
+        }
+      });
+      return fulfill(r);
+    });
+  });
+
+};
+
+module.exports.extract = extract;
+module.exports.extractNode = Promise.nodeify(extract);
