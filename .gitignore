@@ -26,3 +26,7 @@ build/Release
 node_modules
 
 dummy.*
+
+# Online IDE
+.c9
+.codio
