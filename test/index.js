@@ -62,7 +62,7 @@ describe('`extract` function', function() {
   it('should get an error when 7z gets an error', function (done) {
     var api = new Api();
     api.extract('test/nothere.7z', '.tmp/test', function (err) {
-      expect(err.message).to.eql('there is no such archive');
+      expect(err.message).to.contain('archive');
       done();
     });
   });
@@ -89,7 +89,7 @@ describe('`extract` function', function() {
   it('should be compatible with Promise', function (done) {
     var api = new Api();
     api.extract('test/nothere.7z', '.tmp/test').then(null, function (err) {
-      expect(err.message).to.eql('there is no such archive');
+      expect(err.message).to.contain('archive');
       done();
     });
   });
