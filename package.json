@@ -25,7 +25,8 @@
   },
   "homepage": "http://quentinrossetti.github.io/node-7zip",
   "dependencies": {
-    "promise": "^5.0.0"
+    "promise": "^5.0.0",
+    "win-spawn": "^2.0.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",

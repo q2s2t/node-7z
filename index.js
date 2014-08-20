@@ -23,6 +23,7 @@ var path    = require('path');
 var process = require('child_process');
 var events  = require('events');
 var util    = require('util');
+var spawn   = require('win-spawn');
 var Promise = require('promise');
 
 
@@ -82,7 +83,7 @@ Api.prototype.extract = Promise.denodeify(function (archive, dest, callback) {
   var self = this;
   var err  = null;
   var cmd  = ('x ' + archive + ' -y -o' + dest).split(' ');
-  var run  = process.spawn('7z', cmd, {
+  var run  = spawn('7z', cmd, {
     detached: true,
     stdio: 'pipe'
   });
@@ -94,7 +95,8 @@ Api.prototype.extract = Promise.denodeify(function (archive, dest, callback) {
   });
   run.stdout.on('data', function (data) {
     var files = [];
-    var res   = /Error:\n(.*)/g.exec(data.toString());
+    var regex = new RegExp('Error:' + os.EOL + '(.*)', 'g');
+    var res   = regex.exec(data.toString());
     if (res) {
       err = new Error(res[1]);
     }
