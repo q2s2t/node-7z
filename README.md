@@ -5,6 +5,65 @@ node-7zip
 
 > A Node.js wrapper for 7-Zip
 
+Usage
+-----
+
+I chose to use both promises and callbacks in this library. In all cases the
+API is consistent with standard use:
+
+Promise-style e.g:
+```js
+var Zip = require('7z');
+var myTask = new Zip();
+myTask.test('myArchive.7z')
+  .then(fulfillHandler, rejectHandler);
+```
+
+Callback-style e.g:
+```js
+var Zip = require('7z');
+var myTask = new Zip();
+myTask.test('myArchive.7z', function (err, files) {
+  if (err) errorHandler;
+  successHandler;
+});
+```
+
+Installation
+------------
+
+```cmd
+npm install -g 7z
+```
+
+API
+---
+
+### Test integrity of archive: `test`
+
+#### Arguments
+ * `archive` The path to the archive you want to analyse.
+
+#### Return values
+ * `files` A array of all the files *AND* directories in the archives. The
+   `/` character is used as a path separator on every platform.
+ * `err` The error as issued by `child_process.exec`.
+
+### Extract with full paths: `extract`
+
+#### Arguments
+ * `archive` The path to the archive you want to analyse.
+ * `dest` Where to extract the archive.
+
+#### Return values
+ * `files` A array of all the extracted files *AND* directories. The `/`
+   character is used as a path separator on every platform.
+ * `err` The error as issued by `child_process.exec`.
+
+#### Events
+ * `data` Emitted when files are extracted. Has one parameter `(files)`, an
+   array of files and directories processed.
+
 ***
 With :heart: from [quentinrossetti](https://github.com/quentinrossetti)
 
