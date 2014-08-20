@@ -15,8 +15,7 @@ Promise-style e.g:
 ```js
 var Zip = require('7z');
 var myTask = new Zip();
-myTask.test('myArchive.7z')
-  .then(fulfillHandler, rejectHandler);
+myTask.test('myArchive.7z').then(successHandler, errorHandler);
 ```
 
 Callback-style e.g:
@@ -32,7 +31,7 @@ myTask.test('myArchive.7z', function (err, files) {
 Installation
 ------------
 
-```cmd
+```
 npm install -g 7z
 ```
 
