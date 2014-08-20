@@ -30,6 +30,7 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "istanbul": "^0.3.0",
-    "mocha": "^1.21.4"
+    "mocha": "^1.21.4",
+    "rimraf": "^2.2.8"
   }
 }
