@@ -83,10 +83,7 @@ Api.prototype.extract = Promise.denodeify(function (archive, dest, callback) {
   var self = this;
   var err  = null;
   var cmd  = ('x ' + archive + ' -y -o' + dest).split(' ');
-  var run  = spawn('7z', cmd, {
-    detached: true,
-    stdio: 'pipe'
-  });
+  var run  = spawn('7z', cmd, { stdio: 'pipe' });
   run.on('close', function (code) {
     if (err) {
       return callback(err);
