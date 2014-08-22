@@ -29,6 +29,21 @@ describe('The Api object', function () {
 
 });
 
+describe('`add` function', function() {
+  
+  it('should get an error when 7z gets an error', function (done) {
+    var api = new Api();
+    api.add('myArchive.7z', 'files', { i:'az', r: true }, function (s) {
+      console.log(s);
+    });
+    api.add('myArchive.7z', 'files', function (s) {
+      console.log(s);
+    });
+    done();
+  });
+   
+});
+
 describe('`test` function', function(){
 
   it('should get an error when 7z gets an error', function (done) {

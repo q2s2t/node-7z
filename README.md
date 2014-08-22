@@ -31,6 +31,9 @@ myTask.test('myArchive.7z', function (err, files) {
 Installation
 ------------
 
+You must have the `7z` executable available in your PATH. In some GNU/Linux
+distributions install the `p7zip-full`.
+
 ```
 npm install -g 7z
 ```
