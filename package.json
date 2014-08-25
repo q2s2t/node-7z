@@ -19,6 +19,7 @@
     "wrapper"
   ],
   "author": "Quentin Rossetti <quentin.rossetti@gmail.com>",
+  "contributors": [],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/quentinrossetti/node-7zip/issues"

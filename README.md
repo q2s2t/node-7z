@@ -11,7 +11,7 @@ Usage
 I chose to use *Promises* in this library. API is consistent with standard use:
 
 ```js
-var Zip = require('7z');
+var Zip = require('7z'); // Name the class as you want!
 var myTask = new Zip();
 myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 
@@ -45,7 +45,7 @@ npm install --save 7z
 API
 ---
 
-### Extract with full paths: `extractFull`
+### Extract with full paths: `Zip.extractFull`
 
 **Arguments**
  * `archive` The path to the archive you want to analyse.
@@ -60,7 +60,7 @@ API
  * `err` An Error object. Its message is the message outputed by 7-Zip.
  * `code` 7-Zip [exit code](http://sevenzip.sourceforge.jp/chm/cmdline/exit_codes.htm).
 
-### Extract: `extract`
+### Extract: `Zip.extract`
 
 **Arguments**
  * `archive` The path to the archive you want to analyse.
