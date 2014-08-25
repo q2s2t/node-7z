@@ -1,7 +1,7 @@
 'use strict';
 var os    = require('os');
 var spawn = require('win-spawn');
-var Q     = require('q');
+var when  = require('when');
 
 /**
  * @promise Run
@@ -10,8 +10,8 @@ var Q     = require('q');
  * @reject {Error} The error issued by 7-Zip.
  * @reject {number} Exit code issued by 7-Zip.
  */
-module.exports = function (command, cb) {
-  return Q.Promise(function (fulfill, reject, progress) {
+module.exports = function (command) {
+  return when.promise(function (fulfill, reject, progress) {
     
     // Parse the command variable. If the command is not a string reject the 
     // Promise. Otherwise transform the command into two variables: the command
@@ -41,5 +41,5 @@ module.exports = function (command, cb) {
       reject(err, code);
     });
     
-  }).nodeify(cb);
+  });
 };

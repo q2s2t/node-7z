@@ -26,6 +26,7 @@
   "homepage": "http://quentinrossetti.github.io/node-7zip",
   "dependencies": {
     "q": "^2.0.2",
+    "when": "^3.4.4",
     "win-spawn": "^2.0.0"
   },
   "devDependencies": {

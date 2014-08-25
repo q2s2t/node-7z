@@ -28,11 +28,4 @@ describe('Util: `run`', function () {
     });
   });
   
-  it('should work as Node.js-style callback', function (done) {
-    run(0, function (err) {
-      expect(err.message).to.be.a('string');
-      done();
-    });
-  });
-  
 });
