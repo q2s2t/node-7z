@@ -4,11 +4,14 @@ var spawn = require('win-spawn');
 var Q     = require('q');
 
 /**
- * @function run
- * @param {string} command The command to run
+ * @promise Run
+ * @param {string} command The command to run.
+ * @progress {string} stdout message.
+ * @reject {Error} The error issued by 7-Zip.
+ * @reject {number} Exit code issued by 7-Zip.
  */
 module.exports = function (command, cb) {
-  return Q.Promise(function (resolve, reject, notify) {
+  return Q.Promise(function (fulfill, reject, progress) {
     
     // Parse the command variable. If the command is not a string reject the 
     // Promise. Otherwise transform the command into two variables: the command
@@ -22,8 +25,7 @@ module.exports = function (command, cb) {
     
     // When an stdout is emitted, parse it. If an error is detected in the body
     // of the stdout create an new error with the 7-Zip error message as the 
-    // error's message. Otherwise progress with the processed files and 
-    // directories as an array.
+    // error's message. Otherwise progress with stdout message.
     var err;
     var reg = new RegExp('Error:' + os.EOL + '(.*)', 'g');
     var run = spawn(cmd, args, { stdio: 'pipe' });
@@ -32,11 +34,11 @@ module.exports = function (command, cb) {
       if (res) {
         err = new Error(res[1]);
       }
-      notify(data.toString());
+      progress(data.toString());
     });
     run.on('close', function (code) {
-      if (code === 0) return resolve();
-      reject(err);
+      if (code === 0) return fulfill();
+      reject(err, code);
     });
     
   }).nodeify(cb);

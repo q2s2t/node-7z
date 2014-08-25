@@ -15,6 +15,14 @@ describe('Module: `extractFull`', function () {
       done();
     });
   });
+
+  it('should return an error on output duplticate', function (done) {
+    extractFull('test/zip.7z', '.tmp/test', { o: '.tmp/test/duplicate' })
+    .catch(function (err) {
+      expect(err).to.be.an.instanceof(Error);
+      done();
+    });
+  });
   
   it('should return entries on progress', function (done) {
     extractFull('test/zip.7z', '.tmp/test')
