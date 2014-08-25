@@ -27,7 +27,7 @@ module.exports = function (command) {
     // of the stdout create an new error with the 7-Zip error message as the 
     // error's message. Otherwise progress with stdout message.
     var err;
-    var reg = new RegExp('Error:' + os.EOL + '(.*)', 'g');
+    var reg = new RegExp('Error:' + os.EOL + '?(.*)', 'g');
     var run = spawn(cmd, args, { stdio: 'pipe' });
     run.stdout.on('data', function (data) {
       var res = reg.exec(data.toString());
