@@ -47,64 +47,64 @@ API
 
 ### Extract: `Zip.extract`
 
-  **Arguments**
-   * `archive` The path to the archive you want to analyse.
-   * `dest` Where to extract the archive.
-   * `options` An object of options.
-  
-  **Progress**
-   * `files` A array of all the extracted files *AND* directories. The `/`
-     character is used as a path separator on every platform.
-  
-  **Error**
-   * `err` An Error object.
+**Arguments**
+ * `archive` The path to the archive you want to analyse.
+ * `dest` Where to extract the archive.
+ * `options` An object of options.
+
+**Progress**
+ * `files` A array of all the extracted files *AND* directories. The `/`
+   character is used as a path separator on every platform.
+
+**Error**
+ * `err` An Error object.
 
 
 ### Extract with full paths: `Zip.extractFull`
 
-  **Arguments**
-   * `archive` The path to the archive you want to analyse.
-   * `dest` Where to extract the archive.
-   * `options` An object of options.
-  
-  **Progress**
-   * `files` A array of all the extracted files *AND* directories. The `/`
-     character is used as a path separator on every platform.
-  
-  **Error**
-   * `err` An Error object.
+**Arguments**
+ * `archive` The path to the archive you want to analyse.
+ * `dest` Where to extract the archive.
+ * `options` An object of options.
+
+**Progress**
+ * `files` A array of all the extracted files *AND* directories. The `/`
+   character is used as a path separator on every platform.
+
+**Error**
+ * `err` An Error object.
 
 
 ### Test integrity of archive: `Zip.test`
 
-  **Arguments**
-   * `archive` The path to the archive you want to analyse.
-   * `options` An object of options.
-  
-  **Progress**
-   * `files` A array of all the extracted files *AND* directories. The `/`
-     character is used as a path separator on every platform.
-  
-  **Error**
-   * `err` An Error object.
+**Arguments**
+ * `archive` The path to the archive you want to analyse.
+ * `options` An object of options.
+
+**Progress**
+ * `files` A array of all the extracted files *AND* directories. The `/`
+   character is used as a path separator on every platform.
+
+**Error**
+ * `err` An Error object.
 
 
 ### List contents of archive: `Zip.list`
 
-  **Arguments**
-   * `archive` The path to the archive you want to analyse.
-   * `options` An object of options.
-  
-  **Progress**
-   * `files` A array of all the extracted files *AND* directories. The `/`
-     character is used as a path separator on every platform.
+**Arguments**
+ * `archive` The path to the archive you want to analyse.
+ * `options` An object of options.
 
-  **Fulfill**
-   * `spec` An object of tech spec about the archive. Properties are: `date`,
-     `attr`, `size` and `name`.
-  
-  **Error**
-   * `err` An Error object.
+**Progress**
+ * `files` A array of all the extracted files *AND* directories. The `/`
+   character is used as a path separator on every platform.
+
+**Fulfill**
+ * `spec` An object of tech spec about the archive. Properties are: `date`,
+   `attr`, `size` and `name`.
+
+**Error**
+ * `err` An Error object.
 
 
 ***
