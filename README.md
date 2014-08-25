@@ -1,5 +1,5 @@
-node-7zip
-=========
+node-7z
+=======
 
 [![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Code quality][codeclimate-image]][codeclimate-url] [![Release][npm-image]][npm-url]
 
