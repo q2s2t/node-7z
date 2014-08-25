@@ -8,6 +8,8 @@ describe('Class: `Zip`', function () {
     var zip = new Zip();
     expect(zip).to.respondTo('extract');
     expect(zip).to.respondTo('extractFull');
+    expect(zip).to.respondTo('list');
+    expect(zip).to.respondTo('test');
   });
   
 });

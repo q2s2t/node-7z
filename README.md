@@ -45,10 +45,11 @@ npm install --save 7z
 API
 ---
 
-### Test integrity of archive: `Zip.test`
+### Extract: `Zip.extract`
 
   **Arguments**
    * `archive` The path to the archive you want to analyse.
+   * `dest` Where to extract the archive.
    * `options` An object of options.
   
   **Progress**
@@ -57,6 +58,7 @@ API
   
   **Error**
    * `err` An Error object.
+
 
 ### Extract with full paths: `Zip.extractFull`
 
@@ -72,11 +74,11 @@ API
   **Error**
    * `err` An Error object.
 
-### Extract: `Zip.extract`
+
+### Test integrity of archive: `Zip.test`
 
   **Arguments**
    * `archive` The path to the archive you want to analyse.
-   * `dest` Where to extract the archive.
    * `options` An object of options.
   
   **Progress**
@@ -85,6 +87,25 @@ API
   
   **Error**
    * `err` An Error object.
+
+
+### List contents of archive: `Zip.list`
+
+  **Arguments**
+   * `archive` The path to the archive you want to analyse.
+   * `options` An object of options.
+  
+  **Progress**
+   * `files` A array of all the extracted files *AND* directories. The `/`
+     character is used as a path separator on every platform.
+
+  **Fulfill**
+   * `spec` An object of tech spec about the archive. Properties are: `date`,
+     `attr`, `size` and `name`.
+  
+  **Error**
+   * `err` An Error object.
+
 
 ***
 With :heart: from [quentinrossetti](https://github.com/quentinrossetti)
