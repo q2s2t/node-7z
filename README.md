@@ -45,35 +45,46 @@ npm install --save 7z
 API
 ---
 
+### Test integrity of archive: `Zip.test`
+
+  **Arguments**
+   * `archive` The path to the archive you want to analyse.
+   * `options` An object of options.
+  
+  **Progress**
+   * `files` A array of all the extracted files *AND* directories. The `/`
+     character is used as a path separator on every platform.
+  
+  **Error**
+   * `err` An Error object.
+
 ### Extract with full paths: `Zip.extractFull`
 
-**Arguments**
- * `archive` The path to the archive you want to analyse.
- * `dest` Where to extract the archive.
- * `options` An object of options.
-
-**Progress**
- * `files` A array of all the extracted files *AND* directories. The `/`
-   character is used as a path separator on every platform.
-
-**Error**
- * `err` An Error object. Its message is the message outputed by 7-Zip.
- * `code` 7-Zip [exit code](http://sevenzip.sourceforge.jp/chm/cmdline/exit_codes.htm).
+  **Arguments**
+   * `archive` The path to the archive you want to analyse.
+   * `dest` Where to extract the archive.
+   * `options` An object of options.
+  
+  **Progress**
+   * `files` A array of all the extracted files *AND* directories. The `/`
+     character is used as a path separator on every platform.
+  
+  **Error**
+   * `err` An Error object.
 
 ### Extract: `Zip.extract`
 
-**Arguments**
- * `archive` The path to the archive you want to analyse.
- * `dest` Where to extract the archive.
- * `options` An object of options.
-
-**Progress**
- * `files` A array of all the extracted files *AND* directories. The `/`
-   character is used as a path separator on every platform.
-
-**Error**
- * `err` An Error object. Its message is the message outputed by 7-Zip.
- * `code` 7-Zip [exit code](http://sevenzip.sourceforge.jp/chm/cmdline/exit_codes.htm).
+  **Arguments**
+   * `archive` The path to the archive you want to analyse.
+   * `dest` Where to extract the archive.
+   * `options` An object of options.
+  
+  **Progress**
+   * `files` A array of all the extracted files *AND* directories. The `/`
+     character is used as a path separator on every platform.
+  
+  **Error**
+   * `err` An Error object.
 
 ***
 With :heart: from [quentinrossetti](https://github.com/quentinrossetti)
