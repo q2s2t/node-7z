@@ -4,7 +4,7 @@ var fs = require('fs');
 var rimraf = require('rimraf');
 var extractFull = require('../../lib/extractFull');
 
-describe('Module: `extractFull`', function () {
+describe('Method: `Zip.extractFull`', function () {
   
   afterEach(function () { rimraf.sync('.tmp/test'); });
   

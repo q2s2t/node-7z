@@ -8,23 +8,27 @@ node-7zip
 Usage
 -----
 
-I chose to use both promises and callbacks in this library. In all cases the
-API is consistent with standard use:
+I chose to use *Promises* in this library. API is consistent with standard use:
 
-Promise-style e.g:
 ```js
 var Zip = require('7z');
 var myTask = new Zip();
-myTask.test('myArchive.7z').then(successHandler, errorHandler);
-```
+myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 
-Callback-style e.g:
-```js
-var Zip = require('7z');
-var myTask = new Zip();
-myTask.test('myArchive.7z', function (err, files) {
-  if (err) errorHandler;
-  successHandler;
+// Equivalent to `on('data', function (files) { // ... });`
+.progress(function (files) {
+  console.log('Some files are extracted: %s', files);
+});
+
+// When all is done
+.then(function () {
+  console.log('Extracting done!');
+});
+
+// On error
+.catch(function (err, code) {
+  console.error('7-Zip exit with code %i', code);
+  console.error(err);
 });
 ```
 
@@ -35,36 +39,41 @@ You must have the `7z` executable available in your PATH. In some GNU/Linux
 distributions install the `p7zip-full`.
 
 ```
-npm install -g 7z
+npm install --save 7z
 ```
 
 API
 ---
 
-### Test integrity of archive: `test`
+### Extract with full paths: `extractFull`
 
-#### Arguments
- * `archive` The path to the archive you want to analyse.
-
-#### Return values
- * `files` A array of all the files *AND* directories in the archives. The
-   `/` character is used as a path separator on every platform.
- * `err` The error as issued by `child_process.exec`.
-
-### Extract with full paths: `extract`
-
-#### Arguments
+**Arguments**
  * `archive` The path to the archive you want to analyse.
  * `dest` Where to extract the archive.
+ * `options` An object of options.
 
-#### Return values
+**Progress**
  * `files` A array of all the extracted files *AND* directories. The `/`
    character is used as a path separator on every platform.
- * `err` The error as issued by `child_process.exec`.
 
-#### Events
- * `data` Emitted when files are extracted. Has one parameter `(files)`, an
-   array of files and directories processed.
+**Error**
+ * `err` An Error object. Its message is the message outputed by 7-Zip.
+ * `code` 7-Zip [exit code](http://sevenzip.sourceforge.jp/chm/cmdline/exit_codes.htm).
+
+### Extract: `extract`
+
+**Arguments**
+ * `archive` The path to the archive you want to analyse.
+ * `dest` Where to extract the archive.
+ * `options` An object of options.
+
+**Progress**
+ * `files` A array of all the extracted files *AND* directories. The `/`
+   character is used as a path separator on every platform.
+
+**Error**
+ * `err` An Error object. Its message is the message outputed by 7-Zip.
+ * `code` 7-Zip [exit code](http://sevenzip.sourceforge.jp/chm/cmdline/exit_codes.htm).
 
 ***
 With :heart: from [quentinrossetti](https://github.com/quentinrossetti)
