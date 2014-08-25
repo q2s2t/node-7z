@@ -2,7 +2,7 @@
   "name": "7z",
   "version": "0.0.1",
   "description": "A Node.js wrapper for 7-Zip",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "mocha",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha --dir .tmp/coverage",
@@ -25,7 +25,7 @@
   },
   "homepage": "http://quentinrossetti.github.io/node-7zip",
   "dependencies": {
-    "promise": "^5.0.0",
+    "q": "^2.0.2",
     "win-spawn": "^2.0.0"
   },
   "devDependencies": {
