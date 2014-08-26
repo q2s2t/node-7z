@@ -1,8 +1,8 @@
 /*global describe, it */
 var expect = require('chai').expect;
-var switches = require('../../util/switches');
+var switches = require('../util/switches');
 
-describe('Util: `switches`', function () {
+describe('Utility: `switches`', function () {
   
   it('should return deflaut flags with no args', function () {
     expect(switches({})).to.eql('-ssc -y');

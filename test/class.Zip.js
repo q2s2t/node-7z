@@ -1,6 +1,6 @@
 /*global describe, it */
 var expect = require('chai').expect;
-var Zip = require('../../lib');
+var Zip = require('../lib');
 
 describe('Class: `Zip`', function () {
   

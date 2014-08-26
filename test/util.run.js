@@ -1,8 +1,8 @@
 /*global describe, it */
 var expect = require('chai').expect;
-var run = require('../../util/run');
+var run = require('../util/run');
 
-describe('Util: `run`', function () {
+describe('Utility: `run`', function () {
   
   it('should return an error with invalid command type', function (done) {
     run(0).catch(function (err) {

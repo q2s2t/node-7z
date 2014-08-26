@@ -2,14 +2,14 @@
 var expect = require('chai').expect;
 var fs = require('fs');
 var rimraf = require('rimraf');
-var test = require('../../lib/test');
+var add = require('../lib/add');
 
-describe('Method: `Zip.test`', function () {
+describe('Method: `Zip.add`', function () {
   
   afterEach(function () { rimraf.sync('.tmp/test'); });
   
   it('should return an error on 7z error', function (done) {
-    test('test/nothere.7z')
+    add('.tmp/test/addnot.7z', '.tmp/test/nothere', { '???': true })
     .catch(function (err) {
       expect(err).to.be.an.instanceof(Error);
       done();
@@ -17,7 +17,7 @@ describe('Method: `Zip.test`', function () {
   });
   
   it('should return entries on progress', function (done) {
-    test('test/zip.7z', { r: true })
+    add('.tmp/test/add.7z', '*.md')
     .progress(function (entries) {
       expect(entries.length).to.be.at.least(1);
       done();

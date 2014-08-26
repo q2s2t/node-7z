@@ -1,6 +1,6 @@
 /*global describe, it, afterEach */
 var expect = require('chai').expect;
-var list = require('../../lib/list');
+var list = require('../lib/list');
 
 describe('Method: `Zip.list`', function () {
   

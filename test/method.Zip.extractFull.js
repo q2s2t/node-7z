@@ -2,7 +2,7 @@
 var expect = require('chai').expect;
 var fs = require('fs');
 var rimraf = require('rimraf');
-var extractFull = require('../../lib/extractFull');
+var extractFull = require('../lib/extractFull');
 
 describe('Method: `Zip.extractFull`', function () {
   
