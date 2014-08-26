@@ -26,8 +26,7 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 });
 
 // On error
-.catch(function (err, code) {
-  console.error('7-Zip exit with code %i', code);
+.catch(function (err) {
   console.error(err);
 });
 ```

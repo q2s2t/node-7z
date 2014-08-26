@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### `v0.1.1` 2014-08-26
+
+ * Doc: Fix wrong usage in documentation.
+
 ### `v0.1.0` 2014-08-26
 
  * Feature: Add: `Zip.add`.
