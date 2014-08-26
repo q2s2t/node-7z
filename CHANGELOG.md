@@ -1,6 +1,13 @@
 Changelog
 =========
 
+### `v0.1.0` 2014-08-26
+
+ * Feature: Add: `Zip.add`.
+ * Feature: Delete: `Zip.delete`.
+ * Feature: Update: `Zip.update`.
+ * Dependencies: Use `7za` instead of `7z` so it is easier to setup on Windows.
+
 ### `v0.0.2` 2014-08-25
 
  * Feature: List contents of archive: `Zip.list`.
