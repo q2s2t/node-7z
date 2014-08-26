@@ -25,7 +25,7 @@ describe('Method: `Zip.list`', function () {
   });
   
   it('should return valid entries on progress', function (done) {
-    list('test/zip.7z')
+    list('test/zip.zip')
     .progress(function (entries) {
       expect(entries.length).to.be.at.least(1);
       expect(entries[0].date).to.be.an.instanceof(Date);

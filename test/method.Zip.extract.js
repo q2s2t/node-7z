@@ -1,12 +1,11 @@
 /*global describe, it, afterEach */
 var expect = require('chai').expect;
-var fs = require('fs');
-var rimraf = require('rimraf');
+var fs = require('fs-extra');
 var extract = require('../lib/extract');
 
 describe('Method: `Zip.extract`', function () {
   
-  afterEach(function () { rimraf.sync('.tmp/test'); });
+  afterEach(function () { fs.removeSync('.tmp/test'); });
   
   it('should return an error on 7z error', function (done) {
     extract('test/nothere.7z', '.tmp/test')
