@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### `v0.1.2` 2014-10-20
+
+ * Fix: Now support paths with spaces.
+
 ### `v0.1.1` 2014-08-26
 
  * Doc: Fix wrong usage in documentation.
