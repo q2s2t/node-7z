@@ -4,9 +4,9 @@ var fs = require('fs-extra');
 var extractFull = require('../lib/extractFull');
 
 describe('Method: `Zip.extractFull`', function () {
-  
+
   afterEach(function () { fs.removeSync('.tmp/test'); });
-  
+
   it('should return an error on 7z error', function (done) {
     extractFull('test/nothere.7z', '.tmp/test')
     .catch(function (err) {
@@ -22,7 +22,7 @@ describe('Method: `Zip.extractFull`', function () {
       done();
     });
   });
-  
+
   it('should return entries on progress', function (done) {
     extractFull('test/zip.7z', '.tmp/test')
     .progress(function (entries) {
@@ -30,7 +30,7 @@ describe('Method: `Zip.extractFull`', function () {
       done();
     });
   });
-  
+
   it('should extract on the right path', function (done) {
     extractFull('test/zip.7z', '.tmp/test')
     .then(function () {
@@ -38,5 +38,13 @@ describe('Method: `Zip.extractFull`', function () {
       done();
     });
   });
-  
+
+  it('should work with spaces too', function (done) {
+    extractFull('test/zip.7z', '.tmp/test spaces agai n')
+    .then(function () {
+      expect(fs.existsSync('.tmp/test spaces agai n/zip')).to.be.eql(true);
+      done();
+    });
+  });
+
 });

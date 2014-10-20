@@ -12,8 +12,8 @@ var when  = require('when');
  */
 module.exports = function (command) {
   return when.promise(function (fulfill, reject, progress) {
-    
-    // Parse the command variable. If the command is not a string reject the 
+
+    // Parse the command variable. If the command is not a string reject the
     // Promise. Otherwise transform the command into two variables: the command
     // name and the arguments.
     if (typeof command !== 'string') {
@@ -22,9 +22,28 @@ module.exports = function (command) {
     var args = command.split(' ');
     var cmd  = args[0];
     args.shift();
-    
+
+    // Recover pathes when the have spaces. The split process above didn't care
+    // if the string contains pathes with spaces. The loop bellow look for each
+    // item to have a escape char at the end, if is present concat with the next
+    // item to restore the original path.
+    var filterSpaces = function (elem, index, array) {
+      if (elem[elem.length - 1] === '\\') {
+        var firstPart = elem.substr(0, elem.length - 1);
+        var separator = ' ';
+        var lastPart  = args[index + 1];
+        args[index] = firstPart + separator + lastPart;
+        args.splice(index + 1, 1);
+      }
+    };
+
+    // Run the filter twice. By splicing the array in the function above the
+    // filter does not run on the item just after one that is being removed.
+    args.forEach(filterSpaces);
+    args.forEach(filterSpaces);
+
     // When an stdout is emitted, parse it. If an error is detected in the body
-    // of the stdout create an new error with the 7-Zip error message as the 
+    // of the stdout create an new error with the 7-Zip error message as the
     // error's message. Otherwise progress with stdout message.
     var err;
     var reg = new RegExp('Error:' + os.EOL + '?(.*)', 'g');
@@ -40,6 +59,6 @@ module.exports = function (command) {
       if (code === 0) return fulfill();
       reject(err, code);
     });
-    
+
   });
 };
