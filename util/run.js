@@ -46,8 +46,10 @@ module.exports = function (command) {
     }
     
     // Normalize pathes before passing them to 7-Zip.
-    args[1] = path.normalize(args[1]);
-    args[2] = path.normalize(args[2]);
+    if (args.length > 1) {
+      args[1] = path.normalize(args[1]);
+      args[2] = path.normalize(args[2]);
+    }
     
     // When an stdout is emitted, parse it. If an error is detected in the body
     // of the stdout create an new error with the 7-Zip error message as the
