@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### `v0.1.3` 2014-10-23
+
+ * Support for Windows platform.
+
 ### `v0.1.2` 2014-10-20
 
  * Fix: Now support paths with spaces.
