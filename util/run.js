@@ -2,6 +2,7 @@
 var os    = require('os');
 var spawn = require('win-spawn');
 var when  = require('when');
+var path  = require('path');
 
 /**
  * @promise Run
@@ -37,11 +38,17 @@ module.exports = function (command) {
       }
     };
 
-    // Run the filter twice. By splicing the array in the function above the
-    // filter does not run on the item just after one that is being removed.
-    args.forEach(filterSpaces);
-    args.forEach(filterSpaces);
-
+    // Run the filter for each space. By splicing the array in the function 
+    // above the filter does not run on the item just after one that is being 
+    // removed.
+    for (var i = 0; i < args.length; i++) {
+      args.forEach(filterSpaces);
+    }
+    
+    // Normalize pathes before passing them to 7-Zip.
+    args[1] = path.normalize(args[1]);
+    args[2] = path.normalize(args[2]);
+    
     // When an stdout is emitted, parse it. If an error is detected in the body
     // of the stdout create an new error with the 7-Zip error message as the
     // error's message. Otherwise progress with stdout message.
