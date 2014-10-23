@@ -4,9 +4,9 @@ var fs = require('fs-extra');
 var extract = require('../lib/extract');
 
 describe('Method: `Zip.extract`', function () {
-  
-  afterEach(function () { fs.removeSync('.tmp/test'); });
-  
+
+  //afterEach(function () { fs.removeSync('.tmp/test'); });
+
   it('should return an error on 7z error', function (done) {
     extract('test/nothere.7z', '.tmp/test')
     .catch(function (err) {
@@ -22,7 +22,7 @@ describe('Method: `Zip.extract`', function () {
       done();
     });
   });
-  
+
   it('should return entries on progress', function (done) {
     extract('test/zip.7z', '.tmp/test')
     .progress(function (entries) {
@@ -30,7 +30,7 @@ describe('Method: `Zip.extract`', function () {
       done();
     });
   });
-  
+
   it('should extract on the right path', function (done) {
     extract('test/zip.7z', '.tmp/test')
     .then(function () {
@@ -41,5 +41,5 @@ describe('Method: `Zip.extract`', function () {
       done();
     });
   });
-  
+
 });

@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var list = require('../lib/list');
 
 describe('Method: `Zip.list`', function () {
-  
+
   it('should return an error on 7z error', function (done) {
     list('test/nothere.7z')
     .catch(function (err) {
@@ -11,7 +11,7 @@ describe('Method: `Zip.list`', function () {
       done();
     });
   });
-  
+
   it('should return an tech spec on fulfill', function (done) {
     list('test/zip.7z', { r: true })
     .then(function (spec) {
@@ -23,7 +23,7 @@ describe('Method: `Zip.list`', function () {
       done();
     });
   });
-  
+
   it('should return valid entries on progress', function (done) {
     list('test/zip.zip')
     .progress(function (entries) {
@@ -35,5 +35,5 @@ describe('Method: `Zip.list`', function () {
       done();
     });
   });
-  
+
 });

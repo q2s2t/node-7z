@@ -15,7 +15,7 @@ describe('Method: `Zip.extractFull`', function () {
     });
   });
 
-  it('should return an error on output duplticate', function (done) {
+  it('should return an error on output duplicate', function (done) {
     extractFull('test/zip.7z', '.tmp/test', { o: '.tmp/test/duplicate' })
     .catch(function (err) {
       expect(err).to.be.an.instanceof(Error);
@@ -54,7 +54,7 @@ describe('Method: `Zip.extractFull`', function () {
       done();
     });
   });
-  
+
   it('should work with spaces in both source and destination', function (done) {
     fs.copySync('test/zip.7z','.tmp/test/Folder From/Folder A/Folder B/Folder C/zip file.7z');
     extractFull('.tmp/test/Folder From/Folder A/Folder B/Folder C/zip file.7z','.tmp/test/Folder To/Folder D/Folder E/Folder F')

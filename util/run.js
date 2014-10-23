@@ -3,15 +3,17 @@ var os    = require('os');
 var spawn = require('win-spawn');
 var when  = require('when');
 var path  = require('path');
+var utilSwitches = require('./switches');
 
 /**
  * @promise Run
  * @param {string} command The command to run.
+ * @param {Array} switches Options for 7-Zip as an array.
  * @progress {string} stdout message.
  * @reject {Error} The error issued by 7-Zip.
  * @reject {number} Exit code issued by 7-Zip.
  */
-module.exports = function (command) {
+module.exports = function (command, switches) {
   return when.promise(function (fulfill, reject, progress) {
 
     // Parse the command variable. If the command is not a string reject the
@@ -20,43 +22,61 @@ module.exports = function (command) {
     if (typeof command !== 'string') {
       return reject(new Error('Command must be a string'));
     }
-    var args = command.split(' ');
-    var cmd  = args[0];
-    args.shift();
+    var cmd  = command.split(' ')[0];
+    var args = [ command.split(' ')[1] ];
 
-    // Recover pathes when the have spaces. The split process above didn't care
-    // if the string contains pathes with spaces. The loop bellow look for each
-    // item to have a escape char at the end, if is present concat with the next
-    // item to restore the original path.
-    var filterSpaces = function (elem, index, array) {
-      if (elem[elem.length - 1] === '\\') {
-        var firstPart = elem.substr(0, elem.length - 1);
-        var separator = ' ';
-        var lastPart  = args[index + 1];
-        args[index] = firstPart + separator + lastPart;
-        args.splice(index + 1, 1);
+    // Parse and add command (non-switches parameters) to `args`.
+    var regexpCommands = /"((?:\\.|[^"\\])*)"/g;
+    var commands       = command.match(regexpCommands);
+    if (commands) {
+      commands.forEach(function (c) {
+        c = c.replace(/\//, path.sep);
+        c = c.replace(/\\/, path.sep);
+        c = path.normalize(c);
+        args.push(c)
+      });
+    }
+
+    // Special treatment for the output switch because it is exposed as a
+    // parameter in the API and not as a option.
+    var regexpOutput = /-o"((?:\\.|[^"\\])*)"/g;
+    var output       = command.match(regexpOutput);
+    if (output) {
+      args.pop();
+      var o = output[0];
+      o = o.replace(/\//, path.sep);
+      o = o.replace(/\\/, path.sep);
+      o = o.replace(/"/g, '');
+      o = path.normalize(o);
+      args.push(o)
+    }
+
+    // Add switches to the `args` array.
+    var switchesArray = utilSwitches(switches);
+    switchesArray.forEach(function (s) { args.push(s) });
+
+    // Remove now double quotes. If present in the spawned process 7-Zip will
+    // read them as part of the paths (e.g.: create a `"archive.7z"` with
+    // quotes in the file-name);
+    args.forEach(function (e, i) {
+      if (typeof e !== 'string') return;
+      if (e.substr(0, 1) !== '-') {
+        e = e.replace(/^"/, '');
+        e = e.replace(/"$/, '');
+        args[i] = e;
       }
-    };
+    });
 
-    // Run the filter for each space. By splicing the array in the function 
-    // above the filter does not run on the item just after one that is being 
-    // removed.
-    for (var i = 0; i < args.length; i++) {
-      args.forEach(filterSpaces);
-    }
-    
-    // Normalize pathes before passing them to 7-Zip.
-    if (args.length > 1) {
-      args[1] = path.normalize(args[1]);
-      args[2] = path.normalize(args[2]);
-    }
-    
     // When an stdout is emitted, parse it. If an error is detected in the body
     // of the stdout create an new error with the 7-Zip error message as the
     // error's message. Otherwise progress with stdout message.
     var err;
     var reg = new RegExp('Error:' + os.EOL + '?(.*)', 'g');
-    var run = spawn(cmd, args, { stdio: 'pipe' });
+    var res = {
+      cmd: cmd,
+      args: args,
+      options: { stdio: 'pipe' } };
+    var run = spawn(res.cmd, res.args, res.options);
     run.stdout.on('data', function (data) {
       var res = reg.exec(data.toString());
       if (res) {
@@ -65,7 +85,7 @@ module.exports = function (command) {
       progress(data.toString());
     });
     run.on('close', function (code) {
-      if (code === 0) return fulfill();
+      if (code === 0) return fulfill(res);
       reject(err, code);
     });
 
