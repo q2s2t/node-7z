@@ -5,7 +5,7 @@ var extractFull = require('../lib/extractFull');
 
 describe('Method: `Zip.extractFull`', function () {
 
-  afterEach(function () { fs.removeSync('.tmp/test'); });
+  //afterEach(function () { fs.removeSync('.tmp/test'); });
 
   it('should return an error on 7z error', function (done) {
     extractFull('test/nothere.7z', '.tmp/test')
@@ -51,6 +51,15 @@ describe('Method: `Zip.extractFull`', function () {
     extractFull('test/zip.7z', '.tmp/test spaces agai n')
     .then(function () {
       expect(fs.existsSync('.tmp/test spaces agai n/zip')).to.be.eql(true);
+      done();
+    });
+  });
+  
+  it('should work with spaces in both source and destination', function (done) {
+    fs.copySync('test/zip.7z','.tmp/test/Folder From/Folder A/Folder B/Folder C/zip file.7z');
+    extractFull('.tmp/test/Folder From/Folder A/Folder B/Folder C/zip file.7z','.tmp/test/Folder To/Folder D/Folder E/Folder F')
+    .then(function () {
+      expect(fs.existsSync('.tmp/test/Folder To/Folder D/Folder E/Folder F/zip')).to.be.eql(true);
       done();
     });
   });
