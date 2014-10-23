@@ -39,7 +39,15 @@ describe('Method: `Zip.extractFull`', function () {
     });
   });
 
-  it('should work with spaces too', function (done) {
+  it('should work with spaces in archive name', function (done) {
+    extractFull('test/zip spaces test.7z', '.tmp/test spaces one')
+    .then(function () {
+      expect(fs.existsSync('.tmp/test spaces one/zip')).to.be.eql(true);
+      done();
+    });
+  });
+
+  it('should work with spaces in destination', function (done) {
     extractFull('test/zip.7z', '.tmp/test spaces agai n')
     .then(function () {
       expect(fs.existsSync('.tmp/test spaces agai n/zip')).to.be.eql(true);
