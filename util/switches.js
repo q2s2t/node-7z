@@ -1,18 +1,27 @@
 'use strict';
 
+/**
+ * Transform an object of options into an array that can be passed to the
+ * spawned child process.
+ * @param  {Object} switches An object of options
+ * @return {array} Array to pass to the `run` function.
+ */
 module.exports = function (switches) {
 
-  if (!switches) switches = {};
+  // Default value for switches
+  switches = switches || {};
 
   var a = [];
-  // Set defalut values of boolean switches
+  // Set default values of boolean switches
   switches.so  = (switches.so  === true)  ? true  : false;
   switches.spl = (switches.spl === true)  ? true  : false;
   switches.ssc = (switches.ssc === false) ? false : true ;
   switches.ssw = (switches.ssw === true)  ? true  : false;
   switches.y   = (switches.y   === false) ? false : true ;
 
-  for (var s in switches) {
+  var s;
+  /*jshint forin:false*/
+  for (s in switches) {
 
     // Switches that are set or not. Just add them to the array if they are
     // present. Differ the `ssc` switch treatment to later in the function.

@@ -1,12 +1,11 @@
-/*global describe, it, afterEach */
+/*global describe, it */
+'use strict';
 var expect = require('chai').expect;
-var fs = require('fs-extra');
-var update = require('../lib/update');
+var fs     = require('fs-extra');
+var update = require('../../lib/update');
 
 describe('Method: `Zip.update`', function () {
-  
-  afterEach(function () { fs.removeSync('.tmp/test'); });
-  
+
   it('should return an error on 7z error', function (done) {
     update('.tmp/test/addnot.7z', '.tmp/test/nothere', { '???': true })
     .catch(function (err) {
@@ -31,5 +30,5 @@ describe('Method: `Zip.update`', function () {
       done();
     });
   });
-  
+
 });

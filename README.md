@@ -169,14 +169,14 @@ With the `7za` binary compression is made like that:
 ```bat
 # adds *.exe and *.dll files to solid archive archive.7z using LZMA method
 # with 2 MB dictionary and BCJ filter.
-7z a archive.7z *.exe *.dll -m0=BCJ -m1=LZMA:d=21
+7z a archive.7z *.exe -m0=BCJ -m1=LZMA:d=21
 ```
 
 With **node-7z** you can translate it like that:
 
 ```js
 var archive = new Zip();
-archive.add('archive.7z', [ '*.exe' '*.dll' ], {
+archive.add('archive.7z', '*.exe', {
   m0: '=BCJ',
   m1: '=LZMA:d=21'
 })
@@ -185,8 +185,21 @@ archive.add('archive.7z', [ '*.exe' '*.dll' ], {
 });
 ```
 
+### Add, delete and update multiple files
+
+When adding, deleting or updating archives you can pass either a string or an
+array as second parameter (the `files` parameter).
+
+```js
+var archive = new Zip();
+archive.delete('bigArchive.7z', [ 'file1', 'file2' ])
+.then(function () {
+  // Do stuff...
+});
+```
+
 ***
-With :heart: from [quentinrossetti](https://github.com/quentinrossetti)
+With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 
 [david-url]: https://david-dm.org/quentinrossetti/node-7z
 [david-image]: http://img.shields.io/david/quentinrossetti/node-7z.svg

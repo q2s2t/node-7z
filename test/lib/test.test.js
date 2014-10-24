@@ -1,6 +1,7 @@
-/*global describe, it, afterEach */
+/*global describe, it */
+'use strict';
 var expect = require('chai').expect;
-var test = require('../lib/test');
+var test   = require('../../lib/test');
 
 describe('Method: `Zip.test`', function () {
 
@@ -11,7 +12,7 @@ describe('Method: `Zip.test`', function () {
       done();
     });
   });
-  
+
   it('should return entries on progress', function (done) {
     test('test/zip.7z', { r: true })
     .progress(function (entries) {
@@ -19,5 +20,5 @@ describe('Method: `Zip.test`', function () {
       done();
     });
   });
-  
+
 });

@@ -1,9 +1,14 @@
 Changelog
 =========
 
+### `v0.2.0` 2014-10-24
+
+ * Feature: Methods `Zip.add`, `Zip.delete` and `Zip.update` can get either a
+   *String* or an *Array* as `files` parameter.
+
 ### `v0.1.3` 2014-10-23
 
- * Support for Windows platform.
+ * Fix: Support for Windows platform.
 
 ### `v0.1.2` 2014-10-20
 

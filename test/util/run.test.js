@@ -1,7 +1,8 @@
 /*global describe, it */
+'use strict';
 var expect = require('chai').expect;
-var run = require('../util/run');
-var sep = require('path').sep;
+var run    = require('../../util/run');
+var sep    = require('path').sep;
 
 describe('Utility: `run`', function () {
 
@@ -55,6 +56,7 @@ describe('Utility: `run`', function () {
     })
     .then(function (res) {
       expect(res).to.contain('a');
+      /*jshint maxlen:false*/
       expect(res).to.contain('.tmp'+sep+'Folder A'+sep+'Folder B'+sep+'archive.7z');
       expect(res).to.contain('*.exe');
       expect(res).to.contain('*.dll');

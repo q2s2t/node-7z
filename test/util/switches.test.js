@@ -1,6 +1,7 @@
 /*global describe, it */
-var expect = require('chai').expect;
-var switches = require('../util/switches');
+'use strict';
+var expect   = require('chai').expect;
+var switches = require('../../util/switches');
 
 describe('Utility: `switches`', function () {
 

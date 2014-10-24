@@ -33,7 +33,7 @@ module.exports = function (command, switches) {
         c = c.replace(/\//, path.sep);
         c = c.replace(/\\/, path.sep);
         c = path.normalize(c);
-        args.push(c)
+        args.push(c);
       });
     }
 
@@ -48,18 +48,20 @@ module.exports = function (command, switches) {
       o = o.replace(/\\/, path.sep);
       o = o.replace(/"/g, '');
       o = path.normalize(o);
-      args.push(o)
+      args.push(o);
     }
 
     // Add switches to the `args` array.
     var switchesArray = utilSwitches(switches);
-    switchesArray.forEach(function (s) { args.push(s) });
+    switchesArray.forEach(function (s) { args.push(s); });
 
     // Remove now double quotes. If present in the spawned process 7-Zip will
     // read them as part of the paths (e.g.: create a `"archive.7z"` with
     // quotes in the file-name);
     args.forEach(function (e, i) {
-      if (typeof e !== 'string') return;
+      if (typeof e !== 'string') {
+        return;
+      }
       if (e.substr(0, 1) !== '-') {
         e = e.replace(/^"/, '');
         e = e.replace(/"$/, '');
@@ -82,11 +84,13 @@ module.exports = function (command, switches) {
       if (res) {
         err = new Error(res[1]);
       }
-      progress(data.toString());
+      return progress(data.toString());
     });
     run.on('close', function (code) {
-      if (code === 0) return fulfill(args);
-      reject(err, code);
+      if (code === 0) {
+        return fulfill(args);
+      }
+      return reject(err, code);
     });
 
   });

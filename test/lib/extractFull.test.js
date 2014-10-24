@@ -1,11 +1,10 @@
-/*global describe, it, afterEach */
-var expect = require('chai').expect;
-var fs = require('fs-extra');
-var extractFull = require('../lib/extractFull');
+/*global describe, it */
+'use strict';
+var expect      = require('chai').expect;
+var fs          = require('fs-extra');
+var extractFull = require('../../lib/extractFull');
 
 describe('Method: `Zip.extractFull`', function () {
-
-  //afterEach(function () { fs.removeSync('.tmp/test'); });
 
   it('should return an error on 7z error', function (done) {
     extractFull('test/nothere.7z', '.tmp/test')
@@ -56,6 +55,7 @@ describe('Method: `Zip.extractFull`', function () {
   });
 
   it('should work with spaces in both source and destination', function (done) {
+    /*jshint maxlen:false*/
     fs.copySync('test/zip.7z','.tmp/test/Folder From/Folder A/Folder B/Folder C/zip file.7z');
     extractFull('.tmp/test/Folder From/Folder A/Folder B/Folder C/zip file.7z','.tmp/test/Folder To/Folder D/Folder E/Folder F')
     .then(function () {
