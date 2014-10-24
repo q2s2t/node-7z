@@ -23,4 +23,18 @@ describe('Method: `Zip.add`', function () {
     });
   });
 
+  it('should accept array as source', function (done) {
+    var store = [];
+    add('.tmp/test/add.zip', ['*.md', '*.js'])
+    .progress(function (entries) {
+      entries.forEach(function (e) {
+        store.push(e)
+      });
+    })
+    .done(function () {
+      expect(store.length).to.be.at.least(5);
+      done();
+    });
+  });
+
 });

@@ -1,6 +1,7 @@
 /*global describe, it */
 var expect = require('chai').expect;
 var run = require('../util/run');
+var sep = require('path').sep;
 
 describe('Utility: `run`', function () {
 
@@ -34,39 +35,34 @@ describe('Utility: `run`', function () {
       m1: '=LZMA:d=21'
     })
     .then(function (res) {
-      expect(res.args).to.eql([
-        'a',
-        '.tmp/test/archive.7z',
-        '*.exe',
-        '*.dll',
-        '-m0=BCJ',
-        '-m1=LZMA:d=21',
-        '-ssc',
-        '-y',
-      ]);
+      expect(res).to.contain('a');
+      expect(res).to.contain('.tmp'+sep+'test'+sep+'archive.7z');
+      expect(res).to.contain('*.exe');
+      expect(res).to.contain('*.dll');
+      expect(res).to.contain('-m0=BCJ');
+      expect(res).to.contain('-m1=LZMA:d=21');
+      expect(res).to.contain('-ssc');
+      expect(res).to.contain('-y');
       done();
     });
   });
 
   it('should correctly parse complex commands with spaces', function (done) {
-    var sep = require('path').sep;
     run('7za a ".tmp/Folder A/Folder B\\archive.7z" "*.exe" "*.dll"', {
       m0: '=BCJ',
       m1: '=LZMA:d=21',
       p : 'My mhjls/\\c $^é5°',
     })
     .then(function (res) {
-      expect(res.args).to.eql([
-        'a',
-        '.tmp/Folder A'+sep+'Folder B'+sep+'archive.7z',
-        '*.exe',
-        '*.dll',
-        '-m0=BCJ',
-        '-m1=LZMA:d=21',
-        '-p"My mhjls/\\c $^é5°"',
-        '-ssc',
-        '-y'
-      ]);
+      expect(res).to.contain('a');
+      expect(res).to.contain('.tmp'+sep+'Folder A'+sep+'Folder B'+sep+'archive.7z');
+      expect(res).to.contain('*.exe');
+      expect(res).to.contain('*.dll');
+      expect(res).to.contain('-m0=BCJ');
+      expect(res).to.contain('-m1=LZMA:d=21');
+      expect(res).to.contain('-p"My mhjls/\\c $^é5°"');
+      expect(res).to.contain('-ssc');
+      expect(res).to.contain('-y');
       done();
     });
   });

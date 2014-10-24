@@ -5,3 +5,4 @@ TODO
  - [x] Normalize path in `run`?
  - [ ] Streaming abilities
  - [ ] Multiple files in add, delete, etc.
+ - [ ] Verify all doc

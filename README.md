@@ -34,7 +34,7 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 Installation
 ------------
 
-You must have the `7za` executable available in your PATH or in the same 
+You must have the `7za` executable available in your PATH or in the same
 directory of your `package.json` file.
 
 > On Debian an Ubuntu install the `p7zip-full` package.
@@ -51,6 +51,8 @@ API
 
 > See the [7-Zip documentation](http://sevenzip.sourceforge.jp/chm/cmdline/index.htm)
 > for the full list of usages and options (switches).
+
+> The type of the list of files can be either *String* or *Array*.
 
 ### Add: `Zip.add`
 
@@ -115,13 +117,13 @@ API
  * `options` An object of options.
 
 **Progress**
- * `files` A array of objects of all the extracted files *AND* directories. 
+ * `files` A array of objects of all the extracted files *AND* directories.
    The `/` character is used as a path separator on every platform. Object's
    properties are: `date`, `attr`, `size` and `name`.
 
 **Fulfill**
- * `spec` An object of tech spec about the archive. Properties are: `path`, 
-   `type`, `method`, `physicalSize` and `headersSize` (Some of them may be 
+ * `spec` An object of tech spec about the archive. Properties are: `path`,
+   `type`, `method`, `physicalSize` and `headersSize` (Some of them may be
    missing with non-7z archives).
 
 **Error**
@@ -156,6 +158,32 @@ API
 **Error**
  * `err` An Error object.
 
+
+Advanced usage
+--------------
+
+### Compression method
+
+With the `7za` binary compression is made like that:
+
+```bat
+# adds *.exe and *.dll files to solid archive archive.7z using LZMA method
+# with 2 MB dictionary and BCJ filter.
+7z a archive.7z *.exe *.dll -m0=BCJ -m1=LZMA:d=21
+```
+
+With **node-7z** you can translate it like that:
+
+```js
+var archive = new Zip();
+archive.add('archive.7z', [ '*.exe' '*.dll' ], {
+  m0: '=BCJ',
+  m1: '=LZMA:d=21'
+})
+.then(function () {
+  // Do stuff...
+});
+```
 
 ***
 With :heart: from [quentinrossetti](https://github.com/quentinrossetti)

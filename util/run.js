@@ -85,7 +85,7 @@ module.exports = function (command, switches) {
       progress(data.toString());
     });
     run.on('close', function (code) {
-      if (code === 0) return fulfill(res);
+      if (code === 0) return fulfill(args);
       reject(err, code);
     });
 
