@@ -42,6 +42,8 @@ directory of your `package.json` file.
 > On Windows use the `7za.exe` ([link here](http://netcologne.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip))
 > binary.
 
+> On Mac OSX use Homebrew `brew install p7zip`
+
 ```
 npm install --save node-7z
 ```
