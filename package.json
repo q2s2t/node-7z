@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/quentinrossetti/node-7zip/issues"
   },
-  "homepage": "http://quentinrossetti.github.io/node-7zip",
+  "homepage": "https://github.com/quentinrossetti/node-7zip.git",
   "dependencies": {
     "when": "^3.4.4",
     "win-spawn": "^2.0.0"
