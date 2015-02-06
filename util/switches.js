@@ -33,7 +33,12 @@ module.exports = function (switches) {
     // wrap the value with double quotes. Else just add the switch and its value
     // to the string. Doubles quotes are used for parsing with a RegExp later.
     if (typeof switches[s] !== 'boolean') {
-      if (switches[s].indexOf(' ') === -1) {
+
+      // Special treatment for wilcards
+      if (s === 'wildcards') {
+        a.unshift(switches.wildcards);
+      }
+      else if (switches[s].indexOf(' ') === -1) {
         a.push('-' + s + switches[s]);
       } else {
         a.push('-' + s + '"' + switches[s] + '"');

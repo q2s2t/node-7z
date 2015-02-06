@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### `v0.3.0` 2015-02-06
+
+ * Feature: Add a `wildcards` parameter to the `options` object. Given
+   wildcards are *Array* (e.g. `[ '*.txt', '*.md' ]`).
+
 ### `v0.2.0` 2014-10-24
 
  * Feature: Methods `Zip.add`, `Zip.delete` and `Zip.update` can get either a

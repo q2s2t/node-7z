@@ -38,6 +38,21 @@ describe('Method: `Zip.extractFull`', function () {
     });
   });
 
+  it('should extract only given wilcards', function (done) {
+    extractFull('test/wildcards.zip', '.tmp/test/', { wildcards: ['*.txt'], r: true })
+    .progress(function (files) {
+      files.forEach(function (f) {
+        expect(f).to.include('.txt');
+      });
+    })
+    .then(function () {
+      done();
+    })
+    .catch(function (err) {
+      done(err);
+    });
+  });
+
   it('should work with spaces in archive name', function (done) {
     extractFull('test/zip spaces test.7z', '.tmp/test spaces one')
     .then(function () {

@@ -38,7 +38,7 @@ module.exports = function (command, switches) {
     }
 
     // Special treatment for the output switch because it is exposed as a
-    // parameter in the API and not as a option.
+    // parameter in the API and not as a option. Plus wilcards can be passed.
     var regexpOutput = /-o"((?:\\.|[^"\\])*)"/g;
     var output       = command.match(regexpOutput);
     if (output) {
@@ -78,6 +78,7 @@ module.exports = function (command, switches) {
       cmd: cmd,
       args: args,
       options: { stdio: 'pipe' } };
+    // console.log('>>', res.cmd, res.args.join(' '));
     var run = spawn(res.cmd, res.args, res.options);
     run.stdout.on('data', function (data) {
       var res = reg.exec(data.toString());

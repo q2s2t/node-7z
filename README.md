@@ -200,6 +200,29 @@ archive.delete('bigArchive.7z', [ 'file1', 'file2' ])
 });
 ```
 
+### Wildcards
+
+You can extract with wildcards to specify one or more file extensions. To do
+this add a `wildcards` attribute to the `options` object. The `wildcard`
+attribute takes an *Array* as value. In this array each item is a wildcard.
+
+```js
+var archive = new Zip();
+archive.extractFull('archive.zip', 'destination/', {
+  wildcards: [ '*.txt', '*.md' ], // extract all text and Markdown files
+  r: true // in each subfolder too
+})
+.progress(function (files) {
+  // Do stuff with files...
+})
+.then(function () {
+  // Do stuff...
+});
+```
+
+Note that the `r` (for recursive) attribute is passed in this example.
+
+
 ***
 With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 
