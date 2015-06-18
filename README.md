@@ -37,7 +37,7 @@ Installation
 You must have the `7za` executable available in your PATH or in the same
 directory of your `package.json` file.
 
-> On Debian an Ubuntu install the `p7zip-full` package.
+> On Debian and Ubuntu install the `p7zip-full` package.
 
 > On Windows use the `7za.exe` ([link here](http://netcologne.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip))
 > binary.
