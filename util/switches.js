@@ -1,4 +1,5 @@
 'use strict';
+var util = require('util');
 
 /**
  * Transform an object of options into an array that can be passed to the
@@ -37,8 +38,9 @@ module.exports = function (switches) {
       // Special treatment for wilcards
       if (s === 'wildcards') {
         a.unshift(switches.wildcards);
-      }
-      else if (switches[s].indexOf(' ') === -1) {
+      }else if (s === 'raw' && util.isArray(switches.raw)){ //Allow raw switches to be added to the command, repeating switches like -i is not possible otherwise.
+        for(var i in switches.raw) a.push(switches.raw[i]);
+      } else if (switches[s].indexOf(' ') === -1) {
         a.push('-' + s + switches[s]);
       } else {
         a.push('-' + s + '"' + switches[s] + '"');
