@@ -61,4 +61,12 @@ describe('Utility: `switches`', function () {
     expect(r).to.contain('-y');
   });
 
+  it('should works with the `raw` switch', function () {
+    var r = switches({
+      raw: ['-i!*.jpg', '-i!*.png'],
+    });
+    expect(r).to.contain('-i!*.jpg');
+    expect(r).to.contain('-i!*.png');
+  });
+
 });

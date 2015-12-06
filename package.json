@@ -1,6 +1,6 @@
 {
   "name": "node-7z",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A Node.js wrapper for 7-Zip",
   "main": "lib/index.js",
   "scripts": {
@@ -19,7 +19,8 @@
   ],
   "author": "Quentin Rossetti <quentin.rossetti@gmail.com>",
   "contributors": [
-    "HelloGravity"
+    "HelloGravity",
+    "sketchpunk"
   ],
   "license": "ISC",
   "bugs": {

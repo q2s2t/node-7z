@@ -34,12 +34,12 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 Installation
 ------------
 
-You must have the `7za` executable available in your PATH or in the same
+You must have the `7z` executable available in your PATH or in the same
 directory of your `package.json` file.
 
 > On Debian and Ubuntu install the `p7zip-full` package.
 
-> On Windows use the `7za.exe` ([link here](http://netcologne.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip))
+> On Windows use the `7z.exe` ([link here](http://sourceforge.net/projects/sevenzip/files/7-Zip/))
 > binary.
 
 > On Mac OSX use Homebrew `brew install p7zip`
@@ -221,6 +221,32 @@ archive.extractFull('archive.zip', 'destination/', {
 ```
 
 Note that the `r` (for recursive) attribute is passed in this example.
+
+
+### Raw inputs
+
+> Thanks to sketchpunk #9 for this one
+
+Sometimes you just want to use the lib as the original command line. For
+instance you want to apply to switches with different values (e.g.:
+`-i!*.jpg -i!*.png` to target only two types of extensions).
+
+In such cases the default behavior of the `options` argument is not enough. You
+can use the custom `raw` key in your `options` object and pass it an *Array* of
+values.
+
+```js
+var archive = new Zip();
+archive.list('archive.zip', {
+  raw: [ '-i!*.jpg', '-i!*.png' ], // only images
+})
+.progress(function (files) {
+  // Do stuff with files...
+})
+.then(function () {
+  // Do stuff...
+});
+```
 
 
 ***

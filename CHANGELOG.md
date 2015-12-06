@@ -1,6 +1,14 @@
 Changelog
 =========
 
+### `v0.4.0` 2015-12-06
+
+ * Feature: Add a `raw` parameter to the `options` object. Given
+   values are *Array* (e.g. `[ '-i!*.png', '-i*.jpg' ]`).
+ * Feature: Add support for `.rar` archives.
+ * Fix: Bug with `Zip.list` sometimes occurs (commit
+   748091463961110449e63d7ea6b9628749104f15).
+
 ### `v0.3.0` 2015-02-06
 
  * Feature: Add a `wildcards` parameter to the `options` object. Given
