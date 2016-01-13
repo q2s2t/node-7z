@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### `v0.4.1` 2016-01-13
+
+ * Fix: `Zip.list` will no longer ignore files with blank `Compressed` columns (#14)
+
 ### `v0.4.0` 2015-12-06
 
  * Feature: Add a `raw` parameter to the `options` object. Given

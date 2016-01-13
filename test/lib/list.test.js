@@ -37,4 +37,12 @@ describe('Method: `Zip.list`', function () {
     });
   });
 
+  it('should not ignore files with blank "Compressed" columns', function (done) {
+    list('test/blank-compressed.7z')
+    .progress(function (files) {
+      expect(files.length).to.be.eql(8);
+      done();
+    });
+  });
+
 });
