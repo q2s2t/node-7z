@@ -57,7 +57,8 @@ describe('Method: `Zip.list`', function () {
 
   it('should not cut filenames', function () {
     var mocked = rewire('../../lib/list');
-    // we can't reproduce this bug unless archive file is really huge, so let's mock it instead
+    // we can't reproduce this bug unless archive file is really huge,
+    // so let's mock it instead
     return mocked.__with__({
       u: {
         run: function () {
@@ -69,7 +70,7 @@ describe('Method: `Zip.list`', function () {
                 progress(data.slice(i, i + len).toString());
               }
               setTimeout(fulfill, 0);
-            })
+            });
           });
         }
       }
