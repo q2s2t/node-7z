@@ -1,5 +1,6 @@
 /*global describe, it */
 'use strict';
+var rewire = require('rewire');
 var expect = require('chai').expect;
 var list   = require('../../lib/list');
 
@@ -51,6 +52,43 @@ describe('Method: `Zip.list`', function () {
       [].push.apply(files, chunk);
     }).then(function () {
       expect(files.length).to.be.eql(9);
+    });
+  });
+
+  it('should not cut filenames', function () {
+    var mocked = rewire('../../lib/list');
+    // we can't reproduce this bug unless archive file is really huge, so let's mock it instead
+    return mocked.__with__({
+      u: {
+        run: function () {
+          return require('when').promise(function (fulfill, reject, progress) {
+            require('fs').readFile('test/list.txt', function (err, data) {
+              var len = 30;
+              for (var i = 0; i < data.length; i += len) {
+                // emit data in very small chunks
+                progress(data.slice(i, i + len).toString());
+              }
+              setTimeout(fulfill, 0);
+            })
+          });
+        }
+      }
+    })(function () {
+      var files = [];
+      return mocked('stub.7z').progress(function (chunk) {
+        [].push.apply(files, chunk.map(function (file) {
+          return file.name;
+        }));
+      }).then(function () {
+        expect(files).to.deep.equal([
+          'zip/folder/file0.txt',
+          'zip/file1.txt',
+          'zip/file2.txt',
+          'zip/file3.txt',
+          'zip/folder',
+          'zip'
+        ]);
+      });
     });
   });
 

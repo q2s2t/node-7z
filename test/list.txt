@@ -1,0 +1,24 @@
+7-Zip [64] 9.20  Copyright (c) 1999-2010 Igor Pavlov  2010-11-18
+p7zip Version 9.20 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,8 CPUs)
+
+Listing archive: ./test/zip.7z
+
+--
+Path = ./test/zip.7z
+Type = 7z
+Method = LZMA
+Solid = +
+Blocks = 1
+Physical Size = 215
+Headers Size = 201
+
+   Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+2014-08-19 15:03:08 ....A            7           14  zip/folder/file0.txt
+2014-08-19 15:03:08 ....A            7            0  zip/file1.txt
+2014-08-19 15:03:08 ....A            7            0  zip/file2.txt
+2014-08-19 15:03:08 ....A            7            0  zip/file3.txt
+2014-08-19 15:04:39 D....            0            0  zip/folder
+2014-08-19 15:04:39 D....            0            0  zip
+------------------- ----- ------------ ------------  ------------------------
+                                    28           14  4 files, 2 folders
