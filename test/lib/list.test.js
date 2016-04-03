@@ -45,4 +45,13 @@ describe('Method: `Zip.list`', function () {
     });
   });
 
+  it('should not ignore read-only, hidden and system files', function () {
+    var files = [];
+    return list('test/attr.7z').progress(function (chunk) {
+      [].push.apply(files, chunk);
+    }).then(function () {
+      expect(files.length).to.be.eql(9);
+    });
+  });
+
 });
