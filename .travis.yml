@@ -3,6 +3,6 @@ before_install:
   - sudo apt-get install -y p7zip-full
 language: node_js
 node_js:
-  - '0.10'
+  - '6'
 script: 'npm run coverage'
 after_script: 'npm run coveralls'
