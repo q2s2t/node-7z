@@ -1,6 +1,6 @@
 'use strict';
 var os    = require('os');
-var spawn = require('win-spawn');
+var spawn = require('cross-spawn');
 var when  = require('when');
 var path  = require('path');
 var utilSwitches = require('./switches');
@@ -69,26 +69,32 @@ module.exports = function (command, switches) {
       }
     });
 
+    // Add bb2 to args array so we get file info
+    args.push('-bb2');
+
     // When an stdout is emitted, parse it. If an error is detected in the body
     // of the stdout create an new error with the 7-Zip error message as the
     // error's message. Otherwise progress with stdout message.
     var err;
-    var reg = new RegExp('Error:' + os.EOL + '?(.*)', 'g');
+    var reg = new RegExp('Error:(' + os.EOL + '|)?(.*)', 'i');
     var res = {
       cmd: cmd,
       args: args,
       options: { stdio: 'pipe' } };
-    // console.log('>>', res.cmd, res.args.join(' '));
+
+
     var run = spawn(res.cmd, res.args, res.options);
-    run.stdout.on('data', function (data) {
+    run.stderr.on('data', function (data){
       var res = reg.exec(data.toString());
       if (res) {
-        err = new Error(res[1]);
+        err = new Error(res[2].substr(0, res[2].length-1));
       }
+    });
+    run.stdout.on('data', function (data) {
       return progress(data.toString());
     });
     run.on('error', function (err) {
-      reject(err)
+      reject(err);
     });
     run.on('close', function (code) {
       if (code === 0) {

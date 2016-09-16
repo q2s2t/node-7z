@@ -64,7 +64,7 @@ API
  * `options` An object of options (7-Zip switches).
 
 **Progress**
- * `files` A array of all the extracted files *AND* directories. The `/`
+ * `files` A array of all the added files. The `/`
    character is used as a path separator on every platform.
 
 **Error**
@@ -139,7 +139,7 @@ API
  * `options` An object of options.
 
 **Progress**
- * `files` A array of all the extracted files *AND* directories. The `/`
+ * `files` A array of all the tested files. The `/`
    character is used as a path separator on every platform.
 
 **Error**
@@ -154,7 +154,7 @@ API
  * `options` An object of options (7-Zip switches).
 
 **Progress**
- * `files` A array of all the extracted files *AND* directories. The `/`
+ * `files` A array of all the updated files. The `/`
    character is used as a path separator on every platform.
 
 **Error**
