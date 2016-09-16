@@ -17,6 +17,8 @@ describe('Method: `Zip.test`', function () {
     test('test/zip.7z', { r: true })
     .progress(function (entries) {
       expect(entries.length).to.be.at.least(1);
+    })
+    .then(function (){
       done();
     });
   });
