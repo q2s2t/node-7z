@@ -14,14 +14,14 @@ describe('Utility: `run`', function () {
   });
 
   it('should return an error on when 7z gets one', function (done) {
-    run('7za "???"').catch(function (err) {
+    run('7z "???"').catch(function (err) {
       expect(err.message).to.eql('Incorrect command line');
       done();
     });
   });
 
   it('should return an stdout on progress', function (done) {
-    run('7za', { h: true })
+    run('7z', { h: true })
     .progress(function (data) {
       expect(data).to.be.a('string');
     })
@@ -31,7 +31,7 @@ describe('Utility: `run`', function () {
   });
 
   it('should correctly parse complex commands', function (done) {
-    run('7za a ".tmp/test/archive.7z" "*.exe" "*.dll"', {
+    run('7z a ".tmp/test/archive.7z" "*.exe" "*.dll"', {
       m0: '=BCJ',
       m1: '=LZMA:d=21'
     })
@@ -49,7 +49,7 @@ describe('Utility: `run`', function () {
   });
 
   it('should correctly parse complex commands with spaces', function (done) {
-    run('7za a ".tmp/Folder A/Folder B\\archive.7z" "*.exe" "*.dll"', {
+    run('7z a ".tmp/Folder A/Folder B\\archive.7z" "*.exe" "*.dll"', {
       m0: '=BCJ',
       m1: '=LZMA:d=21',
       p : 'My mhjls/\\c $^é5°',

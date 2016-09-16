@@ -1,6 +1,6 @@
 'use strict';
 var os    = require('os');
-var spawn = require('win-spawn');
+var spawn = require('cross-spawn');
 var when  = require('when');
 var path  = require('path');
 var utilSwitches = require('./switches');
