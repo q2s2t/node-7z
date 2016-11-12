@@ -6,6 +6,8 @@ Changelog
 ### `v0.4.2` **CURRENT**
 
  * Fix: `run` returns useful error from stderr (#31)
+ * Doc: It's better with the correct verbs (commit 7c0355beea59c42e040d0e776ff945be94705a74)
+ * Dependencies: Switch to cross-spawn and update other dependencies (#29)
 
 ### `v0.4.1` 2016-01-13
 
