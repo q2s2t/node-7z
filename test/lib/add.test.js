@@ -19,6 +19,9 @@ describe('Method: `Zip.add`', function () {
     .progress(function (entries) {
       expect(entries.length).to.be.at.least(1);
       done();
+    })
+    .catch(function (err) {
+      done();
     });
   });
 
@@ -35,7 +38,7 @@ describe('Method: `Zip.add`', function () {
       done();
     });
   });
-  
+
   it('should accept a path', function (done) {
     add('.tmp/test/add.zip', '*.md', {
       path: '/usr/local/bin/7z'
