@@ -47,7 +47,7 @@ module.exports = function (command, switches) {
       o = o.replace(/\//, path.sep);
       o = o.replace(/\\/, path.sep);
       o = o.replace(/"/g, '');
-      o = path.normalize(o);
+      o = "-o" + path.normalize(o.slice(2));
       args.push(o);
     }
 
