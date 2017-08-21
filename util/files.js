@@ -19,7 +19,7 @@ module.exports = function (files) {
     });
     toProcess = toProcess.trim();
   } else {
-    toProcess = '"' + files + '"';
+    toProcess = '"' + files.replace(/\^/g, '^^').replace(/\&/g, '^&').replace(/\</g, '^<').replace(/\>/g, '^>').replace(/\|/g, '^|').replace(/\%/g, '%%') + '"';
   }
   return toProcess;
 
