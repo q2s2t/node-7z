@@ -1,6 +1,6 @@
 {
-  "name": "node-7z",
-  "version": "0.4.2",
+  "name": "fireglass-node-7z",
+  "version": "0.2.2",
   "description": "A Node.js wrapper for 7-Zip",
   "main": "lib/index.js",
   "scripts": {
