@@ -32,7 +32,8 @@
   "homepage": "https://github.com/quentinrossetti/node-7zip.git",
   "dependencies": {
     "when": "^3.7.8",
-    "cross-spawn": "^5.1.0"
+    "cross-spawn": "^5.1.0",
+    "object.omit": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
