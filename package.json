@@ -1,6 +1,6 @@
 {
   "name": "node-7z",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A Node.js wrapper for 7-Zip",
   "main": "lib/index.js",
   "scripts": {
@@ -23,7 +23,8 @@
     "sketchpunk",
     "Dannii Willis <curiousdannii@gmail.com>",
     "toantk911",
-    "redx25 <red.mage25@gmail.com>"
+    "redx25 <red.mage25@gmail.com>",
+    "L Stubbs <technoexpressnet@gmail.com>"
   ],
   "license": "ISC",
   "bugs": {

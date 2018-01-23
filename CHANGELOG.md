@@ -1,8 +1,14 @@
 Changelog
 =========
 
+### `v0.4.3` 2018-01-22
 
-
+ * Feature: Add additional parameter object to all methods to supple path to binary, 
+   the feature was there but not really usable as implemented previously.
+ * Dependencies: node-7zip-standalone: branch depends on 7zip-standalone which has all platform
+   binary embedded, and adds itself to environment path. Host system no longer needs
+   7zip installed. 
+   
 ### `v0.4.2` **CURRENT**
 
  * Fix: `run` returns useful error from stderr (#31)
