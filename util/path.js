@@ -8,7 +8,7 @@ module.exports = function (options) {
     if (options.path) {
       return options.path;
     } else {
-      return '7z';
+      return '7za';
     }
     
   } catch (e) {
