@@ -30,3 +30,4 @@ dummy.*
 # Online IDE
 .c9
 .codio
+*.tgz
