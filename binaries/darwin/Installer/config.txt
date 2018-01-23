@@ -1,0 +1,5 @@
+;!@Install@!UTF-8!
+Title="Software 5.00"
+BeginPrompt="Do you want to install the Software 5.00?"
+RunProgram="7zr.exe b"
+;!@InstallEnd@!
