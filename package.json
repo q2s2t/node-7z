@@ -51,16 +51,14 @@
     "fs-extra": "^5.0.0",
     "node-wget": "^0.4.2",
     "inly": "^1.2.3",
-    "xar": "^1.1.1",
-    "xarchive": "^0.1.2",
+    "xar": "github:techno-express/xar",
     "macos-release": "^1.1.0"
   },
   "optionalDependencies": {
     "fs-extra": "^5.0.0",
     "node-wget": "^0.4.2",
     "inly": "^1.2.3",
-    "xar": "^1.1.1",
-    "xarchive": "^0.1.2",
+    "xar": "github:techno-express/xar",
     "macos-release": "^1.1.0"
   },
   "devDependencies": {
