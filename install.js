@@ -1,6 +1,7 @@
 var fs = require('fs-extra'); // testing needed to move the files, having issues all other ways
 var path = require('path');
 var decompress = require('inly');
+var decompress = require('unpack-all');
 
 // will use zip binary 7za.exe on windows to extract 7z 
 var winfilezip = '7za920.zip';

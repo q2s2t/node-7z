@@ -1,41 +1,38 @@
-var fs = require('fs-extra'); // testing needed to move the files, having issues all other ways
+var fs = require('fs-extra'); 
 var path = require('path');
 var decompress = require('inly');
-
-// will use zip binary 7za.exe on windows to extract 7z 
-var winfilezip = '7za920.zip';
+var uncompress = require('unpack-all');
+var macuncompress = require('xar');
 
 const _7zipData = getDataForPlatform();
 const whattocopy = _7zipData.binaryfiles;
+const unarfile = ( process.platform == "win32" ) ? 'unar1.8.1_win.zip' : 'unar1.8.1.zip' ;
+
 const cwd = process.cwd();
 const destination = path.join(cwd, process.platform);
 const source = path.join(cwd, _7zipData.filename);
 
 fs.mkdir(destination, (err) => { if (err) {}});
-
 wget({ url: _7zipData.url + _7zipData.filename, dest: source })
     .then(function () {
         console.log('Decompressing ' + _7zipData.filename);        
         platformUnpacker(source, destination)
-            .then(function (extract){
-                //extract.on('file', (name) => {
-                  //  if (whattocopy.indexOf(path.basename(name)) > 0) console.log(name);
-               //     }); 
-               // extract.on('error', (error) => {
-              //      console.error(error);
-            //        });
-            //    extract.on('end', () => {
-            //        fs.move(path.join(destination, _7zipData.extractfolder, _7zipData.applocation), path.join(__dirname,'binaries',process.platform), { overwrite: true }, (err) => {  if (err) return console.error(err);
-                        console.log('Binaries copied successfully!');
-                        fs.unlink(source, (err) => { if (err) console.error(err); });
-                       // fs.remove(destination, (err) => { if (err) console.error(err); });
-                   // });                  
-                //});
-            });
+        .then(function (mode){
+            //fs.move(path.join(destination, _7zipData.extractfolder, _7zipData.applocation),
+            //          path.join(__dirname,'binaries',process.platform),
+            //      { overwrite: true }, (err) => { if (err) return console.error(err) });
+                console.log('Binaries copied successfully!');
+                //if ( mode=='done'){
+                //    fs.unlink(path.join(cwd, unarfile), (err) => { if (err) console.error(err); });   
+                //    fs.unlink(path.join(cwd, 'lsar.exe'), (err) => { if (err) console.error(err); });   
+                //    fs.unlink(path.join(cwd, 'unar.exe'), (err) => { if (err) console.error(err); });   
+                //    fs.unlink(path.join(cwd, 'Foundation.1.0.dll'), (err) => { if (err) console.error(err); });   
+                //}
+                //fs.unlink(source, (err) => { if (err) console.error(err); });
+                //fs.remove(destination, (err) => { if (err) console.error(err); });
+        }); //D:\My Shared Folder\Unarchiver-release-3.11.1.zip\Unarchiver-release-3.11.1\XADMaster\Windows
     })
-    .catch(function (err) {
-        console.log(err);
-    });
+    .catch(function (err) { onsole.log(err); });
 
 function getDataForPlatform(){
     if (process.platform == "win32") var macos = '10.6';//require('macos-release').version;
@@ -82,26 +79,51 @@ function wget(path) {
 
 function platformUnpacker(source, destination){
   return new Promise(function (resolve, reject) {
-    if (process.platform == "win32"){
-        macunpacker(source, destination)
-            .then(function() {
-                const decompressing = require('compressing');
-                //const extract = decompress(path.join(destination,'p7zipinstall.pkg','Payload'), destination);
-                decompressing.tgz.uncompress(path.join(destination,'p7zipinstall.pkg','Payload'),
-                path.join(destination) );
-                resolve(decompressing);        
-            });
-    } else {
+    if (process.platform == "win32") {
+        macunpack(source, destination)
+        .then(function() {
+            wget({ url: 'https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/theunarchiver/' +  unarfile,       dest: path.join(cwd,unarfile) })
+            .then(function () {
+                console.log('Decompressing ' + unarfile); 
+                const extract = decompress(path.join(cwd,unarfile), cwd);
+                extract.on('file', (name) => { console.log(name); }); 
+                extract.on('error', (error) => { return reject(error); });
+                extract.on('end', () => { 
+                    console.log('Decompressing: p7zipinstall.pkg->Payload'); 
+                    unpack(path.join(destination,'p7zipinstall.pkg','Payload'), destination)
+                    .then( resolve('done') )
+                    .catch(function (err) { return reject(err); });               
+                });  
+            })
+            .catch(function (err) { return reject(err); });            
+        })
+        .catch(function (err) { return reject(err); });
+    } else if {
         const extract = decompress(source, destination);
-        resolve(extract);        
+        extract.on('file', (name) => { if (whattocopy.indexOf(path.basename(name)) > 0) console.log(name); }); 
+        extract.on('error', (error) => { return reject(error); });
+        extract.on('end', () => { resolve('extract'); });     
     }
   });
 }
 
-function macunpacker(source,destination){
+function unpack(source,destination) {
+  return new Promise(function (resolve, reject) {
+    uncompress.unpack(source, { targetDir: destination, forceOverwrite: true,
+                                noRecursion: false, noDirectory: true, copyTime: true, quiet: false },
+          function(err, files, text) {
+            if (err) return reject(err);
+            if (files) console.log('files', files);
+            if (text) console.log('text', text);
+            resolve('unpack');
+        }); 
+    });
+}
+
+function macunpack(source,destination){
     var data = fs.readFileSync(source)
   return new Promise(function (resolve, reject) {
-    require('xar').unpack(data, function (err, file, content) {
+    macuncompress.unpack(data, function (err, file, content) {
         if (file.type[0] === 'directory'){
             fs.mkdirSync(path.join(destination, file.path));
         } else {
