@@ -24,14 +24,7 @@ module.exports = function (command, switches) {
     }
     var cmd  = command.split(' ')[0];
     var args = [ command.split(' ')[1] ];
-    
-    // add platform binary to environment path
-    var envPath = process.env.path;
-    if (envPath.indexOf('7za') < 0) {
-        var pathto7z = path.join(__dirname,'binaries',process.platform);
-        process.env.path += (envPath[envPath.length -1] === ';') ? pathto7z : ';' + pathto7z;
-    }
-    
+      
     // Parse and add command (non-switches parameters) to `args`.
     var regexpCommands = /"((?:\\.|[^"\\])*)"/g;
     var commands       = command.match(regexpCommands);

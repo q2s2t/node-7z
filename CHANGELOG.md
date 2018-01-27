@@ -5,8 +5,6 @@ Changelog
 
  * Feature: Added additional parameter to all methods to supple path to binary, 
    the feature was there but not usable as implemented and now using `7za` by default.
- * Feature: Added platform binaries, also to environment path. Host system no 
-   longer needs 7zip installed.
    
 ### `v0.4.2` **CURRENT**
 

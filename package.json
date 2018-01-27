@@ -1,7 +1,7 @@
 {
-  "name": "node-7z-forall",
-  "version": "0.4.4",
-  "description": "A Node.js wrapper for 7-Zip with platform binaries",
+  "name": "node-7z",
+  "version": "0.4.3",
+  "description": "A Node.js wrapper for 7-Zip",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha --debug",
@@ -19,7 +19,6 @@
     "7zr",
     "p7zip",
     "7zip",
-    "binary",
     "wrapper"
   ],
   "author": "Quentin Rossetti <quentin.rossetti@gmail.com>",
@@ -40,28 +39,13 @@
     "*.js",
     "LICENSE",
     "README.md",
-    "binaries",
     "lib",
     "test",
     "util"
   ],
   "dependencies": {
     "when": "^3.7.8",
-    "cross-spawn": "^5.1.0",
-    "fs-extra": "^5.0.0",
-    "node-wget": "^0.4.2",
-    "inly": "^1.2.3",
-    "xar": "^1.1.1",
-    "unpack-all": "^0.0.4",
-    "macos-release": "^1.1.0"
-  },
-  "optionalDependencies": {
-    "fs-extra": "^5.0.0",
-    "node-wget": "^0.4.2",
-    "inly": "^1.2.3",
-    "xar": "^1.1.1",
-    "unpack-all": "^0.0.4",
-    "macos-release": "^1.1.0"
+    "cross-spawn": "^5.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
