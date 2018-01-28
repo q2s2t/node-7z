@@ -30,7 +30,7 @@ wget({ url: _7zipData.url + _7zipData.filename, dest: source })
                 //}
                 //fs.unlink(source, (err) => { if (err) console.error(err); });
                 //fs.remove(destination, (err) => { if (err) console.error(err); });
-        }); //D:\My Shared Folder\Unarchiver-release-3.11.1.zip\Unarchiver-release-3.11.1\XADMaster\Windows
+        }); 
     })
     .catch(function (err) { onsole.log(err); });
 
@@ -79,30 +79,36 @@ function wget(path) {
 
 function platformUnpacker(source, destination){
   return new Promise(function (resolve, reject) {
-    if (process.platform == "win32") {
-        macunpack(source, destination)
-        .then(function() {
-            wget({ url: 'https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/theunarchiver/' +  unarfile,       dest: path.join(cwd,unarfile) })
+    if ((process.platform == "win32") || (process.platform == "darwin")) {        
+        wget({ url: 'https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/theunarchiver/' +  unarfile,         dest: path.join(cwd,unarfile) })
             .then(function () {
                 console.log('Decompressing ' + unarfile); 
                 const extract = decompress(path.join(cwd,unarfile), cwd);
                 extract.on('file', (name) => { console.log(name); }); 
                 extract.on('error', (error) => { return reject(error); });
                 extract.on('end', () => { 
-                    console.log('Decompressing: p7zipinstall.pkg->Payload'); 
-                    unpack(path.join(destination,'p7zipinstall.pkg','Payload'), destination)
-                    .then( resolve('done') )
-                    .catch(function (err) { return reject(err); });               
+                    if (process.platform == "darwin") {
+                        macunpack(source, destination)
+                        .then(function() {
+                            console.log('Decompressing: p7zipinstall.pkg->Payload'); 
+                            unpack(path.join(destination,'p7zipinstall.pkg','Payload'), destination)
+                            .then( resolve('done') )
+                            .catch(function (err) { return reject(err); });   
+                        })     
+                        .catch(function (err) { return reject(err); });   
+                    } else {
+                        unpack(source, destination)
+                        .then( resolve('done') )
+                        .catch(function (err) { return reject(err); });   
+                    }
                 });  
             })
-            .catch(function (err) { return reject(err); });            
-        })
-        .catch(function (err) { return reject(err); });
-    } else if {
+            .catch(function (err) { return reject(err); });  
+    } else if (process.platform == "linux") {
         const extract = decompress(source, destination);
         extract.on('file', (name) => { if (whattocopy.indexOf(path.basename(name)) > 0) console.log(name); }); 
         extract.on('error', (error) => { return reject(error); });
-        extract.on('end', () => { resolve('extract'); });     
+        extract.on('end', () => { resolve('linux'); });     
     }
   });
 }
@@ -121,12 +127,15 @@ function unpack(source,destination) {
 }
 
 function macunpack(source,destination){
-    var data = fs.readFileSync(source)
+    var content = fs.readFileSync(source)
   return new Promise(function (resolve, reject) {
-    macuncompress.unpack(data, function (err, file, content) {
+    macuncompress.unpack(content, function (err, file, content) {
+        if (err) return reject(err);
         if (file.type[0] === 'directory'){
+            console.log('mkdir', file.path);
             fs.mkdirSync(path.join(destination, file.path));
         } else {
+            console.log('extract', file.path);
             fs.writeFileSync(path.join(destination, file.path), content);
             resolve(content);
         }        
