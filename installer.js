@@ -20,8 +20,9 @@ const cwd = process.cwd();
 const destination = path.join(cwd, process.platform);
 const source = path.join(cwd, _7zipData.filename);
 
-fs.mkdir(destination, (err) => { if (err) {}});
-wget({ url: _7zipData.url + _7zipData.filename, dest: source })
+if (_7zipData.url != null) {
+    fs.mkdir(destination, (err) => { if (err) {}});
+    wget({ url: _7zipData.url + _7zipData.filename, dest: source })
     .then(function () {   
         platformUnpacker(source, destination)
         .then(function (mode){
@@ -30,8 +31,8 @@ wget({ url: _7zipData.url + _7zipData.filename, dest: source })
                     path.join(__dirname,'binaries',process.platform,s), 
                     { overwrite: true });
                 });
-            if ((mode=='darwin') || (mode=='win32')) {
-                var whattodelete = unarApptocopy + _7zApptocopy + [ unarAppfile, _7zAppfile ];
+            if (mode=='darwin') {
+                var whattodelete = unarApptocopy.concat(_7zApptocopy).concat( [unarAppfile, _7zAppfile] );
                 whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
             }
             fs.unlink(source, (err) => { if (err) console.error(err); });
@@ -40,13 +41,14 @@ wget({ url: _7zipData.url + _7zipData.filename, dest: source })
         })
         .catch(function (err) { console.log(err); }); 
     })
-    .catch(function (err) { onsole.log(err); });
-
+    .catch(function (err) { onsole.log(err); });       
+}
+ 
 function getDataForPlatform(){
     if (process.platform == "darwin") var macos = require('macos-release').version;
     switch (process.platform) {
         // Windows version
-        case "darwin": return { url: 'http://d.7-zip.org/a/', 
+        case "win32": return { url: 'http://d.7-zip.org/a/', 
         filename: '7z1800-extra.7z',
         extraname: 'lzma1800.7z',
         extractfolder: '',
@@ -62,7 +64,7 @@ function getDataForPlatform(){
         binaryfiles: ['Codecs','7z','7z.so','7za','7zCon.sfx','7zr'],
         sfxmodules: ['7zS2.sfx','7zS2con.sfx','7zSD.sfx'] };
         // Mac version
-        case "darwin_not_ready": return { url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + masos + '/', 
+        case "darwin_not_ready": return { url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + macos + '/', 
         filename: 'p7zip-9.20.1-1.pkg',
         extraname: '7z920_extra.7z',
         extractfolder: '',
@@ -87,49 +89,48 @@ function wget(path) {
 
 function platformUnpacker(source, destination){
   return new Promise(function (resolve, reject) {
-    if ((process.platform == "win32") || (process.platform == "darwin")) {          
+    if ((process.platform == "win32") || (process.platform == "darwin_not_ready")) {          
         wget({ url: unarAppurl + unarAppfile, dest: path.join(cwd,unarAppfile) })     
-            .then(function () {
-                wget({ url: _7zAppurl + _7zAppfile, dest: path.join(cwd,_7zAppfile) })     
-                .then(function () { 
-                    console.log('Extracting: ' + unarAppfile + ', to decompress: ' + _7zAppfile ); 
-                    const extract = decompress(path.join(cwd,unarAppfile), cwd);
-                    extract.on('file', (name) => { console.log(name); }); 
-                    extract.on('error', (error) => { return reject(error); });
-                    extract.on('end', () => {   
+        .then(function () {
+            console.log('Extracting: ' + unarAppfile + ', to decompress: ' + (process.platform == "win32") ? _7zipData.filename : _7zAppfile ); 
+            const extract = decompress(path.join(cwd,unarAppfile), cwd);
+            extract.on('file', (name) => { console.log(name); }); 
+            extract.on('error', (error) => { return reject(error); });
+            extract.on('end', () => {
+                if (process.platform == "darwin_not_ready") {        
+                    wget({ url: _7zAppurl + _7zAppfile, dest: path.join(cwd,_7zAppfile) })     
+                    .then(function () { 
                         console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + _7zipData.filename );
                         unpack(path.join(cwd, _7zAppfile), '.', _7zApptocopy)
                         .then(function() {
-                            console.log('Decompressing ' + _7zipData.filename);     
-                            if (process.platform == "darwin_not_ready") {
-                                //macunpack(source, destination)
-                                winunpack(source, destination)
-                                .then(function(data) {
-                                    console.log('Decompressing: p7zip-9.20.1-1'); 
-                                    var tocopy = _7zipData.applocation + '/*'; 
-                                    unpack(path.join(destination,'p7zip-9.20.1-1'), process.platform, tocopy)
-                                    //console.log('Decompressing: p7zipinstall.pkg/Payload'); 
-                                    //var tocopy = _7zipData.applocation + '/*'; 
-                                    //unpack(path.join(destination,'p7zipinstall.pkg','Payload'), process.platform, tocopy)
-                                    .then( function(data) { resolve('darwin'); 
-                                    }) 
-                                    .catch(function (err) { reject(err); });  
-                                })     
-                                .catch(function (err) { return reject(err); });   
-                            } else {
-                                winunpack(source, destination)
-                                .then(function (winunpacker) {
-                                    console.log(winunpacker);
-                                    resolve('win32');} )
-                                .catch(function (err) { return reject(err); });   
-                            }
-                        }) 
+                            console.log('Decompressing ' + _7zipData.filename);  
+                            //macunpack(source, destination)
+                            winunpack(source, destination)
+                            .then(function(data) {
+                                console.log('Decompressing: p7zip-9.20.1-1'); 
+                                unpack(path.join(destination,'p7zip-9.20.1-1'), process.platform, _7zipData.applocation + '/*')
+                                //console.log('Decompressing: p7zipinstall.pkg/Payload'); 
+                                //unpack(path.join(destination,'p7zipinstall.pkg','Payload'), process.platform, _7zipData.applocation + '/*')
+                                .then( function(result) { 
+                                    console.log(result);
+                                    resolve('darwin'); })
+                                .catch(function (err) { return reject(err); });  
+                            })     
+                            .catch(function (err) { return reject(err); }); 
+                        })
                         .catch(function (err) { return reject(err); }); 
-                    });   
-                })    
-                .catch(function (err) { return reject(err); });  
-            })
-            .catch(function (err) { return reject(err); });  
+                    }) 
+                    .catch(function (err) { return reject(err); }); 
+                } else {
+                    unpack(source, process.platform)
+                    .then(function (result) {
+                        console.log(result);
+                        resolve('win32'); })
+                    .catch(function (err) { return reject(err); }); 
+                }
+            });    
+        })
+        .catch(function (err) { return reject(err); });  
     } else if (process.platform == "linux") {
         console.log('Decompressing ' + _7zipData.filename);     
         const extract = decompress(source, destination);
@@ -142,14 +143,11 @@ function platformUnpacker(source, destination){
 
 function unpack(source, destination, tocopy) {
   return new Promise(function (resolve, reject) {
-    uncompress.unpack(source, { files: tocopy, targetDir: destination, forceOverwrite: true, noDirectory: true },
+    uncompress.unpack(source, {  files: (tocopy==null ) ? '' : tocopy,  
+        targetDir: destination, forceOverwrite: true, noDirectory: true },
           function(err, files, text) {
-            if (err) console.error(err);
-            if (files) console.log(files);
-            if (text) { 
-                console.log(text); 
-            };
-            resolve();
+            if (err) return reject(err);
+            resolve(text);
         }); 
     });
 }
