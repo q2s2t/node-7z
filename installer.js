@@ -34,6 +34,9 @@ if (_7zipData.url != null) {
             if (mode=='darwin') {
                 var whattodelete = unarApptocopy.concat(_7zApptocopy).concat( [unarAppfile, _7zAppfile] );
                 whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
+            } else {
+                var whattodelete = unarApptocopy.concat( unarAppfile );
+                whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
             }
             fs.unlink(source, (err) => { if (err) console.error(err); });
             fs.remove(destination, (err) => { if (err) console.error(err); });
@@ -41,7 +44,7 @@ if (_7zipData.url != null) {
         })
         .catch(function (err) { console.log(err); }); 
     })
-    .catch(function (err) { onsole.log(err); });       
+    .catch(function (err) { console.log(err); });       
 }
  
 function getDataForPlatform(){
@@ -92,7 +95,7 @@ function platformUnpacker(source, destination){
     if ((process.platform == "win32") || (process.platform == "darwin_not_ready")) {          
         wget({ url: unarAppurl + unarAppfile, dest: path.join(cwd,unarAppfile) })     
         .then(function () {
-            console.log('Extracting: ' + unarAppfile + ', to decompress: ' + (process.platform == "win32") ? _7zipData.filename : _7zAppfile ); 
+            console.log('Extracting: ' + unarAppfile + ', to decompress: ' + ((process.platform == "win32") ? _7zipData.filename : _7zAppfile )); 
             const extract = decompress(path.join(cwd,unarAppfile), cwd);
             extract.on('file', (name) => { console.log(name); }); 
             extract.on('error', (error) => { return reject(error); });
