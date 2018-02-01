@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict'
+
 var fs = require('fs-extra'); 
 var path = require('path');
 var decompress = require('inly');
@@ -190,6 +193,8 @@ function winunpack(source, destination){
           console.log('npm install');
           return reject(winunpacker.error);
         }  
-        resolve(winunpacker.stdout.toString());
+        if (winunpacker.stdout.toString()) {
+            resolve(winunpacker.stdout.toString());
+        }
     });
 }

@@ -7,8 +7,8 @@
     "test": "mocha --debug",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha --dir .tmp/coverage",
     "coveralls": "npm install coveralls && cat .tmp/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "prepublish": "binarybuilder.js",
-    "install": "installer.js"
+    "prepack": "node binarybuilder",
+    "install": "node installer"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "Dannii Willis <curiousdannii@gmail.com>",
     "toantk911",
     "redx25 <red.mage25@gmail.com>",
-    "l stubbs <technoexpressnet@gmail.com>"
+    "l. stubbs <technoexpressnet@gmail.com>"
   ],
   "license": "ISC",
   "bugs": {
@@ -49,26 +49,20 @@
   ],
   "dependencies": {
     "when": "^3.7.8",
-    "cross-spawn": "^5.1.0",
+    "cross-spawn": "^5.1.0"
+  },
+  "optionalDependencies": {
     "fs-extra": "^5.0.0",
     "node-wget": "^0.4.2",
     "inly": "^1.2.3",
     "xar": "^1.1.1",
-    "unpack-all": "^0.0.4",
-    "macos-release": "^1.1.0"
-  },
-  "optionalDependencies": {
+    "unpack-all": "github:techno-express/node-unpack-all",
+    "macos-release": "^1.1.0",
+    "retrying-promise": "^0.0.4"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "fs-extra": "^2.0.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "fs-extra": "^5.0.0",
-    "node-wget": "^0.4.2",
-    "inly": "^1.2.3",
-    "xar": "^1.1.1",
-    "unpack-all": "^0.0.4",
-    "macos-release": "^1.1.0"
+    "mocha": "^3.2.0"
   }
 }
