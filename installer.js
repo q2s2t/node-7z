@@ -7,7 +7,9 @@ var decompress = require('inly');
 var spawn = require('cross-spawn');
 var uncompress = require('unpack-all');
 var macuncompress = require('xar');
+var node_wget = require('node-wget');
 
+const macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
 const _7zipData = getDataForPlatform();
 const whattocopy = _7zipData.binaryfiles;
 
@@ -15,7 +17,7 @@ const _7zAppfile = '7z1604-extra.7z';
 const _7zApptocopy = [ '7za.dll','7za.exe','7zxa.dll' ];
 const _7zAppurl = 'http://7-zip.org/a/';
 
-const unarAppfile = 'unar1.8.1_win.zip';  // mac os 'unar1.8.1.zip' 
+const unarAppfile = (process.platform == "darwin") ? 'unar1.8.1.zip' : 'unar1.8.1_win.zip' ;  
 const unarApptocopy = [ 'lsar.exe','unar.exe','Foundation.1.0.dll' ];
 const unarAppurl = 'https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/theunarchiver/';
 
@@ -23,7 +25,12 @@ const cwd = process.cwd();
 const destination = path.join(cwd, process.platform);
 const source = path.join(cwd, _7zipData.filename);
 
-if (_7zipData.url != null) {
+const binarydestination = path.join(__dirname,'binaries', (macosversion=='') ? process.platform : process.platform, macosversion );
+const extrasource = path.join(cwd, _7zipData.extraname); 
+const _7zcommand = path.join(binarydestination, process.platform === "win32" ? '7za.exe' : '7za' );
+            
+
+if ((_7zipData.url != null) && (process.platform != "darwin"))   {
     fs.mkdir(destination, (err) => { if (err) {}});
     wget({ url: _7zipData.url + _7zipData.filename, dest: source })
     .then(function () {   
@@ -31,27 +38,34 @@ if (_7zipData.url != null) {
         .then(function (mode){
             whattocopy.forEach(function(s) {                
                 fs.moveSync(path.join(destination, _7zipData.extractfolder, _7zipData.applocation,s), 
-                    path.join(__dirname,'binaries',process.platform,s), 
+                    path.join(binarydestination,s), 
                     { overwrite: true });
                 });
+            console.log('Binaries copied successfully!');      
             if (mode=='darwin') {
                 var whattodelete = unarApptocopy.concat(_7zApptocopy).concat( [unarAppfile, _7zAppfile] );
                 whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
-            } else {
+            } else if (mode=='win32') {
                 var whattodelete = unarApptocopy.concat( unarAppfile );
                 whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
             }
             fs.unlink(source, (err) => { if (err) console.error(err); });
             fs.remove(destination, (err) => { if (err) console.error(err); });
-            console.log('Binaries copied successfully!')
-        })
-        .catch(function (err) { console.log(err); }); 
-    })
-    .catch(function (err) { console.log(err); });       
+            var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
+            console.log(result); 
+            console.log('Sfx modules copied successfully!');
+            fs.unlink(extrasource, (err) => { if (err) console.error(err); });
+        }).catch(function (err) { console.log(err); }); 
+    }).catch(function (err) { console.log(err); });       
+} else if (process.platform == "darwin") {
+    node_wget({ url: _7zipData.url + _7zipData.extraname, dest: extrasource }, function (err) {
+        if (err) { console.error('Error downloading file: ' + err);   return reject(err); }  });
+    extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
+    fs.unlink(extrasource, (err) => { if (err) console.error(err); });
+    console.log('Sfx modules copied successfully!');
 }
  
 function getDataForPlatform(){
-    if (process.platform == "darwin") var macos = require('macos-release').version;
     switch (process.platform) {
         // Windows version
         case "win32": return { url: 'http://d.7-zip.org/a/', 
@@ -70,7 +84,7 @@ function getDataForPlatform(){
         binaryfiles: ['Codecs','7z','7z.so','7za','7zCon.sfx','7zr'],
         sfxmodules: ['7zS2.sfx','7zS2con.sfx','7zSD.sfx'] };
         // Mac version
-        case "darwin_not_ready": return { url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + macos + '/', 
+        case "darwin": return { url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + macosversion + '/', 
         filename: 'p7zip-9.20.1-1.pkg',
         extraname: '7z920_extra.7z',
         extractfolder: '',
@@ -95,6 +109,8 @@ function wget(path) {
 
 function platformUnpacker(source, destination){
   return new Promise(function (resolve, reject) {
+    node_wget({ url: _7zipData.url + _7zipData.extraname, dest: extrasource }, function (err) {
+        if (err) { console.error('Error downloading file: ' + err);   return reject(err); }  });
     if ((process.platform == "win32") || (process.platform == "darwin_not_ready")) {          
         wget({ url: unarAppurl + unarAppfile, dest: path.join(cwd,unarAppfile) })     
         .then(function () {
@@ -110,13 +126,13 @@ function platformUnpacker(source, destination){
                         unpack(path.join(cwd, _7zAppfile), '.', _7zApptocopy)
                         .then(function() {
                             console.log('Decompressing ' + _7zipData.filename);  
-                            //macunpack(source, destination)
-                            winunpack(source, destination)
+                            macunpack(source, destination)
+                            //winunpack(source, destination)
                             .then(function(data) {
-                                console.log('Decompressing: p7zip-9.20.1-1'); 
-                                unpack(path.join(destination,'p7zip-9.20.1-1'), process.platform, _7zipData.applocation + '/*')
-                                //console.log('Decompressing: p7zipinstall.pkg/Payload'); 
-                                //unpack(path.join(destination,'p7zipinstall.pkg','Payload'), process.platform, _7zipData.applocation + '/*')
+                                //console.log('Decompressing: p7zip-9.20.1-1'); 
+                                //unpack(path.join(destination,'p7zip-9.20.1-1'), process.platform, _7zipData.applocation + path.sep +'*')
+                                console.log('Decompressing: p7zipinstall.pkg/Payload'); 
+                                unpack(path.join(destination,'p7zipinstall.pkg','Payload'), process.platform, _7zipData.applocation + path.sep + '*')
                                 .then( function(result) { 
                                     console.log(result);
                                     resolve('darwin'); })
@@ -197,4 +213,19 @@ function winunpack(source, destination){
             resolve(winunpacker.stdout.toString());
         }
     });
+}
+
+function extraunpack(cmd, source, destination, tocopy) {
+    var args = [ 'e',source,'-o' + destination ];
+    var extraargs = args.concat(tocopy).concat( ['-r','-aos'] );
+    console.log('Running: ' + cmd );
+    var winunpacker = spawn.sync(cmd, extraargs, { stdio: 'pipe' });     
+    if (winunpacker.error) {
+        console.error('7za exited with code ' + winunpacker.error);
+        console.log('resolve the problem and re-install using:');
+        console.log('npm install');
+        return rwinunpacker.error;
+    } else if (winunpacker.stdout.toString()) {
+        return winunpacker.stdout.toString();
+    }
 }
