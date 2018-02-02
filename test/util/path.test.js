@@ -7,7 +7,7 @@ var path = require('../../util/path');
 describe('Utility: `path`', function () {
 
   it('should return deflaut flags with no args', function () {
-    var pathInSystem = exec('which 7z').toString();
+    var pathInSystem = exec('which 7za').toString();
   });
 	
 });
