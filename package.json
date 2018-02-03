@@ -1,6 +1,6 @@
 {
   "name": "node-7z",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A Node.js wrapper for 7-Zip",
   "main": "lib/index.js",
   "scripts": {
@@ -10,10 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/quentinrossetti/node-7zip.git"
+    "url": "https://github.com/techno-express/node-7z.git"
   },
   "keywords": [
     "node",
+    "7z",
+    "7za",
+    "7zr",
+    "p7zip",
     "7zip",
     "wrapper"
   ],
@@ -23,13 +27,22 @@
     "sketchpunk",
     "Dannii Willis <curiousdannii@gmail.com>",
     "toantk911",
-    "redx25 <red.mage25@gmail.com>"
+    "redx25 <red.mage25@gmail.com>",
+    "l stubbs <technoexpressnet@gmail.com>"
   ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/quentinrossetti/node-7zip/issues"
   },
   "homepage": "https://github.com/quentinrossetti/node-7zip.git",
+  "files": [
+    "*.js",
+    "LICENSE",
+    "README.md",
+    "lib",
+    "test",
+    "util"
+  ],
   "dependencies": {
     "when": "^3.7.8",
     "cross-spawn": "^5.1.0"

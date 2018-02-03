@@ -24,7 +24,7 @@ module.exports = function (command, switches) {
     }
     var cmd  = command.split(' ')[0];
     var args = [ command.split(' ')[1] ];
-
+      
     // Parse and add command (non-switches parameters) to `args`.
     var regexpCommands = /"((?:\\.|[^"\\])*)"/g;
     var commands       = command.match(regexpCommands);
