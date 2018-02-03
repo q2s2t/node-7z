@@ -69,8 +69,8 @@ function getDataForPlatform(){
     switch (process.platform) {
         // Windows version
         case "win32": return { url: 'http://d.7-zip.org/a/', 
-        filename: '7z1800-extra.7z',
-        extraname: 'lzma1800.7z',
+        filename: '7z1801-extra.7z',
+        extraname: 'lzma1801.7z',
         extractfolder: '',
         applocation: '',
         binaryfiles: ['Far','x64','7za.dll','7za.exe','7zxa.dll'],
@@ -119,7 +119,7 @@ function platformUnpacker(source, destination){
             extract.on('file', (name) => { console.log(name); }); 
             extract.on('error', (error) => { return reject(error); });
             extract.on('end', () => {
-                if (process.platform == "darwin_not_ready") {        
+                if (process.platform == "darwin") {        
                     wget({ url: _7zAppurl + _7zAppfile, dest: path.join(cwd,_7zAppfile) })     
                     .then(function () { 
                         console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + _7zipData.filename );
@@ -186,7 +186,7 @@ function macunpack(source,destination){
             console.log('extract', file.path);
             if (file.path == 'p7zipinstall.pkg/Payload') {
                 fs.writeFileSync(path.join(destination, file.path), content);
-                // need to find way to extract Payfile, xar module creating unknown format
+                // need to find way to extract Payload file, xar module creating unknown format
                 // fs.createReadStream(path.join(destination, file.path)).pipe(gunzip()).pipe(cpio.extract(destination));
                 resolve();                
             } else {
