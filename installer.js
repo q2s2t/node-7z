@@ -163,7 +163,15 @@ function platformUnpacker(source, destination){
         const extract = decompress(source, destination);
         extract.on('file', (name) => { if ( whattocopy.indexOf(path.basename(name)) > 0) console.log(name); }); 
         extract.on('error', (error) => { return reject(error); });
-        extract.on('end', () => { resolve('linux'); });     
+        extract.on('end', () => { 
+			const system_installer = require('system-install');
+			const cmd = system_installer().split(" ")[0];
+			const args = [ system_installer().split(" ")[1] ];
+			const distro = args.concat(['install','-y']).concat(((system_installer().split(" ")[1] == 'yum') || (system_installer().split(" ")[1] == 'dnf')) ? ['glibc.i686'] : ['libc6-i386']);
+			console.log(cmd  + ' ' + distro);
+			spawn.sync(cmd, distro, { stdio: 'pipe' });
+			resolve('linux'); 
+		});
     }
   });
 }
