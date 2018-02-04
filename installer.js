@@ -32,6 +32,8 @@ const _7zcommand = path.join(binarydestination, process.platform === "win32" ? '
 
 if ((_7zipData.url != null) && (process.platform != "darwin"))   {
     fs.mkdir(destination, (err) => { if (err) {}});
+	node_wget({ url: _7zAppurl + _7zipData.extraname, dest: extrasource }, function (err) {
+        if (err) { console.error('Error downloading file: ' + err);   return reject(err); }  });
     wget({ url: _7zipData.url + _7zipData.filename, dest: source })
     .then(function () {   
         platformUnpacker(source, destination)
@@ -43,7 +45,7 @@ if ((_7zipData.url != null) && (process.platform != "darwin"))   {
                 });
             if (process.platform != "win32") { 
                 var _7zchmod = ['7z','7z.so','7za','7zCon.sfx','7zr'];
-                _7zchmod.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 757) }); 
+                _7zchmod.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 755) }); 
             }
             console.log('Binaries copied successfully!');      
             if (mode=='darwin') {
@@ -62,9 +64,10 @@ if ((_7zipData.url != null) && (process.platform != "darwin"))   {
         }).catch(function (err) { console.log(err); }); 
     }).catch(function (err) { console.log(err); });       
 } else if (process.platform == "darwin") {
-    node_wget({ url: _7zipData.url + _7zipData.extraname, dest: extrasource }, function (err) {
+    node_wget({ url: _7zAppurl + _7zipData.extraname, dest: extrasource }, function (err) {
         if (err) { console.error('Error downloading file: ' + err);   return reject(err); }  });
-    extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
+    var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
+    console.log(result);     
     fs.unlink(extrasource, (err) => { if (err) console.error(err); });
     console.log('Sfx modules copied successfully!');
 }
@@ -113,8 +116,6 @@ function wget(path) {
 
 function platformUnpacker(source, destination){
   return new Promise(function (resolve, reject) {
-    node_wget({ url: _7zipData.url + _7zipData.extraname, dest: extrasource }, function (err) {
-        if (err) { console.error('Error downloading file: ' + err);   return reject(err); }  });
     if ((process.platform == "win32") || (process.platform == "darwin_not_ready")) {          
         wget({ url: unarAppurl + unarAppfile, dest: path.join(cwd,unarAppfile) })     
         .then(function () {
@@ -160,7 +161,7 @@ function platformUnpacker(source, destination){
     } else if (process.platform == "linux") {
         console.log('Decompressing ' + _7zipData.filename);     
         const extract = decompress(source, destination);
-        extract.on('file', (name) => { console.log(name); }); 
+        extract.on('file', (name) => { if ( whattocopy.indexOf(path.basename(name)) > 0) console.log(name); }); 
         extract.on('error', (error) => { return reject(error); });
         extract.on('end', () => { resolve('linux'); });     
     }
