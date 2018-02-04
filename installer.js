@@ -41,7 +41,7 @@ if ((_7zipData.url != null) && (process.platform != "darwin"))   {
                     path.join(binarydestination,s), 
                     { overwrite: true });
                 });
-            if (process.platform !== "win32") { 
+            if (process.platform != "win32") { 
                 var _7zchmod = ['7z','7z.so','7za','7zCon.sfx','7zr'];
                 _7zchmod.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 757) }); 
             }
@@ -85,7 +85,7 @@ function getDataForPlatform(){
         extraname: 'lzma1604.7z',
         extractfolder: 'p7zip_16.02',
         applocation: 'bin',
-        binaryfiles: ['Codecs','7z','7z.so','7za','7zCon.sfx','7zr'],
+        binaryfiles: ['7z','7z.so','7za','7zCon.sfx','7zr','Codecs'],
         sfxmodules: ['7zS2.sfx','7zS2con.sfx','7zSD.sfx'] };
         // Mac version
         case "darwin": return { url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + macosversion + '/', 
