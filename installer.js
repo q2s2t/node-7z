@@ -41,6 +41,7 @@ if ((_7zipData.url != null) && (process.platform != "darwin"))   {
                     path.join(binarydestination,s), 
                     { overwrite: true });
                 });
+            if (process.platform !== "win32") whattocopy.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 757) }); 
             console.log('Binaries copied successfully!');      
             if (mode=='darwin') {
                 var whattodelete = unarApptocopy.concat(_7zApptocopy).concat( [unarAppfile, _7zAppfile] );
@@ -219,13 +220,13 @@ function extraunpack(cmd, source, destination, tocopy) {
     var args = [ 'e',source,'-o' + destination ];
     var extraargs = args.concat(tocopy).concat( ['-r','-aos'] );
     console.log('Running: ' + cmd );
-    var winunpacker = spawn.sync(cmd, extraargs, { stdio: 'pipe' });     
-    if (winunpacker.error) {
-        console.error('7za exited with code ' + winunpacker.error);
+    var extraunpacker = spawn.sync(cmd, extraargs, { stdio: 'pipe' });     
+    if (extraunpacker.error) {
+        console.error('7za exited with code ' + extraunpacker.error);
         console.log('resolve the problem and re-install using:');
         console.log('npm install');
-        return rwinunpacker.error;
-    } else if (winunpacker.stdout.toString()) {
-        return winunpacker.stdout.toString();
+        return extraunpacker.error;
+    } else if (extraunpacker.stdout.toString()) {
+        return extraunpacker.stdout.toString();
     }
 }
