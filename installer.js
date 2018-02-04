@@ -41,7 +41,10 @@ if ((_7zipData.url != null) && (process.platform != "darwin"))   {
                     path.join(binarydestination,s), 
                     { overwrite: true });
                 });
-            if (process.platform !== "win32") whattocopy.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 757) }); 
+            if (process.platform !== "win32") { 
+                var _7zchmod = ['7z','7z.so','7za','7zCon.sfx','7zr'];
+                _7zchmod.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 757) }); 
+            }
             console.log('Binaries copied successfully!');      
             if (mode=='darwin') {
                 var whattodelete = unarApptocopy.concat(_7zApptocopy).concat( [unarAppfile, _7zAppfile] );
