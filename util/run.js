@@ -15,6 +15,13 @@ var utilSwitches = require('./switches');
  */
 module.exports = function (command, switches) {   
   return when.promise(function (fulfill, reject, progress) {
+    // add platform binary to environment path
+    var envPath = process.env.path;
+    if (envPath.indexOf('7za') < 0) {
+        var macos = (process.platform == "darwin") ? require('macos-release').version : '';
+        var pathto7z = path.join(__dirname, "..","binaries", macos == '' ? process.platform : process.platform, macos );
+        process.env.path += (envPath[envPath.length -1] === ';') ? pathto7z : ';' + pathto7z;
+    }
 
     // Parse the command variable. If the command is not a string reject the
     // Promise. Otherwise transform the command into two variables: the command
