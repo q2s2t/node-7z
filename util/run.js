@@ -95,6 +95,7 @@ module.exports = function (command, switches) {
     run.stderr.on('data', function (data) {
       //throw errors
 		  err = data.toString();
+          reject(err)
     });
     run.on('error', function (err) {
       reject(err)
