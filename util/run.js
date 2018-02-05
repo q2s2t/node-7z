@@ -83,7 +83,7 @@ module.exports = function (command, switches) {
       cmd: cmd,
       args: args,
       options: { stdio: 'pipe' } };
-    
+    console.log('>>', res.cmd, res.args.join(' '), res.options);
     var run = spawn(res.cmd, res.args, res.options);
     run.stdout.on('data', function (data) {
       var res = reg.exec(data.toString());
