@@ -3,6 +3,7 @@
 var expect = require('chai').expect;
 var exec = require('child_process').execSync;
 var add    = require('../../lib/add');
+var path  = require('path');
 
 describe('Method: `Zip.add`', function () {
 
@@ -40,8 +41,10 @@ describe('Method: `Zip.add`', function () {
   });
 
   it('should accept a path', function (done) {
+    var macos = (process.platform == "darwin") ? require('macos-release').version : '';
+    var pathto7z = path.join(__dirname, "..","binaries", macos == '' ? process.platform : process.platform, macos );
     add('.tmp/test/add.zip', '*.md', {
-      path: '/usr/local/bin/7z'
+      path: path.join(pathto7z,process.platform === "win32" ? '7za.exe' : '7za')
     })
     .progress(function (entries) {
       expect(entries.length).to.be.at.least(1);
