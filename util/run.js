@@ -14,13 +14,6 @@ var utilSwitches = require('./switches');
  * @reject {number} Exit code issued by 7-Zip.
  */
 module.exports = function (command, switches) {   
-    // add platform binary to environment path
-    var envPath = process.env.path;
-    if (envPath.indexOf('7za') < 0) {
-        var macos = (process.platform == "darwin") ? require('macos-release').version : '';
-        var pathto7z = path.join(__dirname, "..","binaries", macos == '' ? process.platform : process.platform, macos );
-        process.env.path += (envPath[envPath.length -1] === ';') ? pathto7z : ';' + pathto7z;
-    }
   return when.promise(function (fulfill, reject, progress) {
 
     // Parse the command variable. If the command is not a string reject the
