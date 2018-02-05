@@ -1,4 +1,5 @@
 'use strict';
+var path  = require('path');
 
 module.exports = function (options) {
   
@@ -7,8 +8,10 @@ module.exports = function (options) {
     
     if (options.path) {
       return options.path;
-    } else {
-      return '7z';
+    } else {    
+      var macversion = (process.platform == "darwin") ? require('macos-release').version : '';
+      var binarypath = path.join(__dirname, '..','binaries', (macversion=='') ? process.platform : process.platform, macversion);
+      return path.join(binarypath, process.platform === "win32" ? '7za.exe' : '7za');
     }
     
   } catch (e) {
