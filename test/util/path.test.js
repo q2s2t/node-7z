@@ -3,6 +3,7 @@
 var expect   = require('chai').expect;
 var exec = require('child_process').execSync;
 var path = require('../../util/path');
+var path = require('path');
 
 describe('Utility: `path`', function () {
 
