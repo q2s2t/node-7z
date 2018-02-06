@@ -4,7 +4,7 @@ var path  = require('path');
 module.exports = function (options) {
     
     var macversion = (process.platform == "darwin") ? require('macos-release').version : '';
-    var binarypath = path.join(__dirname, '..','binaries', (macversion=='') ? process.platform : process.platform, macversion);
+    var binarypath = path.resolve(__dirname, '..','binaries', (macversion=='') ? process.platform : process.platform, macversion);
     
   // Create a string that can be parsed by `run`.
   try {    

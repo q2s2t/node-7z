@@ -41,7 +41,7 @@ describe('Method: `Zip.add`', function() {
     });
   });
 
-  it('should accept a path', function (done) {
+  it('should accept a path', function(done) {
     add('.tmp/test/add.zip', '*.md', {
       path: _7zcmd
     })
