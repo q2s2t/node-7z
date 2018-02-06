@@ -1,10 +1,7 @@
 /*global describe, it */
 'use strict';
 var expect = require('chai').expect;
-var exec = require('child_process').execSync;
 var add = require('../../lib/add');
-var path = require('../../util/path');
-var _7zcmd = path();
 
 describe('Method: `Zip.add`', function() {
 
@@ -37,16 +34,6 @@ describe('Method: `Zip.add`', function() {
     })
     .done(function () {
       expect(store.length).to.be.at.least(4);
-      done();
-    });
-  });
-
-  it('should accept a path', function (done) {
-    add('.tmp/test/add.zip', '*.md', {
-      path: _7zcmd
-    })
-    .progress(function (entries) {
-      expect(entries.length).to.be.at.least(1);
       done();
     });
   });
