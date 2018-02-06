@@ -11,7 +11,7 @@ Usage
 I chose to use *Promises* in this library. API is consistent with standard use:
 
 ```js
-var Zip = require('node-7z'); // Name the class as you want!
+var Zip = require('node-7z-forall'); // Name the class as you want!
 var myTask = new Zip();
 myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 
