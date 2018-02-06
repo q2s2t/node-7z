@@ -1,9 +1,9 @@
-node-7z
+node-7z-forall
 =======
 
-[![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Code quality][codeclimate-image]][codeclimate-url] [![Release][npm-image]][npm-url]
+[![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Release][npm-image]][npm-url]
 
-> A Node.js wrapper for 7-Zip
+> A Node.js wrapper for 7-Zip with platform binaries
 
 Usage
 -----
@@ -34,18 +34,16 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 Installation
 ------------
 
-You must have the `7z` executable available in your PATH or in the same
-directory of your `package.json` file.
+This package differs from fork in that binaries are downloaded at install time. Host system no longer need to have 7zip installed or in PATH. 
 
-> On Debian and Ubuntu install the `p7zip-full` package.
-
-> On Windows use the `7z.exe` ([link here](http://sourceforge.net/projects/sevenzip/files/7-Zip/))
-> binary.
-
-> On Mac OSX use Homebrew `brew install p7zip`
+They binaries will be downloaded from:
+> On Linux - https://sourceforge.net/projects/p7zip
+> On Windows - http://www.7-zip.org/download.html
+> On Mac OSX - http://rudix.org/packages/p7zip.html
+  Note: Mac OSX 10.6 to 10.12 are pre included, to reinstall `npm run-script prepack` this must be done on a windows platform.
 
 ```
-npm install --save node-7z
+npm install --save node-7z-forall
 ```
 
 API
@@ -252,13 +250,13 @@ archive.list('archive.zip', {
 ***
 With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 
-[david-url]: https://david-dm.org/quentinrossetti/node-7z
-[david-image]: http://img.shields.io/david/quentinrossetti/node-7z.svg
-[travis-url]: https://travis-ci.org/quentinrossetti/node-7z
-[travis-image]: http://img.shields.io/travis/quentinrossetti/node-7z.svg
-[codeclimate-url]: https://codeclimate.com/github/quentinrossetti/node-7z
-[codeclimate-image]: http://img.shields.io/codeclimate/github/quentinrossetti/node-7z.svg
-[coveralls-url]: https://coveralls.io/r/quentinrossetti/node-7z
-[coveralls-image]: http://img.shields.io/coveralls/quentinrossetti/node-7z.svg
-[npm-url]: https://www.npmjs.org/package/node-7z
-[npm-image]: http://img.shields.io/npm/v/node-7z.svg
+[david-url]: https://david-dm.org/techno-express/node-7z
+[david-image]: http://img.shields.io/david/techno-express/node-7z.svg
+[travis-url]: https://travis-ci.org/techno-express/node-7z
+[travis-image]: http://img.shields.io/travis/techno-express/node-7z.svg
+[codeclimate-url]: https://codeclimate.com/github/techno-express/node-7z
+[codeclimate-image]: http://img.shields.io/codeclimate/github/techno-express/node-7z.svg
+[coveralls-url]: https://coveralls.io/r/techno-express/node-7z
+[coveralls-image]: http://img.shields.io/coveralls/techno-express/node-7z.svg
+[npm-url]: https://www.npmjs.org/package/node-7z-forall
+[npm-image]: http://img.shields.io/npm/v/node-7z-forall.svg

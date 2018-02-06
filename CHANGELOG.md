@@ -1,11 +1,11 @@
 Changelog
 =========
 
-### `v0.4.3` 2018-01-23
+### `v0.4.3` 
 
- * Feature: Added additional parameter to all methods to supple path to binary, 
-   the feature was there but not usable as implemented and now using `7za` by default.
-   
+ * Feature: Platform binary included, downloaded at install time, host system no longer needs them pre installed.
+   The binary directory added to 7za command on calls to `run` method.
+
 ### `v0.4.2` **CURRENT**
 
  * Fix: `run` returns useful error from stderr (#31)

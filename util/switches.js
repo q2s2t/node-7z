@@ -36,9 +36,7 @@ module.exports = function (switches) {
 
       // Special treatment for wilcards
       if (s === 'wildcards') {
-        switches.wildcards.forEach(function (wildvalue, index) {
-          a.unshift(wildvalue);
-        });
+        a.unshift(switches.wildcards);
       }
 
       // Allow raw switches to be added to the command, repeating switches like
