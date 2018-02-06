@@ -98,10 +98,6 @@ module.exports = function (command, switches) {
     run.stdout.on('data', function (data) {
       return progress(data.toString());
     });
-    run.stderr.on('data', function (data) {
-      //throw errors
-      err = data.toString();
-    });
     run.on('error', function (err) {
       reject(err);
     });
