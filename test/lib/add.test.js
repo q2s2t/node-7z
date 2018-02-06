@@ -2,6 +2,7 @@
 'use strict';
 var expect = require('chai').expect;
 var exec = require('child_process').execSync;
+var add = require('../../lib/add');
 var path = require('../../util/path');
 var _7zcmd = path();
 
