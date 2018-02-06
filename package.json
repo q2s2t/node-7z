@@ -29,7 +29,6 @@
     "HelloGravity",
     "sketchpunk",
     "Dannii Willis <curiousdannii@gmail.com>",
-    "toantk911",
     "redx25 <red.mage25@gmail.com>",
     "l. stubbs <technoexpressnet@gmail.com>"
   ],
@@ -48,8 +47,8 @@
     "util"
   ],
   "dependencies": {
-    "when": "^3.7.8",
-    "cross-spawn": "^5.1.0"
+    "when": "^3.7.7",
+    "cross-spawn": "^4.0.0"
   },
   "optionalDependencies": {
     "fs-extra": "^2.0.0",

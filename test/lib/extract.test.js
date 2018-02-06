@@ -41,17 +41,4 @@ describe('Method: `Zip.extract`', function () {
     });
   });
 
-  it('should return a countable list of files on progress', function (done) {
-    var filesNumber = 0
-    extract('test/zip.7z', '.tmp/test2')
-    .progress(function (entries) {
-      console.log(entries);
-      filesNumber += entries.length;
-    })
-    .then(function () {
-      expect(filesNumber).to.be.equal(6);
-      done();
-    });
-  });
-
 });

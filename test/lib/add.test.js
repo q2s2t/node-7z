@@ -1,9 +1,9 @@
 /*global describe, it */
 'use strict';
 var expect = require('chai').expect;
-var add = require('../../lib/add');
+var add    = require('../../lib/add');
 
-describe('Method: `Zip.add`', function() {
+describe('Method: `Zip.add`', function () {
 
   it('should return an error on 7z error', function (done) {
     add('.tmp/test/addnot.7z', '.tmp/test/nothere', { '???': true })
@@ -17,9 +17,6 @@ describe('Method: `Zip.add`', function() {
     add('.tmp/test/add.zip', '*.md')
     .progress(function (entries) {
       expect(entries.length).to.be.at.least(1);
-      done();
-    })
-    .catch(function (err) {
       done();
     });
   });
