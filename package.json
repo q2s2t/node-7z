@@ -1,7 +1,7 @@
 {
   "name": "node-7z",
   "version": "0.4.3",
-  "description": "A Node.js wrapper for 7-Zip",
+  "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha",

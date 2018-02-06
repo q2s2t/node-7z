@@ -1,4 +1,4 @@
-node-7z-forall
+node-7z
 =======
 
 [![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Release][npm-image]][npm-url]
@@ -34,16 +34,16 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 Installation
 ------------
 
-This package differs from fork in that binaries are downloaded at install time. Host system no longer need to have 7zip installed or in PATH. 
+This package differs from fork https://github.com/quentinrossetti/node-7z in that binaries are downloaded at install time. Host system no longer need to have 7zip installed or in PATH. 
 
-They binaries will be downloaded from:
+The binaries will be downloaded from:
 > On Linux - https://sourceforge.net/projects/p7zip
 > On Windows - http://www.7-zip.org/download.html
 > On Mac OSX - http://rudix.org/packages/p7zip.html
   Note: Mac OSX 10.6 to 10.12 are pre included, to reinstall `npm run-script prepack` this must be done on a windows platform.
 
 ```
-npm install --save node-7z-forall
+npm install --save node-7z
 ```
 
 API
