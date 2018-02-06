@@ -3,6 +3,7 @@
 var expect = require('chai').expect;
 var exec = require('child_process').execSync;
 var path = require('../../util/path');
+var _7zcmd = path();
 
 describe('Method: `Zip.add`', function () {
 
@@ -40,7 +41,6 @@ describe('Method: `Zip.add`', function () {
   });
 
   it('should accept a path', function (done) {
-    var _7zcmd = path();
     add('.tmp/test/add.zip', '*.md', {
       path: _7zcmd
     })
