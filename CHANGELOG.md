@@ -1,7 +1,10 @@
 Changelog
 =========
 
+### `v0.4.3` 
 
+ * Feature: Platform binary included, downloaded at install time, host system no longer needs them pre installed.
+   The binary directory added to 7za command on calls to `run` method.
 
 ### `v0.4.2` **CURRENT**
 
