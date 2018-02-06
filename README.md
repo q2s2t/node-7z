@@ -34,9 +34,9 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 Installation
 ------------
 
-This package differs from fork in that binaries are downloaded at install time. Host system no longer need to have 7zip installed or in PATH. 
+This package differs from fork https://github.com/quentinrossetti/node-7z in that binaries are downloaded at install time. Host system no longer need to have 7zip installed or in PATH. 
 
-They binaries will be downloaded from:
+The binaries will be downloaded from:
 > On Linux - https://sourceforge.net/projects/p7zip
 > On Windows - http://www.7-zip.org/download.html
 > On Mac OSX - http://rudix.org/packages/p7zip.html
