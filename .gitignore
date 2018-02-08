@@ -31,3 +31,5 @@ dummy.*
 .c9
 .codio
 *.tgz
+*.7z
+package-lock.json

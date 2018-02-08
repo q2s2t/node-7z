@@ -16,10 +16,6 @@ const _7zAppfile = '7z1604-extra.7z';
 const _7zApptocopy = [ '7za.dll','7za.exe','7zxa.dll' ];
 const _7zAppurl = 'http://7-zip.org/a/';
 
-const unarAppfile = 'unar1.8.1_win.zip';
-const unarApptocopy = [ 'lsar.exe','unar.exe','Foundation.1.0.dll' ];
-const unarAppurl = 'https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/theunarchiver/';
-
 const platform = 'darwin';
 const cwd = process.cwd();
 const destination = path.join(cwd, platform);
@@ -33,7 +29,7 @@ if (_7zipData.url != null) {
     platformUnpacker(source, destination)
     .then(function (mode) {
         if (mode='done') {
-            var whattodelete = unarApptocopy.concat(_7zApptocopy).concat( [unarAppfile, _7zAppfile] );
+            var whattodelete = _7zApptocopy.concat([ _7zAppfile]);
                 whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
             fs.remove(destination, (err) => { if (err) console.error(err); });
             console.log('Binaries copied successfully!');
@@ -72,17 +68,10 @@ function wget(path) {
 
 function platformUnpacker(source, destination){
   return new retryPromise(function (resolve, retry, reject) {       
-    wget({ url: unarAppurl + unarAppfile, dest: path.join(cwd,unarAppfile) })     
-    .then(function () {
         wget({ url: _7zAppurl + _7zAppfile, dest: path.join(cwd,_7zAppfile) })     
         .then(function () { 
-            console.log('Extracting: ' + unarAppfile + ', to decompress: ' + _7zAppfile ); 
-            const extract = decompress(path.join(cwd,unarAppfile), cwd);
-            extract.on('file', (name) => { console.log(name); }); 
-            extract.on('error', (error) => { return reject(error); });
-            extract.on('end', () => { 
                 console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + _7zipData.filename );
-                unpack(path.join(cwd, _7zAppfile), '.', _7zApptocopy)
+                unpack(path.join(cwd, _7zAppfile), cwd, _7zApptocopy)
                 .then(function() {  
                     var response = [];
                     downloadandcopy.forEach(function(macos, index) {  
@@ -110,13 +99,8 @@ function platformUnpacker(source, destination){
                                     if ( retrytime.length === downloadandcopy.length ) reject(err);
                                     else retry();                                     
                                 }); 
-            }); 
+            
         }).catch(function (err) { 
-                                    retrytime.push(err);
-                                    if ( retrytime.length === downloadandcopy.length ) reject(err);
-                                    else retry();                                     
-                                });
-    }).catch(function (err) { 
                                     retrytime.push(err);
                                     if ( retrytime.length === downloadandcopy.length ) reject(err);
                                     else retry();                                     
