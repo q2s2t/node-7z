@@ -58,7 +58,7 @@
     "macos-release": "^1.1.0",
     "retrying-promise": "^0.0.4",
     "system-install": "^1.0.4",
-    "unpack-all": "github:techno-express/node-unpack-all",
+    "all-unpacker": "github:techno-express/node-unpack-all",
     "xar": "^1.1.1"
   },
   "devDependencies": {

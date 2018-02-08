@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const decompress = require('inly');
 const spawn = require('cross-spawn');
-const uncompress = require('unpack-all');
+const uncompress = require('all-unpacker');
 const node_wget = require('node-wget');
 const retryPromise = require('retrying-promise'); 
 

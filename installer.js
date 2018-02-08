@@ -5,7 +5,7 @@ var fs = require('fs-extra');
 var path = require('path');
 var decompress = require('inly');
 var spawn = require('cross-spawn');
-var uncompress = require('unpack-all');
+var uncompress = require('all-unpacker');
 var macuncompress = require('xar');
 var node_wget = require('node-wget');
 
@@ -167,7 +167,8 @@ function platformUnpacker(source, destination){
 			const system_installer = require('system-install');
 			const cmd = system_installer().split(" ")[0];
 			const args = [ system_installer().split(" ")[1] ];
-			const distro = args.concat(['install','-y']).concat(((system_installer().split(" ")[1] == 'yum') || (system_installer().split(" ")[1] == 'dnf')) ? ['glibc.i686'] : ['libc6-i386']);
+            const install = [ system_installer().split(" ")[2] ];
+			const distro = args.concat(install).concat(((system_installer().split(" ")[1] == 'yum') || (system_installer().split(" ")[1] == 'dnf')) ? ['-y','glibc.i686'] : ['-y','libc6-i386']);
 			console.log(cmd  + ' ' + distro);
 			spawn.sync(cmd, distro, { stdio: 'pipe' });
 			resolve('linux'); 
