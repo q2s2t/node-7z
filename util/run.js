@@ -4,6 +4,7 @@ var spawn = require('cross-spawn');
 var when  = require('when');
 var path  = require('path');
 var utilSwitches = require('./switches');
+var _7zpath  = require('./path');
 
 /**
  * @promise Run
@@ -15,9 +16,6 @@ var utilSwitches = require('./switches');
  */
 module.exports = function (command, switches) {
   return when.promise(function (fulfill, reject, progress) {
-      
-    var macos = (process.platform == "darwin") ? require('macos-release').version : '';
-    var pathto7z = path.join(__dirname, "..","binaries", macos == '' ? process.platform : process.platform, macos );  
     
     // Parse the command variable. If the command is not a string reject the
     // Promise. Otherwise transform the command into two variables: the command
@@ -26,8 +24,9 @@ module.exports = function (command, switches) {
       return reject(new Error('Command must be a string'));
     } 
     // add platform binary to command
+    var pathto7z = _7zpath();  
     var tmpcmd = command.split(' ')[0];
-    var cmd = path.join(pathto7z,tmpcmd);
+    var cmd = path.join(pathto7z.path,tmpcmd);
     var args = [ command.split(' ')[1] ];
 
     // Parse and add command (non-switches parameters) to `args`.
