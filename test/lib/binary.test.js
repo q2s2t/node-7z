@@ -18,7 +18,7 @@ describe('Method: `Zip.binary`', function () {
         done();
     });  
   
-    it('should return an string from `object` { path: \bin\7za } ', function (done) {
+    it('should return an string from `object` { path: 7za } ', function (done) {
         var pathobject = { path: '7za' };
         var _7zpath = path(pathobject);
         expect(_7zpath).to.be.a('string');
