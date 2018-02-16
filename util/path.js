@@ -9,8 +9,8 @@ module.exports = function (options) {
     if (options.path) return options.path;
 	else {
 		
-		try var macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
-		catch (e) var macosversion = '';
+		try { var macosversion = (process.platform == "darwin") ? require('macos-release').version : ''; }
+		catch (e) { var macosversion = ''; }
 		
 		var binarypath = path.join(__dirname, "..","binaries", (macosversion == '') ? process.platform : process.platform, macosversion );
 		var binaryfilename = (process.platform == "win32") ? '7za.exe' : '7za';
@@ -20,8 +20,8 @@ module.exports = function (options) {
 	}    
   } catch (e) {
 	  
-	try var macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
-	catch (e) var macosversion = '';
+	try { var macosversion = (process.platform == "darwin") ? require('macos-release').version : ''; }
+	catch (e) { var macosversion = ''; }
 	
     var binarypath = path.join(__dirname, "..","binaries", (macosversion == '') ? process.platform : process.platform, macosversion );
     var binaryfilename = (process.platform == "win32") ? '7za.exe' : '7za';
