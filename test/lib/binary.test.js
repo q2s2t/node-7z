@@ -11,10 +11,11 @@ describe('Method: `Zip.binary`', function () {
         done();
     });      
    
-    it('should return an object key value of string', function (done) {
+    it('should return an object with key fields of `path, filename, fullpath` and be string', function (done) {
 		expect(_7zcmd).to.have.property('path');
 		expect(_7zcmd).to.have.property('filename');
 		expect(_7zcmd).to.have.property('fullpath');
+		expect(_7zcmd.fullpath).to.be.a('string');
         done();
     });  
   
