@@ -1,10 +1,10 @@
 /*global describe, it */
 'use strict';
 var expect   = require('chai').expect;
-var path = require('../../util/path');
+var binary = require('../../util/path');
 
 describe('Method: `Zip.binary`', function () {
-    var _7zcmd = path();
+    var _7zcmd = binary();
     
     it('should return an object', function (done) {
         expect(_7zcmd).to.be.an('object');
@@ -12,17 +12,23 @@ describe('Method: `Zip.binary`', function () {
     });      
    
     it('should return an object key value of string', function (done) {
-        expect(_7zcmd.path).to.be.a('string');
-        expect(_7zcmd.filename).to.be.a('string');
-        expect(_7zcmd.fullpath).to.be.a('string');
+		expect(_7zcmd).to.have.property('path');
+		expect(_7zcmd).to.have.property('filename)');
+		expect(_7zcmd).to.have.property('fullpath');
         done();
     });  
   
-    it('should return an string from `object` { path: 7za } ', function (done) {
-        var pathobject = { path: '7za' };
-        var _7zpath = path(pathobject);
+    it('should return an string from `object` with correct key { path: 7za } ', function (done) {
+        var _7zpath = binary({ path: '7za' });
         expect(_7zpath).to.be.a('string');
         done();
     });
 	
+    it('should return an object from `object` with wrong key or no key', function (done) {
+        var _7zpathwrong = binary({ nopath: '7za' });
+        expect(_7zpathwrong).to.be.an('object');
+        var _7zpathno = binary('???');
+        expect(_7zpathno).to.be.an('object');
+        done();
+    });		
 });
