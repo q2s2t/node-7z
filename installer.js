@@ -51,7 +51,7 @@ if ((_7zipData.url != null) && (process.platform != "darwin")) {
             fs.unlink(source, (err) => { if (err) console.error(err); });
             fs.remove(destination, (err) => { if (err) console.error(err); });
             var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
-            console.log(result); 
+            // console.log(result); 
             console.log('Sfx modules copied successfully!');
             fs.unlink(extrasource, (err) => { if (err) console.error(err); });
         }).catch(function (err) { console.log(err); }); 
@@ -122,7 +122,7 @@ function platformUnpacker(source, destination) {
                     console.log('Decompressing: p7zipinstall.pkg/Payload'); 
                     unpack(path.join(destination,'p7zipinstall.pkg','Payload'), process.platform, _7zipData.applocation + path.sep + '*')
                     .then( function(result) { 
-                        console.log(result);
+                        // console.log(result);
                         return resolve('darwin'); 
                     })
                     .catch(function (err) { return reject(err); });  
@@ -135,7 +135,7 @@ function platformUnpacker(source, destination) {
    } else if (process.platform == "win32") {
         unpack(source, process.platform)
         .then(function (result) {
-            console.log(result);
+            // console.log(result);
             return resolve('win32'); 
         })
         .catch(function (err) { return reject(err); }); 

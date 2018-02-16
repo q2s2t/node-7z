@@ -5,7 +5,8 @@ module.exports = function (options) {
 	try { var macosversion = (process.platform == "darwin") ? require('macos-release').version : ''; }
 	catch (e) { var macosversion = 'undefined' }
 	
-	if ((options) && (options typeof 'object' ) && (options.hasOwnProperty('path'))) return options.path;  
+	var type = typeof options;	
+	if ((options) && (type == "object") && ((options.hasOwnProperty('path'))) return options.path;  
 	else {		
 		var binarypath = path.join(__dirname, "..","binaries", (macosversion == '') ? process.platform : process.platform + path.sep + macosversion );
 		var binaryfilename = (process.platform == "win32") ? '7za.exe' : '7za'; 
