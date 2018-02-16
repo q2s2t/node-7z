@@ -197,7 +197,7 @@ function winunpack(source, destination) {
      var args = [ 'x',source,'-o' + destination,'-y'];
      console.log('Running: ' + cmd);
   return new Promise(function (resolve, reject) {
-    var winunpacker = spawnsync(spcmd, spargs);     
+    var winunpacker = spawnsync(cmd, args);     
         if (winunpacker.error) return reject(winunpacker.error);
         else if (winunpacker.stdout.toString()) return resolve(winunpacker.stdout.toString());
     });
@@ -207,7 +207,7 @@ function extraunpack(cmd, source, destination, tocopy) {
     var args = [ 'e',source,'-o' + destination ];
     var extraargs = args.concat(tocopy).concat( ['-r','-aos'] );
     console.log('Running: ' + cmd );
-    var extraunpacker = spawnsync(spcmd, spargs);     
+    var extraunpacker = spawnsync(cmd, extraargs);     
     if (extraunpacker.error) return extraunpacker.error;
     else if (extraunpacker.stdout.toString()) return extraunpacker.stdout.toString();
 }
