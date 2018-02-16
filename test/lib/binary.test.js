@@ -13,7 +13,7 @@ describe('Method: `Zip.binary`', function () {
    
     it('should return an object key value of string', function (done) {
 		expect(_7zcmd).to.have.property('path');
-		expect(_7zcmd).to.have.property('filename)');
+		expect(_7zcmd).to.have.property('filename');
 		expect(_7zcmd).to.have.property('fullpath');
         done();
     });  
