@@ -8,7 +8,10 @@ module.exports = function (options) {
       
     if (options.path) return options.path;
 	else {
-		var macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
+		
+		try var macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
+		catch (e) var macosversion = '';
+		
 		var binarypath = path.join(__dirname, "..","binaries", (macosversion == '') ? process.platform : process.platform, macosversion );
 		var binaryfilename = (process.platform == "win32") ? '7za.exe' : '7za';
 		return { path: binarypath, 
@@ -16,7 +19,10 @@ module.exports = function (options) {
 			fullpath: path.join(binarypath, binaryfilename) }
 	}    
   } catch (e) {
-    var macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
+	  
+	try var macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
+	catch (e) var macosversion = '';
+	
     var binarypath = path.join(__dirname, "..","binaries", (macosversion == '') ? process.platform : process.platform, macosversion );
     var binaryfilename = (process.platform == "win32") ? '7za.exe' : '7za';
     return { path: binarypath, 
