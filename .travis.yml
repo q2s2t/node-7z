@@ -1,9 +1,7 @@
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y p7zip-full
 language: node_js
 node_js:
   - '6'
-  - '7'
 script: 'npm run coverage'
 after_script: 'npm run coveralls'

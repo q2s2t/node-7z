@@ -1,18 +1,18 @@
 'use strict';
-
+var path = require("path");
+	
 module.exports = function (options) {
-  
-  // Create a string that can be parsed by `run`.
-  try {
     
-    if (options.path) {
-      return options.path;
-    } else {
-      return '7z';
-    }
+  // Create a string that can be parsed by `run`.
+  try {    
+      
+    if (options.path) return options.path;     
     
   } catch (e) {
-    throw new Error('Path to the 7-Zip bin not found');
+    var macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
+    var binarypath = path.join(__dirname, "..","binaries", (macosversion == '') ? process.platform : process.platform, macosversion );
+    var binaryfilename = (process.platform == "win32") ? '7za.exe' : '7za';
+    return { path: binarypath, filename: binaryfilename, fullpath: path.join(binarypath, binaryfilename) }
   }
   
 };

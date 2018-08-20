@@ -15,7 +15,7 @@ describe('Utility: `run`', function () {
 
   it('should return an error on when 7z gets one', function (done) {
     run('7za "???"').catch(function (err) {
-      expect(err.message).to.eql('Incorrect command line');
+      expect(err.message).to.eql('Unsupported command');
       done();
     });
   });

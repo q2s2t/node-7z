@@ -1,9 +1,9 @@
 node-7z
 =======
 
-[![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Code quality][codeclimate-image]][codeclimate-url] [![Release][npm-image]][npm-url]
+[![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Release][npm-image]][npm-url]
 
-> A Node.js wrapper for 7-Zip
+> A Node.js wrapper for 7-Zip *with platform binaries*
 
 Usage
 -----
@@ -34,15 +34,13 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 Installation
 ------------
 
-You must have the `7z` executable available in your PATH or in the same
-directory of your `package.json` file.
+This package download binaries are at install time. Host system does not need to have 7zip installed or in PATH. 
 
-> On Debian and Ubuntu install the `p7zip-full` package.
-
-> On Windows use the `7z.exe` ([link here](http://sourceforge.net/projects/sevenzip/files/7-Zip/))
-> binary.
-
-> On Mac OSX use Homebrew `brew install p7zip`
+The binaries will be downloaded from:
+> On Linux - https://sourceforge.net/projects/p7zip
+> On Windows - http://www.7-zip.org/download.html
+> On Mac OSX - http://rudix.org/packages/p7zip.html
+  Note: Mac OSX 10.6 to 10.12 are pre included, to reinstall `npm run-script prepack` this must be done on a windows platform.
 
 ```
 npm install --save node-7z

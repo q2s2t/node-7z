@@ -1,19 +1,25 @@
 {
   "name": "node-7z",
-  "version": "0.4.2",
-  "description": "A Node.js wrapper for 7-Zip",
+  "version": "0.4.3",
+  "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --debug",
+    "test": "mocha",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha --dir .tmp/coverage",
-    "coveralls": "npm install coveralls && cat .tmp/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "coveralls": "npm install coveralls && cat .tmp/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "prepack": "node binarybuilder.js",
+    "install": "node installer.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/quentinrossetti/node-7zip.git"
+    "url": "https://github.com/quentinrossetti/node-7z.git"
   },
   "keywords": [
     "node",
+    "7z",
+    "7za",
+    "7zr",
+    "p7zip",
     "7zip",
     "wrapper"
   ],
@@ -24,6 +30,7 @@
     "Dannii Willis <curiousdannii@gmail.com>",
     "toantk911",
     "redx25 <red.mage25@gmail.com>",
+    "l. stubbs <technoexpressnet@gmail.com>",
     "Royalgamer06 <royalgamer06@gmail.com>",
     "AbdelghaniTassi"
   ],
@@ -32,14 +39,32 @@
     "url": "https://github.com/quentinrossetti/node-7zip/issues"
   },
   "homepage": "https://github.com/quentinrossetti/node-7zip.git",
+  "files": [
+    "*.js",
+    "LICENSE",
+    "README.md",
+    "lib",
+    "test",
+    "util"
+  ],
   "dependencies": {
     "when": "^3.7.8",
-    "cross-spawn": "^5.1.0"
+    "cross-spawn": "^6.0.4"
+  },
+  "optionalDependencies": {
+    "fs-extra": "^5.0.0",
+    "node-wget": "^0.4.2",
+    "inly": "^1.2.3",
+    "xar": "^1.1.1",
+    "all-unpacker": "^0.0.5",
+    "macos-release": "^1.1.0",
+    "retrying-promise": "^0.0.4",
+    "system-install": "^1.0.4",
+    "xar": "^1.1.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "fs-extra": "^2.0.0",
+    "chai": "^4.1.2",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0"
+    "mocha": "^5.0.0"
   }
 }

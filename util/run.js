@@ -4,6 +4,7 @@ var spawn = require('cross-spawn');
 var when  = require('when');
 var path  = require('path');
 var utilSwitches = require('./switches');
+var _7zpath  = require('./path');
 
 /**
  * @promise Run
@@ -16,14 +17,17 @@ var utilSwitches = require('./switches');
  */
 module.exports = function (command, switches, data) {
   return when.promise(function (fulfill, reject, progress) {
-
+    
     // Parse the command variable. If the command is not a string reject the
     // Promise. Otherwise transform the command into two variables: the command
     // name and the arguments.
     if (typeof command !== 'string') {
       return reject(new Error('Command must be a string'));
-    }
-    var cmd  = command.split(' ')[0];
+    } 
+    // add platform binary to command
+    var pathto7z = _7zpath();  
+    var tmpcmd = command.split(' ')[0];
+    var cmd = path.join(pathto7z.path,tmpcmd);
     var args = [ command.split(' ')[1] ];
 
     // Parse and add command (non-switches parameters) to `args`.
@@ -70,17 +74,22 @@ module.exports = function (command, switches, data) {
       }
     });
 
+    // Add bb2 to args array so we get file info
+    args.push('-bb2');
+
     // When an stdout is emitted, parse it. If an error is detected in the body
     // of the stdout create an new error with the 7-Zip error message as the
     // error's message. Otherwise progress with stdout message.
     var err;
-    var reg = new RegExp('Error:' + os.EOL + '?(.*)', 'g');
+    var reg = new RegExp('Error:(' + os.EOL + '|)?(.*)', 'i');
     var res = {
       cmd: cmd,
       args: args,
       options: { stdio: 'pipe' } };
-    
+
+    //console.log('>> ', res.cmd, res.args.join(' '), res.options,' <<');
     var run = spawn(res.cmd, res.args, res.options);
+    run.stderr.on('data', function (data){
     
     if (data) {
       run.stdin.setEncoding('utf-8');
@@ -91,16 +100,14 @@ module.exports = function (command, switches, data) {
     run.stdout.on('data', function (data) {
       var res = reg.exec(data.toString());
       if (res) {
-        err = new Error(res[1]);
+        err = new Error(res[2].substr(0, res[2].length-1));
       }
+    });
+    run.stdout.on('data', function (data) {
       return progress(data.toString());
     });
-    run.stderr.on('data', function (data) {
-      //throw errors
-		  err = data.toString();
-    });
     run.on('error', function (err) {
-      reject(err)
+      reject(err);
     });
     run.on('close', function (code) {
       if (code === 0) {
