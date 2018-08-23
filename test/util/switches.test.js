@@ -67,19 +67,19 @@ describe('Utility: `switches`', function () {
     expect(r).to.contain('-y')
   })
 
-  it('should return complex values with spaces and emoji', function () {
+  it('should return complex values with spaces and quotes', function () {
     var r = toChildProcessArgs({
       ssc: true,
       ssw: true,
       m0: '=BCJ',
       m1: '=LZMA:d=21',
-      p: 'My Super Pasw,àù£*'
+      p: 'My Super Pasw,àù£*"'
     })
     expect(r).to.contain('-ssc')
     expect(r).to.contain('-ssw')
     expect(r).to.contain('-m0=BCJ')
     expect(r).to.contain('-m1=LZMA:d=21')
-    expect(r).to.contain('-pMy Super Pasw,àù£*')
+    expect(r).to.contain('-pMy Super Pasw,àù£*"')
     expect(r).to.contain('-y')
   })
 
@@ -90,5 +90,13 @@ describe('Utility: `switches`', function () {
     expect(r).to.contain('-i!*.jpg')
     expect(r).to.contain('-i!*.png')
     expect(r).to.contain('-r0')
+  })
+
+  it('should add wildcards', function () {
+    var r = toChildProcessArgs({
+      wildcards: ['*.jpg', '*.png']
+    })
+    expect(r).to.contain('*.jpg')
+    expect(r).to.contain('*.png')
   })
 })

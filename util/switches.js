@@ -3,6 +3,7 @@
  * are based on the 7-zip documentation.
  */
 const swDefaultBool = {
+  r: false, // Recurse subdirectories. For `-r0` usage see `raw`
   sdel: false, // Delete files after compression
   spl: false, // Set Large Pages mode
   sni: false, // Store NT security information
@@ -28,10 +29,12 @@ const swContextBool = {
  * Switches that can be applied multiple times
  */
 const swRepeating = {
-  ai: undefined,
-  ax: undefined,
-  i: undefined,
-  x: undefined
+  ai: undefined, // Include archive filenames
+  ax: undefined, // Exclude archive filenames
+  i: undefined, // Include filenames
+  m: undefined, // Set Compression Method
+  x: undefined, // Exclude filenames
+  raw: undefined // Special `node-7z` option
 }
 
 /**
@@ -40,21 +43,25 @@ const swRepeating = {
  * @param  {Object} switches An object of options
  * @return {array} Array to pass to the `run` function.
  */
-export default function toChildProcessArgs (switches = swDefaultBool) {
+export function toChildProcessArgs (switches) {
   const swDefaultBoolKeys = Object.keys(swDefaultBool)
   const swContextBoolKeys = Object.keys(swContextBool)
   const swRepeatingKeys = Object.keys(swRepeating)
+  const swCopy = {...swDefaultBool}
+  Object.assign(swCopy, switches)
   let cmdArgs = []
 
-  Object.entries(switches).forEach(([swName, swVal]) => {
+  Object.entries(swCopy).forEach(function ([swName, swVal]) {
     // Handle wildcards
-    if (swName === 'wildcards') {
-      cmdArgs.unshift(swVal)
+    const isWildcard = (swName === 'wildcards')
+    if (isWildcard) {
+      cmdArgs = swVal.concat(cmdArgs)
       return
     }
 
     // Handle boolean switches
-    if (swDefaultBoolKeys.includes(swName)) {
+    const isDefaultBool = (swDefaultBoolKeys.includes(swName))
+    if (isDefaultBool) {
       if (swVal === true) {
         cmdArgs.push(`-${swName}`)
       }
@@ -62,19 +69,23 @@ export default function toChildProcessArgs (switches = swDefaultBool) {
     }
 
     // Handle context boolean switches
-    if (swContextBoolKeys.includes(swName)) {
+    const isContextBool = (swContextBoolKeys.includes(swName))
+    if (isContextBool) {
       let swSuffix = (swVal === true) ? '' : '-'
       cmdArgs.push(`-${swName}${swSuffix}`)
       return
     }
 
     // Handle repeating switches. They can be string or array
-    if (swRepeatingKeys.includes(swName)) {
-      if (typeof swVal === 'string') {
+    const isRepeating = (swRepeatingKeys.includes(swName))
+    if (isRepeating) {
+      const isString = (typeof swVal === 'string')
+      if (isString) {
         swVal = [swVal]
       }
-      swVal.forEach(([swRepeatingString]) => {
-        cmdArgs.push(`-${swName}${swRepeatingString}`)
+      swVal.forEach(function (swRepeatingString) {
+        const swPrefix = (swName === 'raw') ? '' : `-${swName}`
+        cmdArgs.push(`${swPrefix}${swRepeatingString}`)
       })
       return
     }
