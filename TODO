@@ -1,0 +1,25 @@
+Code quality:
+    ☐ Implement `standard`
+    ☐ Code coverage 100 %
+Package:
+    ☐ Update all dependencies
+    ☐ Rewite scripts
+    ☐ Helper script to optionnaly fetch 7zip bins?
+Switches:
+    ☐ Add auto-`--` switch when file name starts with `-`
+    ☐ Auto-`-an` (Disable parsing of archive_name) switch
+    ☐ Implement -bd	Disable progress indicator
+    ☐ Implement -bt	Show execution time statistics
+    ☐ Implement -slt Show technical information
+    ✔ -snc and -ssc @done(18-08-21 22:50)
+    ✔ Default to `-y` @done(18-08-21 22:50)
+    ✔ Update test cases @started(18-08-21 22:51) @done(18-08-23 12:36) @lasted(1d13h45m3s)
+Maintenance:
+    ☐ Upgrade codebase to ES6
+    ✔ Spaces in achive name, file name or in switches @done(18-08-23 12:36)
+Features:
+    ☐ Streams?
+Documentation:
+    ☐ Usage for wildcard/raw input
+    ☐ Usage for repeating switches
+    ☐ Usage for -r (Recurse subdirectories) switch
