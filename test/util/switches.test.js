@@ -43,7 +43,7 @@ describe('Utility: `switches`', function () {
   })
 
   it('should return non default booleans when specified', function () {
-    var r = toChildProcessArgs({
+    const r = toChildProcessArgs({
       so: true,
       spl: true,
       ssw: true,
@@ -56,7 +56,7 @@ describe('Utility: `switches`', function () {
   })
 
   it('should return complex values when needed', function () {
-    var r = toChildProcessArgs({
+    const r = toChildProcessArgs({
       ssc: true,
       ssw: true,
       m: 'x0'
@@ -68,7 +68,7 @@ describe('Utility: `switches`', function () {
   })
 
   it('should return complex values with spaces and quotes', function () {
-    var r = toChildProcessArgs({
+    const r = toChildProcessArgs({
       ssc: true,
       ssw: true,
       m0: '=BCJ',
@@ -84,7 +84,7 @@ describe('Utility: `switches`', function () {
   })
 
   it('should works with the `raw` switch', function () {
-    var r = toChildProcessArgs({
+    const r = toChildProcessArgs({
       raw: ['-i!*.jpg', '-i!*.png', '-r0']
     })
     expect(r).to.contain('-i!*.jpg')
@@ -93,7 +93,7 @@ describe('Utility: `switches`', function () {
   })
 
   it('should add wildcards', function () {
-    var r = toChildProcessArgs({
+    const r = toChildProcessArgs({
       wildcards: ['*.jpg', '*.png']
     })
     expect(r).to.contain('*.jpg')
