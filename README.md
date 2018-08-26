@@ -33,8 +33,6 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 
 Installation
 ------------
-
-This package will download the 7zip binaries at install time. Host system does not need to have 7zip installed or in PATH. 
  
 This package will download the 7zip binaries at install time. Host system does not need to have 7zip installed or in PATH.
 
