@@ -117,4 +117,5 @@ module.exports = function (command, switches, data) {
     });
 
   });
-};
+}
+}
