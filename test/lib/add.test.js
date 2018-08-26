@@ -21,6 +21,22 @@ describe('Method: `Zip.add`', function () {
     });
   });
 
+  it('should return an error if file list is empty', function(done) {
+    add('.tmp/test/add.zip', '')
+    .catch(function (err) {
+      expect(err).to.be.an.instanceof(Error);
+      done();
+    });
+  });
+
+  it('should return an error if file list is empty or having hust space characters', function(done) {
+    add('.tmp/test/add.zip', ' ')
+    .catch(function (err) {
+      expect(err).to.be.an.instanceof(Error);
+      done();
+    });
+  });
+
   it('should accept array as source', function (done) {
     var store = [];
     add('.tmp/test/add.zip', ['*.md', '*.js'])

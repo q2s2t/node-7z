@@ -3,8 +3,8 @@ Changelog
 
 ### `v0.4.3` to `v0.4.7` 
 
- * Feature: Platform binary included, downloaded at install time, host system no longer needs them pre installed.
-   The binary directory added to 7za command on calls to `run` method. 
+ * Feature: Platform binary included, downloaded at install time, host system no longer needs them pre installed. The binary directory added to 7za command on calls to `run` method.
+ * Feature: Add: `Zip.binary` method that points to option to supply path util, but instead returns object to the included binary path and filename.
 
 ### `v0.4.2` **CURRENT**
 
