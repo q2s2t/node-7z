@@ -51,17 +51,11 @@
     "cross-spawn": "^6.0.4"
   },
   "optionalDependencies": {
-<<<<<<< HEAD
     "fs-extra": "^5.0.0",
     "node-wget": "^0.4.2",
     "inly": "^1.2.3",
     "xar": "^1.1.1",
     "all-unpacker": "^0.0.5",
-=======
-    "all-unpacker": "^0.0.5",
-    "fs-extra": "^5.0.0",
-    "inly": "^1.2.3",
->>>>>>> 625002897f3e753575d4c6b9ff4a57663bc72209
     "macos-release": "^1.1.0",
     "node-wget": "^0.4.2",
     "retrying-promise": "^0.0.4",
