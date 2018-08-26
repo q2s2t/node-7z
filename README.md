@@ -1,9 +1,9 @@
 node-7z
 =======
 
-[![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Maintainability][codeclimate-image]][codeclimate-url][![Release][npm-image]][npm-url]
+[![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Release][npm-image]][npm-url]
 
-> A Node.js wrapper for 7-Zip with platform binaries
+> A Node.js wrapper for 7-Zip *with platform binaries*
 
 Usage
 -----
@@ -36,6 +36,8 @@ Installation
 
 This package will download the 7zip binaries at install time. Host system does not need to have 7zip installed or in PATH. 
  
+This package will download the 7zip binaries at install time. Host system does not need to have 7zip installed or in PATH.
+
 The binaries will be downloaded from:
 > On Linux - https://sourceforge.net/projects/p7zip
 > On Windows - http://www.7-zip.org/download.html
@@ -43,7 +45,7 @@ The binaries will be downloaded from:
   Note: Mac OSX 10.6 to 10.12 are pre included, to reinstall `npm run-script prepack` this must be done on a windows platform.
 
 ```
-npm install --save node-7z-forall
+npm install --save node-7z
 ```
 
 API

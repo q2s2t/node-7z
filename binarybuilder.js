@@ -116,7 +116,7 @@ function unpack(source, destination, tocopy) {
           function(err, files, text) {
             if (err) return reject(err);
             if (text) {
-                // console.log(text);
+                console.log(text);
                 resolve(text);
             }
         }); 
@@ -137,7 +137,7 @@ function macunpack(source, destination, macos){
         }  
         if (winunpacker.stdout.toString()) {
             console.log('Decompressing: p7zip-9.20.1-1'); 
-            unpack(path.join(destination,'p7zip-9.20.1-1'), platform + path.sep + macos, _7zipData.applocation + '/*')
+            unpack(path.join(destination,'p7zip-9.20.1-1'), platform + '/' + macos, _7zipData.applocation + '/*')
             .then(function() { 
                 whattocopy.forEach(function(s) { 
                     fs.moveSync(path.join(destination, _7zipData.extractfolder, _7zipData.applocation,s), path.join(__dirname,'binaries',platform,macos,s), { overwrite: true }); });
