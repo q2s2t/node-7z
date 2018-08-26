@@ -1,9 +1,9 @@
-node-7z
+node-7z-forall
 =======
 
 [![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Maintainability][codeclimate-image]][codeclimate-url][![Release][npm-image]][npm-url]
 
-> A Node.js wrapper for 7-Zip *with platform binaries*
+> A Node.js wrapper for 7-Zip with platform binaries
 
 Usage
 -----
@@ -34,7 +34,11 @@ myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
 Installation
 ------------
 
+<<<<<<< HEAD
 This package will download the 7zip binaries at install time. Host system does not need to have 7zip installed or in PATH. 
+=======
+This package differs from fork https://github.com/quentinrossetti/node-7z in that binaries are downloaded at install time. Host system no longer need to have 7zip installed or in PATH. 
+>>>>>>> 625002897f3e753575d4c6b9ff4a57663bc72209
 
 The binaries will be downloaded from:
 > On Linux - https://sourceforge.net/projects/p7zip
@@ -43,7 +47,7 @@ The binaries will be downloaded from:
   Note: Mac OSX 10.6 to 10.12 are pre included, to reinstall `npm run-script prepack` this must be done on a windows platform.
 
 ```
-npm install --save node-7z
+npm install --save node-7z-forall
 ```
 
 API
@@ -250,6 +254,7 @@ archive.list('archive.zip', {
 ***
 With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 
+<<<<<<< HEAD
 [david-url]: https://david-dm.org/quentinrossetti/node-7z
 [david-image]: http://img.shields.io/david/quentinrossetti/node-7z.svg
 [travis-url]: https://travis-ci.org/quentinrossetti/node-7z
@@ -260,3 +265,15 @@ With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 [coveralls-image]: http://img.shields.io/coveralls/quentinrossetti/node-7z.svg
 [npm-url]: https://www.npmjs.org/package/node-7z
 [npm-image]: http://img.shields.io/npm/v/node-7z.svg
+=======
+[david-url]: https://david-dm.org/techno-express/node-7z
+[david-image]: http://img.shields.io/david/techno-express/node-7z.svg
+[travis-url]: https://travis-ci.org/techno-express/node-7z
+[travis-image]: http://img.shields.io/travis/techno-express/node-7z.svg
+[codeclimate-url]: https://codeclimate.com/github/techno-express/node-7z/maintainability
+[codeclimate-image]: https://api.codeclimate.com/v1/badges/0d6a0bc69a8ea29c7de9/maintainability
+[coveralls-url]: https://coveralls.io/github/techno-express/node-7z
+[coveralls-image]: https://coveralls.io/repos/github/techno-express/node-7z/badge.svg
+[npm-url]: https://www.npmjs.org/package/node-7z-forall
+[npm-image]: http://img.shields.io/npm/v/node-7z-forall.svg
+>>>>>>> 625002897f3e753575d4c6b9ff4a57663bc72209
