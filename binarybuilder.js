@@ -116,7 +116,7 @@ function unpack(source, destination, tocopy) {
           function(err, files, text) {
             if (err) return reject(err);
             if (text) {
-                console.log(text);
+                // console.log(text);
                 resolve(text);
             }
         }); 

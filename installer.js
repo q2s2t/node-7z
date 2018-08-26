@@ -122,7 +122,7 @@ function platformUnpacker(source, destination) {
                     console.log('Decompressing: p7zipinstall.pkg/Payload'); 
                     unpack(path.join(destination,'p7zipinstall.pkg','Payload'), process.platform, _7zipData.applocation + path.sep + '*')
                     .then( function(result) { 
-                        console.log(result);
+                        // console.log(result);
                         return resolve('darwin'); 
                     })
                     .catch(function (err) { return reject(err); });  
@@ -135,7 +135,7 @@ function platformUnpacker(source, destination) {
    } else if (process.platform == "win32") {
         unpack(source, process.platform)
         .then(function (result) {
-            console.log(result);
+            // console.log(result);
             return resolve('win32'); 
         })
         .catch(function (err) { return reject(err); }); 
@@ -152,7 +152,7 @@ function platformUnpacker(source, destination) {
             .then(function() {
                 return resolve('linux'); 
             })
-            .catch(function (err) { return reject(err); }); 	
+            .catch(function (err) { return reject(err); }); 			
 		});
     }
   });

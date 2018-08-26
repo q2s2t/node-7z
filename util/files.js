@@ -15,11 +15,11 @@ module.exports = function (files) {
   var toProcess = '';
   if (files instanceof Array) {
     files.forEach(function (f) {
-      toProcess += '"' + f.replace(/\^/g, '^^').replace(/\&/g, '^&').replace(/\</g, '^<').replace(/\>/g, '^>').replace(/\|/g, '^|').replace(/\%/g, '%%') + '" ';
+      toProcess += '"' + f + '" ';
     });
     toProcess = toProcess.trim();
   } else {
-    toProcess = '"' + files.replace(/\^/g, '^^').replace(/\&/g, '^&').replace(/\</g, '^<').replace(/\>/g, '^>').replace(/\|/g, '^|').replace(/\%/g, '%%') + '"';
+    toProcess = '"' + files + '"';
   }
   return toProcess;
 
