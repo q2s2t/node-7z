@@ -84,7 +84,7 @@ function platformUnpacker(source, destination){
                             if(response.length === downloadandcopy.length) {
                                 binaryextractor(source, destination)
                                 .then(function(result) {  
-                                    if (result='extractor done') resolve('done');
+                                    if (result=='extractor done') resolve('done');
                                 })
                                 .catch(function (err) { 
                                     retrytime.push(err);
