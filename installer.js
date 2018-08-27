@@ -67,8 +67,8 @@ function getDataForPlatform() {
     switch (process.platform) {
         // Windows version
         case "win32": return { url: 'http://d.7-zip.org/a/', 
-        filename: '7z1801-extra.7z',
-        extraname: 'lzma1801.7z',
+        filename: '7z1805-extra.7z',
+        extraname: 'lzma1805.7z',
         extractfolder: '',
         applocation: '',
         binaryfiles: ['Far','x64','7za.dll','7za.exe','7zxa.dll'],
