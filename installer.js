@@ -6,7 +6,7 @@ var path = require('path');
 var decompress = require('inly');
 var spawn = require('cross-spawn');
 var uncompress = require('all-unpacker');
-var macuncompress = require('xar');
+//var macuncompress = require('xar');
 var node_wget = require('node-wget');
 
 const macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
@@ -21,13 +21,16 @@ const cwd = process.cwd();
 const destination = path.join(cwd, process.platform);
 const source = path.join(cwd, _7zipData.filename);
 
-const binarydestination = path.join(__dirname,'binaries', (macosversion=='') ? process.platform : process.platform, macosversion );
+const binarydestination = path.join(__dirname,'binaries', (macosversion=='') ? process.platform : process.platform  + path.sep +  macosversion );
 const extrasource = path.join(cwd, _7zipData.extraname); 
 const _7zcommand = path.join(binarydestination, process.platform === "win32" ? '7za.exe' : '7za' );
             
 
-node_wget({ url: _7zAppurl + _7zipData.extraname, dest: extrasource }, function (err) {
-    if (err) { console.error('Error downloading file: ' + err); return new Error(err); } });
+node_wget({ url: _7zAppurl + _7zipData.extraname, 
+            dest: extrasource },
+            function (err) { if (err) { console.error('Error downloading file: ' + err); return new Error(err); } }
+            );
+
 if ((_7zipData.url != null) && (process.platform != "darwin")) {
     fs.mkdir(destination, (err) => { if (err) {}});
     wget({ url: _7zipData.url + _7zipData.filename, dest: source })
@@ -44,21 +47,21 @@ if ((_7zipData.url != null) && (process.platform != "darwin")) {
                 _7zchmod.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 755) }); 
             }
             console.log('Binaries copied successfully!');      
-            if (mode=='darwin') {
+            /*if (mode=='darwin') {
                 var whattodelete = _7zApptocopy.concat([ _7zAppfile]);
                 whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
-            }
+            }*/
             fs.unlink(source, (err) => { if (err) console.error(err); });
             fs.remove(destination, (err) => { if (err) console.error(err); });
             var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
             // console.log(result); 
-            console.log('Sfx modules copied successfully!');
             fs.unlink(extrasource, (err) => { if (err) console.error(err); });
+            console.log('Sfx modules copied successfully!');
         }).catch(function (err) { console.log(err); }); 
     }).catch(function (err) { console.log(err); });       
 } else if (process.platform == "darwin") {
     var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
-    console.log(result);     
+    // console.log(result);     
     fs.unlink(extrasource, (err) => { if (err) console.error(err); });
     console.log('Sfx modules copied successfully!');
 }
@@ -107,7 +110,7 @@ function wget(path) {
 
 function platformUnpacker(source, destination) {
   return new Promise(function (resolve, reject) {
-    if (process.platform == "darwin") {        
+    /*if (process.platform == "darwin") {        
         wget({ url: _7zAppurl + _7zAppfile, dest: path.join(cwd,_7zAppfile) })     
         .then(function () { 
             console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + _7zipData.filename );
@@ -132,7 +135,8 @@ function platformUnpacker(source, destination) {
             .catch(function (err) { return reject(err); }); 
         }) 
         .catch(function (err) { return reject(err); }); 
-   } else if (process.platform == "win32") {
+   } else */
+   if (process.platform == "win32") {
         unpack(source, process.platform)
         .then(function (result) {
             // console.log(result);
@@ -168,7 +172,7 @@ function unpack(source, destination, tocopy) {
         }); 
     });
 }
-
+/*
 function macunpack(source,destination){
     var content = fs.readFileSync(source)
   return new Promise(function (resolve, reject) {
@@ -191,7 +195,6 @@ function macunpack(source,destination){
         });
     });
 }
-
 function winunpack(source, destination) {
      var cmd = '7za.exe';
      var args = [ 'x',source,'-o' + destination,'-y'];
@@ -202,6 +205,7 @@ function winunpack(source, destination) {
         else if (winunpacker.stdout.toString()) return resolve(winunpacker.stdout.toString());
     });
 }
+*/
 
 function extraunpack(cmd, source, destination, tocopy) {
     var args = [ 'e',source,'-o' + destination ];
