@@ -53,7 +53,7 @@
     "cross-spawn": "^6.0.4"
   },
   "optionalDependencies": {
-    "all-unpacker": "^0.0.5",
+    "all-unpacker": "^0.1.0",
     "fs-extra": "^5.0.0",
     "inly": "^1.2.3",
     "macos-release": "^1.1.0",
