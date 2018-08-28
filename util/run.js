@@ -10,12 +10,11 @@ var _7zpath  = require('./path');
  * @promise Run
  * @param {string} command The command to run.
  * @param {Array} switches Options for 7-Zip as an array.
- * @param {string|Buffer|Uint8Array} data File data to pipe to 7zip stdin.
  * @progress {string} stdout message.
  * @reject {Error} The error issued by 7-Zip.
  * @reject {number} Exit code issued by 7-Zip.
  */
-module.exports = function (command, switches, data) {
+module.exports = function (command, switches) {
   return when.promise(function (fulfill, reject, progress) {
     
     // Parse the command variable. If the command is not a string reject the
@@ -52,7 +51,7 @@ module.exports = function (command, switches, data) {
       o = o.replace(/\//, path.sep);
       o = o.replace(/\\/, path.sep);
       o = o.replace(/"/g, '');
-      o = "-o" + path.normalize(o.slice(2));
+      o = path.normalize(o);
       args.push(o);
     }
 
@@ -90,14 +89,6 @@ module.exports = function (command, switches, data) {
     //console.log('>> ', res.cmd, res.args.join(' '), res.options,' <<');
     var run = spawn(res.cmd, res.args, res.options);
     run.stderr.on('data', function (data){
-    
-    if (data) {
-      run.stdin.setEncoding('utf-8');
-      run.stdin.write(data);
-      run.stdin.end();
-    }
-
-    run.stdout.on('data', function (data) {
       var res = reg.exec(data.toString());
       if (res) {
         err = new Error(res[2].substr(0, res[2].length-1));
@@ -117,5 +108,4 @@ module.exports = function (command, switches, data) {
     });
 
   });
-});
-}
+};
