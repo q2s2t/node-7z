@@ -9,24 +9,48 @@ var uncompress = require('all-unpacker');
 //var macuncompress = require('xar');
 var node_wget = require('node-wget');
 
-const macosversion = (process.platform == "darwin") ? require('macos-release').version : '';
+var versionCompare = function(left, right) {
+    if (typeof left + typeof right != 'stringstring')
+        return false;
+    
+    var a = left.split('.');
+    var b = right.split('.');
+    var i = 0;
+    var len = Math.max(a.length, b.length);
+        
+    for (; i < len; i++) {
+        if ((a[i] && !b[i] && parseInt(a[i]) > 0) || (parseInt(a[i]) > parseInt(b[i]))) {
+            return 1;
+        } else if ((b[i] && !a[i] && parseInt(b[i]) > 0) || (parseInt(a[i]) < parseInt(b[i]))) {
+            return -1;
+        }
+    }
+    
+    return 0;
+}
+
 const _7zipData = getDataForPlatform();
 const whattocopy = _7zipData.binaryfiles;
+const cwd = process.cwd();
+
+const appleos = (process.platform == "darwin") ? require('macos-release').version : '';
+const macosversion = (appleos == '') ? appleos : ((versionCompare(appleos, '10.11') == -1) ? appleos : '10.11');
+
+const zipextraname = (process.platform != "darwin") ? _7zipData.extraname : ((macosversion == '') ? _7zipData.extraname[1] : _7zipData.extraname[0]); 
+const extrasource = path.join(cwd, zipextraname); 
 
 const _7zAppfile = '7z1604-extra.7z';
 const _7zApptocopy = [ '7za.dll','7za.exe','7zxa.dll' ];
 const _7zAppurl = 'http://7-zip.org/a/';
 
-const cwd = process.cwd();
 const destination = path.join(cwd, process.platform);
 const source = path.join(cwd, _7zipData.filename);
 
 const binarydestination = path.join(__dirname,'binaries', (macosversion=='') ? process.platform : process.platform  + path.sep +  macosversion );
-const extrasource = path.join(cwd, _7zipData.extraname); 
 const _7zcommand = path.join(binarydestination, process.platform === "win32" ? '7za.exe' : '7za' );
             
 
-node_wget({ url: _7zAppurl + _7zipData.extraname, 
+node_wget({ url: _7zAppurl + zipextraname, 
             dest: extrasource },
             function (err) { if (err) { console.error('Error downloading file: ' + err); return new Error(err); } }
             );
@@ -60,7 +84,8 @@ if ((_7zipData.url != null) && (process.platform != "darwin")) {
         }).catch(function (err) { console.log(err); }); 
     }).catch(function (err) { console.log(err); });       
 } else if (process.platform == "darwin") {
-    var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
+    var sfxmodules = _7zipData.sfxmodules;    
+    var result = extraunpack(_7zcommand, extrasource, binarydestination, ((macosversion=='10.11') ? sfxmodules.shift() : sfxmodules));
     // console.log(result);     
     fs.unlink(extrasource, (err) => { if (err) console.error(err); });
     console.log('Sfx modules copied successfully!');
@@ -85,9 +110,9 @@ function getDataForPlatform() {
         binaryfiles: ['7z','7z.so','7za','7zCon.sfx','7zr','Codecs'],
         sfxmodules: ['7zS2.sfx','7zS2con.sfx','7zSD.sfx'] };
         // Mac version
-        case "darwin": return { url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + macosversion + '/', 
-        filename: 'p7zip-9.20.1-1.pkg',
-        extraname: '7z920_extra.7z',
+        case "darwin": return { /* url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + macosversion + '/', 
+        filename: 'p7zip-9.20.1-1.pkg', */
+        extraname: [ '7z920_extra.7z', 'lzma1604.7z' ],
         extractfolder: '',
         applocation: 'usr/local/lib/p7zip',
         binaryfiles: ['7z','7z.so','7za','7zCon.sfx','7zr','Codecs'],
