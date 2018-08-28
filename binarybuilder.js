@@ -19,14 +19,14 @@ const _7zAppurl = 'http://7-zip.org/a/';
 const platform = 'darwin';
 const cwd = process.cwd();
 const destination = path.join(cwd, platform);
-const downloadandcopy = [ '10.12', '10.11', '10.10', '10.9', '10.8', '10.7', '10.6' ];
+// Will use P7zip 16.02 if installer find Mac OS is 10.11 or higher 
+const downloadandcopy = [ '10.11', '10.10', '10.9', '10.8', '10.7', '10.6' ];
 
-var source = "";
 var retrytime = [];
     
 if (_7zipData.url != null) {
     fs.mkdir(destination, (err) => { if (err) {}});
-    platformUnpacker(source, destination)
+    platformUnpacker(destination)
     .then(function (mode) {
         if (mode='done') {
             var whattodelete = _7zApptocopy.concat([ _7zAppfile]);
@@ -40,15 +40,14 @@ if (_7zipData.url != null) {
  
 function getDataForPlatform(){
     switch (process.platform) {
-        // Mac version
+        // Using Windows to extract Mac version binaries
         case "win32": return { 
-            url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/', 
-            filename: 'p7zip-9.20.1-1.pkg',
-            extraname: '7z920_extra.7z',
+            url: [ 'https://raw.githubusercontent.com/rudix-mac/packages/master/', 'https://raw.githubusercontent.com/rudix-mac/pkg/master/' ],
+            filename: [ 'p7zip-9.20.1-1.pkg', 'p7zip-16.02.pkg' ],
             extractfolder: '',
             applocation: 'usr/local/lib/p7zip',
-            binaryfiles: [ '7z','7z.so','7za','7zCon.sfx','7zr','Codecs' ],
-            sfxmodules: [ '7zS.sfx','7zS2.sfx','7zS2con.sfx','7zSD.sfx' ] 
+            binaryfiles: [ '7z','7z.so','7za','7zCon.sfx','7zr','Codecs' ]//,
+            //sfxmodules: [ '7zS.sfx','7zS2.sfx','7zS2con.sfx','7zSD.sfx' ] 
         };
     }
 }
@@ -66,23 +65,29 @@ function wget(path) {
   });
 }
 
-function platformUnpacker(source, destination){
+function platformUnpacker(destination){
   return new retryPromise(function (resolve, retry, reject) {       
         wget({ url: _7zAppurl + _7zAppfile, dest: path.join(cwd,_7zAppfile) })     
         .then(function () { 
-                console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + _7zipData.filename );
+                console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + _7zipData.filename[0] + ' and ' +_7zipData.filename[1]);
                 unpack(path.join(cwd, _7zAppfile), cwd, _7zApptocopy)
                 .then(function() {  
                     var response = [];
-                    downloadandcopy.forEach(function(macos, index) {  
+                    var geturl = '';
+                    var getfilename = '';
+                    var source = '';
+                    downloadandcopy.forEach(function(macos, index) {
+                        geturl = (macos != '10.11') ? _7zipData.url[0] + macos + '/' : _7zipData.url[1];
+                        getfilename = (macos != '10.11') ? _7zipData.filename[0] : _7zipData.filename[1];
+                        
                         fs.mkdir(path.join(destination,macos), (err) => { if (err) {} });
-                        source = path.join(destination,macos, _7zipData.filename); 
-                        console.log('Downloading ' + _7zipData.url + macos + '/' + _7zipData.filename);                      
-                        node_wget({ url: _7zipData.url + macos + '/' + _7zipData.filename, dest: source}, function (err) { 
+                        source = path.join(destination,macos, getfilename); 
+                        console.log('Downloading ' + geturl + getfilename);                      
+                        node_wget({ url: geturl + getfilename, dest: source}, function (err) { 
                             if (err) { console.error('Error downloading file: ' + err); return reject(err); }                          
                             response.push(index);
                             if(response.length === downloadandcopy.length) {
-                                binaryextractor(source, destination)
+                                binaryextractor(destination)
                                 .then(function(result) {  
                                     if (result=='extractor done') resolve('done');
                                 })
@@ -136,24 +141,28 @@ function macunpack(source, destination, macos){
           return reject(winunpacker.error);
         }  
         if (winunpacker.stdout.toString()) {
-            console.log('Decompressing: p7zip-9.20.1-1'); 
-            unpack(path.join(destination,'p7zip-9.20.1-1'), platform + path.sep + macos, _7zipData.applocation + '/*')
+            var macpayload = (macos != '10.11') ? 'p7zip-9.20.1-1' : 'p7zip-16.02';
+            console.log('Decompressing: ' + macpayload); 
+            unpack(path.join(destination, macpayload), platform + path.sep + macos, _7zipData.applocation + '/*')
             .then(function() { 
                 whattocopy.forEach(function(s) { 
-                    fs.moveSync(path.join(destination, _7zipData.extractfolder, _7zipData.applocation,s), path.join(__dirname,'binaries',platform,macos,s), { overwrite: true }); });
+                    fs.moveSync(path.join(destination, _7zipData.extractfolder, _7zipData.applocation,s), path.join(__dirname,'binaries',platform, macos,s), { overwrite: true }); });
                 resolve();
             }).catch(function (err) { reject(err); });
         } 
     });
 }
 
-function binaryextractor(source, destination) {
+function binaryextractor(destination) {
     var response = [];
+    var zipfilename = '';
+    var source = '';
   return new Promise(function (resolve, reject) { 
         downloadandcopy.forEach(function(macos, index) {  
-            console.log('Decompressing Mac ' + macos + ' OS of ' + _7zipData.filename); 
-            source = path.join(destination,macos, _7zipData.filename); 
-            macunpack(source, path.join(destination,macos), macos)
+            zipfilename = (macos != '10.11') ? _7zipData.filename[0] : _7zipData.filename[1];
+            console.log('Decompressing Mac ' + macos + ' OS of ' + zipfilename); 
+            source = path.join(destination, macos, zipfilename); 
+            macunpack(source, path.join(destination, macos), macos)
             .then(function() {
                 response.push(index);
                 if(response.length === downloadandcopy.length) resolve('extractor done');
