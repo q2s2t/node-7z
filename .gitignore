@@ -30,5 +30,6 @@ dummy.*
 # Online IDE
 .c9
 .codio
-package-lock.json
 *.tgz
+*.7z
+package-lock.json
