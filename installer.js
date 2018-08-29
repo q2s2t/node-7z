@@ -36,7 +36,7 @@ const cwd = process.cwd();
 const appleos = (process.platform == "darwin") ? require('macos-release').version : '';
 const macosversion = (appleos == '') ? appleos : ((versionCompare(appleos, '10.11') == -1) ? appleos : '10.11');
 
-const zipextraname = (process.platform != "darwin") ? _7zipData.extraname : ((macosversion == '') ? _7zipData.extraname[1] : _7zipData.extraname[0]); 
+const zipextraname = (process.platform != "darwin") ? _7zipData.extraname : ((macosversion == '10.11') ? _7zipData.extraname[1] : _7zipData.extraname[0]); 
 const extrasource = path.join(cwd, zipextraname); 
 
 const _7zAppfile = '7z1604-extra.7z';
@@ -66,10 +66,7 @@ if ((_7zipData.url != null) && (process.platform != "darwin")) {
                     path.join(binarydestination,s), 
                     { overwrite: true });
                 });
-            if (process.platform != "win32") { 
-                var _7zchmod = ['7z','7z.so','7za','7zCon.sfx','7zr'];
-                _7zchmod.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 755) }); 
-            }
+            if (process.platform != "win32") makeexecutable();
             console.log('Binaries copied successfully!');      
             /*if (mode=='darwin') {
                 var whattodelete = _7zApptocopy.concat([ _7zAppfile]);
@@ -84,11 +81,17 @@ if ((_7zipData.url != null) && (process.platform != "darwin")) {
         }).catch(function (err) { console.log(err); }); 
     }).catch(function (err) { console.log(err); });       
 } else if (process.platform == "darwin") {
+    makeexecutable();
     var sfxmodules = _7zipData.sfxmodules;    
     var result = extraunpack(_7zcommand, extrasource, binarydestination, ((macosversion=='10.11') ? sfxmodules.shift() : sfxmodules));
-    // console.log(result);     
+    // console.log(result);  
     fs.unlink(extrasource, (err) => { if (err) console.error(err); });
     console.log('Sfx modules copied successfully!');
+}
+ 
+function makeexecutable() {
+    var chmod = whattocopy.splice(-1,1);
+    chmod.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 755) }); 
 }
  
 function getDataForPlatform() {
