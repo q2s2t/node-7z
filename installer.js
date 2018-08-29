@@ -90,7 +90,7 @@ if ((_7zipData.url != null) && (process.platform != "darwin")) {
 }
  
 function makeexecutable() {
-    var chmod = whattocopy.splice(-1,1);
+    var chmod = ['7z','7z.so','7za','7zCon.sfx','7zr'];
     chmod.forEach(function(s) { fs.chmodSync(path.join(binarydestination,s), 755) }); 
 }
  
@@ -116,9 +116,9 @@ function getDataForPlatform() {
         case "darwin": return { /* url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + macosversion + '/', 
         filename: 'p7zip-9.20.1-1.pkg', */
         extraname: [ '7z920_extra.7z', 'lzma1604.7z' ],
-        extractfolder: '',
-        applocation: 'usr/local/lib/p7zip',
-        binaryfiles: ['7z','7z.so','7za','7zCon.sfx','7zr','Codecs'],
+        //extractfolder: '',
+        //applocation: 'usr/local/lib/p7zip',
+        //binaryfiles: ['7z','7z.so','7za','7zCon.sfx','7zr','Codecs'],
         sfxmodules: ['7zS.sfx','7zS2.sfx','7zS2con.sfx','7zSD.sfx'] };
     }
 }
