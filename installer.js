@@ -33,10 +33,12 @@ const _7zipData = getDataForPlatform();
 const whattocopy = _7zipData.binaryfiles;
 const cwd = process.cwd();
 
+var appleos = '';
+
 try {     
-    const appleos = (process.platform == "darwin") ? require('macos-release').version : '';	
+    var appleos = (process.platform == "darwin") ? require('macos-release').version : '';	
 } catch (e) { 
-    const appleos = '99.99';
+    var appleos = '99.99';
 }
 
 const macosversion = (appleos == '') ? appleos : ((versionCompare(appleos, '10.11') == -1) ? appleos : '10.11');
