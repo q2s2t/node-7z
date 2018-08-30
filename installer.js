@@ -33,18 +33,25 @@ const _7zipData = getDataForPlatform();
 const whattocopy = _7zipData.binaryfiles;
 const cwd = process.cwd();
 
-const appleos = (process.platform == "darwin") ? require('macos-release').version : '';
+try {     
+    const appleos = (process.platform == "darwin") ? require('macos-release').version : '';	
+} catch (e) { 
+    const appleos = '99.99';
+}
+
 const macosversion = (appleos == '') ? appleos : ((versionCompare(appleos, '10.11') == -1) ? appleos : '10.11');
 
-const zipextraname = (process.platform != "darwin") ? _7zipData.extraname : ((macosversion == '10.11') ? _7zipData.extraname[1] : _7zipData.extraname[0]); 
+const zipextraname = (process.platform != "darwin") ? _7zipData.extraname : ((macosversion == '10.11') ? _7zipData.extraname[1] : _7zipData.extraname[0]);
 const extrasource = path.join(cwd, zipextraname); 
+
+const zipfilename = (process.platform != "darwin") ? _7zipData.filename : ((macosversion == '10.11') ? _7zipData.filename[1] : _7zipData.filename[0]); 
+const source = path.join(cwd, zipfilename);
 
 const _7zAppfile = '7z1604-extra.7z';
 const _7zApptocopy = [ '7za.dll','7za.exe','7zxa.dll' ];
 const _7zAppurl = 'http://7-zip.org/a/';
 
 const destination = path.join(cwd, process.platform);
-const source = path.join(cwd, _7zipData.filename);
 
 const binarydestination = path.join(__dirname,'binaries', (macosversion=='') ? process.platform : process.platform  + path.sep +  macosversion );
 const _7zcommand = path.join(binarydestination, process.platform === "win32" ? '7za.exe' : '7za' );
@@ -57,7 +64,7 @@ node_wget({ url: _7zAppurl + zipextraname,
 
 if ((_7zipData.url != null) && (process.platform != "darwin")) {
     fs.mkdir(destination, (err) => { if (err) {}});
-    wget({ url: _7zipData.url + _7zipData.filename, dest: source })
+    wget({ url: _7zipData.url + zipfilename, dest: source })
     .then(function () {   
         platformUnpacker(source, destination)
         .then(function (mode){
@@ -113,12 +120,13 @@ function getDataForPlatform() {
         binaryfiles: ['7z','7z.so','7za','7zCon.sfx','7zr','Codecs'],
         sfxmodules: ['7zS2.sfx','7zS2con.sfx','7zSD.sfx'] };
         // Mac version
-        case "darwin": return { /* url: 'https://raw.githubusercontent.com/rudix-mac/packages/master/' + macosversion + '/', 
-        filename: 'p7zip-9.20.1-1.pkg', */
+        case "darwin": return { 
+            url: [ 'https://raw.githubusercontent.com/rudix-mac/packages/master/', 'https://raw.githubusercontent.com/rudix-mac/pkg/master/' ],
+        filename: [ 'p7zip-9.20.1-1.pkg', 'p7zip-16.02.pkg' ],
         extraname: [ '7z920_extra.7z', 'lzma1604.7z' ],
-        //extractfolder: '',
-        //applocation: 'usr/local/lib/p7zip',
-        //binaryfiles: ['7z','7z.so','7za','7zCon.sfx','7zr','Codecs'],
+        extractfolder: '',
+        applocation: 'usr/local/lib/p7zip',
+        binaryfiles: ['7z','7z.so','7za','7zCon.sfx','7zr','Codecs'],
         sfxmodules: ['7zS.sfx','7zS2.sfx','7zS2con.sfx','7zSD.sfx'] };
     }
 }
@@ -141,10 +149,10 @@ function platformUnpacker(source, destination) {
     /*if (process.platform == "darwin") {        
         wget({ url: _7zAppurl + _7zAppfile, dest: path.join(cwd,_7zAppfile) })     
         .then(function () { 
-            console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + _7zipData.filename );
+            console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + zipfilename );
             unpack(path.join(cwd, _7zAppfile), cwd, _7zApptocopy)
             .then(function() {
-                console.log('Decompressing ' + _7zipData.filename);  
+                console.log('Decompressing ' + zipfilename);  
                 macunpack(source, destination)
                 //winunpack(source, destination)
                 .then(function(data) {
@@ -172,7 +180,7 @@ function platformUnpacker(source, destination) {
         })
         .catch(function (err) { return reject(err); }); 
     } else if (process.platform == "linux") {
-        console.log('Decompressing ' + _7zipData.filename);     
+        console.log('Decompressing ' + zipfilename);     
         const extract = decompress(source, destination);
         extract.on('file', (name) => { if ( whattocopy.indexOf(path.basename(name)) > 0) console.log(name); }); 
         extract.on('error', (error) => { return reject(error); });
