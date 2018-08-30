@@ -7,7 +7,7 @@ module.exports = function (options) {
 		var appleos = (process.platform == "darwin") ? require('macos-release').version : ''; 
 	}	
 	catch (e) { 
-		var appleos = 'undefined';
+		var appleos = '99.99';
 	}
 
     var versionCompare = function(left, right) {
@@ -30,7 +30,7 @@ module.exports = function (options) {
         return 0;
     }	
     
-    var macosversion = ((appleos=='') || (appleos=='undefined')) ? appleos : ((versionCompare(appleos, '10.11') == -1) ? appleos : '10.11');
+    var macosversion = (appleos=='') ? appleos : ((versionCompare(appleos, '10.11') == -1) ? appleos : '10.11');
 	var type = typeof options;	
 	if ((options) && (type == "object") && (options.hasOwnProperty('path'))) return options.path;  
 	else {		
