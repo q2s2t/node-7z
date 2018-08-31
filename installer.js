@@ -87,8 +87,7 @@ wget({ url: _7zAppurl + zipextraname, dest: extrasource })
 			}).catch(function (err) { console.log(err); });       
 		} else if (process.platform == "darwin") {
 			makeexecutable();
-			var sfxmodules = _7zipData.sfxmodules;    
-			var result = extraunpack(_7zcommand, extrasource, binarydestination, ((macosversion=='10.11') ? sfxmodules.shift() : sfxmodules));
+			var result = extraunpack(_7zcommand, extrasource, binarydestination, ((macosversion=='10.11') ? ['7zS2.sfx','7zS2con.sfx','7zSD.sfx'] : ['7zS.sfx','7zS2.sfx','7zS2con.sfx','7zSD.sfx']));
 			console.log(result);  
 			fs.unlink(extrasource, (err) => { if (err) console.error(err); });
 			console.log('Sfx modules copied successfully!');
@@ -188,7 +187,7 @@ function unpack(source, destination, tocopy) {
 function extraunpack(cmd, source, destination, tocopy) {
     var args = [ 'e',source,'-o' + destination ];
     var extraargs = args.concat(tocopy).concat( ['-r','-aos'] );
-    console.log('Running: ' + cmd );
+    console.log('Running: ' + cmd + ' ' + extraargs);
     var extraunpacker = spawnsync(cmd, extraargs);     
     if (extraunpacker.error) return extraunpacker.error;
     else if (extraunpacker.stdout.toString()) return extraunpacker.stdout.toString();
