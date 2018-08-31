@@ -33,3 +33,6 @@ dummy.*
 *.tgz
 *.7z
 package-lock.json
+test/.DS_Store
+binaries/.DS_Store
+.DS_Store
