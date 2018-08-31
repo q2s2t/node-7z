@@ -84,7 +84,7 @@ if ((_7zipData.url != null) && (process.platform != "darwin")) {
             fs.unlink(source, (err) => { if (err) console.error(err); });
             fs.remove(destination, (err) => { if (err) console.error(err); });
             var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
-            // console.log(result); 
+            console.log(result); 
             fs.unlink(extrasource, (err) => { if (err) console.error(err); });
             console.log('Sfx modules copied successfully!');
         }).catch(function (err) { console.log(err); }); 
@@ -93,7 +93,7 @@ if ((_7zipData.url != null) && (process.platform != "darwin")) {
     makeexecutable();
     var sfxmodules = _7zipData.sfxmodules;    
     var result = extraunpack(_7zcommand, extrasource, binarydestination, ((macosversion=='10.11') ? sfxmodules.shift() : sfxmodules));
-    // console.log(result);  
+    console.log(result);  
     fs.unlink(extrasource, (err) => { if (err) console.error(err); });
     console.log('Sfx modules copied successfully!');
 }
@@ -148,32 +148,6 @@ function wget(path) {
 
 function platformUnpacker(source, destination) {
   return new Promise(function (resolve, reject) {
-    /*if (process.platform == "darwin") {        
-        wget({ url: _7zAppurl + _7zAppfile, dest: path.join(cwd,_7zAppfile) })     
-        .then(function () { 
-            console.log('Extracting: ' + _7zAppfile + ', to decompress: ' + zipfilename );
-            unpack(path.join(cwd, _7zAppfile), cwd, _7zApptocopy)
-            .then(function() {
-                console.log('Decompressing ' + zipfilename);  
-                macunpack(source, destination)
-                //winunpack(source, destination)
-                .then(function(data) {
-                    //console.log('Decompressing: p7zip-9.20.1-1'); 
-                    //unpack(path.join(destination,'p7zip-9.20.1-1'), process.platform, _7zipData.applocation + path.sep +'*')
-                    console.log('Decompressing: p7zipinstall.pkg/Payload'); 
-                    unpack(path.join(destination,'p7zipinstall.pkg','Payload'), process.platform, _7zipData.applocation + path.sep + '*')
-                    .then( function(result) { 
-                        // console.log(result);
-                        return resolve('darwin'); 
-                    })
-                    .catch(function (err) { return reject(err); });  
-                })     
-                .catch(function (err) { return reject(err); }); 
-            })
-            .catch(function (err) { return reject(err); }); 
-        }) 
-        .catch(function (err) { return reject(err); }); 
-   } else */
    if (process.platform == "win32") {
         unpack(source, process.platform)
         .then(function (result) {
@@ -210,40 +184,6 @@ function unpack(source, destination, tocopy) {
         }); 
     });
 }
-/*
-function macunpack(source,destination){
-    var content = fs.readFileSync(source)
-  return new Promise(function (resolve, reject) {
-    macuncompress.unpack(content, function (err, file, content) {
-        if (err) return reject(err);
-        if (file.type[0] === 'directory'){
-            console.log('mkdir', file.path);
-            fs.mkdirSync(path.join(destination, file.path));
-        } else {
-            console.log('extract', file.path);
-            if (file.path == 'p7zipinstall.pkg/Payload') {
-                fs.writeFileSync(path.join(destination, file.path), content);
-                // need to find way to extract Payload file, xar module creating unknown format
-                // fs.createReadStream(path.join(destination, file.path)).pipe(gunzip()).pipe(cpio.extract(destination));
-                return resolve();                
-            } else {
-                fs.writeFileSync(path.join(destination, file.path), content);
-            }
-        }        
-        });
-    });
-}
-function winunpack(source, destination) {
-     var cmd = '7za.exe';
-     var args = [ 'x',source,'-o' + destination,'-y'];
-     console.log('Running: ' + cmd);
-  return new Promise(function (resolve, reject) {
-    var winunpacker = spawnsync(cmd, args);     
-        if (winunpacker.error) return reject(winunpacker.error);
-        else if (winunpacker.stdout.toString()) return resolve(winunpacker.stdout.toString());
-    });
-}
-*/
 
 function extraunpack(cmd, source, destination, tocopy) {
     var args = [ 'e',source,'-o' + destination ];
@@ -257,7 +197,7 @@ function extraunpack(cmd, source, destination, tocopy) {
 function spawnsync(spcmd, spargs) {
     var dounpack = spawn.sync(spcmd, spargs, { stdio: 'pipe' });     
     if (dounpack.error) {
-        console.error('7za exited with code ' + extraunpacker.error);
+        console.error('Error 7za exited with code ' + dounpack.error);
         console.log('resolve the problem and re-install using:');
         console.log('npm install');
         return dounpack;
