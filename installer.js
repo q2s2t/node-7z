@@ -55,48 +55,48 @@ const _7zAppurl = 'http://7-zip.org/a/';
 
 const destination = path.join(cwd, process.platform);
 
-const binarydestination = path.join(__dirname,'binaries', (macosversion=='') ? process.platform : process.platform  + path.sep +  macosversion );
-const _7zcommand = path.join(binarydestination, process.platform === "win32" ? '7za.exe' : '7za' );
-            
+const binarydestination = path.join(__dirname,'binaries', ((macosversion=='') ? process.platform : process.platform  + path.sep +  macosversion) );
+const _7zcommand = path.join(binarydestination, ((process.platform == "win32") ? '7za.exe' : '7za'));
 
-node_wget({ url: _7zAppurl + zipextraname, 
-            dest: extrasource },
-            function (err) { if (err) { console.error('Error downloading file: ' + err); return new Error(err); } }
-            );
-
-if ((_7zipData.url != null) && (process.platform != "darwin")) {
-    fs.mkdir(destination, (err) => { if (err) {}});
-    wget({ url: _7zipData.url + zipfilename, dest: source })
-    .then(function () {   
-        platformUnpacker(source, destination)
-        .then(function (mode){
-            whattocopy.forEach(function(s) {                
-                fs.moveSync(path.join(destination, _7zipData.extractfolder, _7zipData.applocation,s), 
-                    path.join(binarydestination,s), 
-                    { overwrite: true });
-                });
-            if (process.platform != "win32") makeexecutable();
-            console.log('Binaries copied successfully!');      
-            /*if (mode=='darwin') {
-                var whattodelete = _7zApptocopy.concat([ _7zAppfile]);
-                whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
-            }*/
-            fs.unlink(source, (err) => { if (err) console.error(err); });
-            fs.remove(destination, (err) => { if (err) console.error(err); });
-            var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
-            console.log(result); 
-            fs.unlink(extrasource, (err) => { if (err) console.error(err); });
-            console.log('Sfx modules copied successfully!');
-        }).catch(function (err) { console.log(err); }); 
-    }).catch(function (err) { console.log(err); });       
-} else if (process.platform == "darwin") {
-    makeexecutable();
-    var sfxmodules = _7zipData.sfxmodules;    
-    var result = extraunpack(_7zcommand, extrasource, binarydestination, ((macosversion=='10.11') ? sfxmodules.shift() : sfxmodules));
-    console.log(result);  
-    fs.unlink(extrasource, (err) => { if (err) console.error(err); });
-    console.log('Sfx modules copied successfully!');
-}
+wget({ url: _7zAppurl + zipextraname, dest: extrasource })
+	.then(function () {
+		if ((_7zipData.url != null) && (process.platform != "darwin")) {
+			fs.mkdir(destination, (err) => { if (err) {}});
+			wget({ url: _7zipData.url + zipfilename, dest: source })
+			.then(function () {   
+				platformUnpacker(source, destination)
+				.then(function (mode){
+					whattocopy.forEach(function(s) {                
+						fs.moveSync(path.join(destination, _7zipData.extractfolder, _7zipData.applocation,s), 
+							path.join(binarydestination,s), 
+							{ overwrite: true });
+						});
+					if (process.platform != "win32") makeexecutable();
+					console.log('Binaries copied successfully!');      
+					/*if (mode=='darwin') {
+						var whattodelete = _7zApptocopy.concat([ _7zAppfile]);
+						whattodelete.forEach(function (s) { fs.unlink(path.join(cwd, s), (err) => { if (err) console.error(err); }); });
+					}*/
+					fs.unlink(source, (err) => { if (err) console.error(err); });
+					fs.remove(destination, (err) => { if (err) console.error(err); });
+					var result = extraunpack(_7zcommand, extrasource, binarydestination, _7zipData.sfxmodules);
+					console.log(result); 
+					fs.unlink(extrasource, (err) => { if (err) console.error(err); });
+					console.log('Sfx modules copied successfully!');
+				}).catch(function (err) { console.log(err); }); 
+			}).catch(function (err) { console.log(err); });       
+		} else if (process.platform == "darwin") {
+			makeexecutable();
+			var sfxmodules = _7zipData.sfxmodules;    
+			var result = extraunpack(_7zcommand, extrasource, binarydestination, ((macosversion=='10.11') ? sfxmodules.shift() : sfxmodules));
+			console.log(result);  
+			fs.unlink(extrasource, (err) => { if (err) console.error(err); });
+			console.log('Sfx modules copied successfully!');
+		}
+	})
+	.catch(function (err) { 
+		console.error('Error downloading file: ' + err);
+	});
  
 function makeexecutable() {
     var chmod = ['7z','7z.so','7za','7zCon.sfx','7zr'];
@@ -136,7 +136,7 @@ function getDataForPlatform() {
 function wget(path) {
   console.log('Downloading ' + path.url);
   return new Promise(function (resolve, reject) {
-    require('node-wget')(path, function (err) {
+    node_wget(path, function (err) {
       if (err) {
         console.error('Error downloading file: ' + err);
         return reject(err);
