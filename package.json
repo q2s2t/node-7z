@@ -1,13 +1,12 @@
 {
   "name": "node-7z",
-  "version": "0.4.3",
+  "version": "1.0.0",
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha --dir .tmp/coverage",
     "coveralls": "npm install coveralls && cat .tmp/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "prepack": "node binarybuilder.js",
     "install": "node installer.js"
   },
   "repository": {
@@ -43,7 +42,6 @@
     "*.js",
     "LICENSE",
     "README.md",
-    "binaries",
     "lib",
     "test",
     "util"
@@ -55,7 +53,6 @@
   "optionalDependencies": {
     "all-unpacker": "^0.1.2",
     "fs-extra": "^7.0.0",
-    "inly": "^2.0.2",
     "macos-release": "^2.0.0",
     "node-wget": "^0.4.2",
     "retrying-promise": "^0.0.4",
