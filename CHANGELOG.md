@@ -1,12 +1,16 @@
 Changelog
 =========
 
-### `v0.4.3` to `v0.5.0` 
+### `v1.0.0` **CURRENT** 
+
+ * Feature: Latest 7zip version binaries pulled at install time for all host platforms.
+ 
+### `v0.4.3` to `v0.5.7` 
 
  * Feature: Platform binary included, downloaded at install time, host system no longer needs them pre installed. The binary directory added to 7za command on calls to `run` method.   
  * Feature: Add: `Zip.binary` method that points to option to supply path util, but instead returns object to the included binary path and filename.
    
-### `v0.4.2` **CURRENT**
+### `v0.4.2`
 
  * Fix: `run` returns useful error from stderr (#31)
  * Doc: It's better with the correct verbs (commit 7c0355beea59c42e040d0e776ff945be94705a74)

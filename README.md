@@ -40,7 +40,6 @@ The binaries will be downloaded from:
 > On Linux - https://sourceforge.net/projects/p7zip
 > On Windows - http://www.7-zip.org/download.html
 > On Mac OSX - http://rudix.org/packages/p7zip.html
-  Note: Mac OSX 10.6 to 10.12 are pre included, to reinstall `npm run-script prepack` this must be done on a windows platform.
 
 ```
 npm install --save node-7z-forall
