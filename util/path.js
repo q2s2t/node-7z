@@ -34,7 +34,7 @@ module.exports = function (options) {
 	var type = typeof options;	
 	if ((options) && (type == "object") && (options.hasOwnProperty('path'))) return options.path;  
 	else {		
-		var binarypath = path.join(__dirname, "..","binaries", (macosversion == '') ? process.platform : process.platform + path.sep + macosversion );
+		var binarypath = path.join(__dirname, "..","binaries", process.platform);
 		var binaryfilename = (process.platform == "win32") ? '7za.exe' : '7za'; 
 		return { path: binarypath, 
 			filename: binaryfilename, 
