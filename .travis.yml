@@ -1,5 +1,4 @@
 before_install:
-  - sudo echo "104.16.110.30 www.npmjs.com registry.npmjs.org" >> /etc/hosts
   - sudo apt-get update -qq
 language: node_js
 node_js:
