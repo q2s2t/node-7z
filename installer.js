@@ -3,7 +3,6 @@
 
 const fs = require('fs-extra'); 
 const path = require('path');
-const decompress = require('inly');
 const spawn = require('cross-spawn');
 const uncompress = require('all-unpacker');
 const retryPromise = require('retrying-promise'); 
@@ -180,11 +179,8 @@ function platformUnpacker(source, destination) {
                 else retry();                                     
             });   
         } else if (process.platform == "linux") {
-            console.log('Decompressing ' + zipfilename);     
-            const extract = decompress(source, destination);
-            extract.on('file', (name) => { if ( whattocopy.indexOf(path.basename(name)) > 0) console.log(name); }); 
-            extract.on('error', (error) => { return reject(error); });
-            extract.on('end', () => { 
+            unpack(source, process.platform)
+            .then(function (result) {
                 const system_installer = require('system-installer');
                 const distro = system_installer.packager();
                 const toinstall = ((distro.packager == 'yum') || (distro.packager == 'dnf')) ? 'glibc.i686' : 'libc6-i386' ;
@@ -198,7 +194,12 @@ function platformUnpacker(source, destination) {
                     if ( retrytime.length === downloadandcopy.length ) reject(err);
                     else retry();                                     
                 });   			
-            });
+            })
+            .catch(function (err) { 
+                retrytime.push(err);
+                if ( retrytime.length === downloadandcopy.length ) reject(err);
+                else retry();                                     
+            });   
         }
     
     })
