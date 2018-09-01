@@ -72,7 +72,7 @@ wget({ url: _7zAppurl + zipextraname, dest: extrasource })
 				fs.unlink(source, (err) => { if (err) console.error(err); });
                 fs.remove(destination, (err) => { if (err) console.error(err); });
 				var result = extraunpack(_7zcommand, extrasource, binarydestination, zipsfxmodules);
-				console.log(result); 
+				// console.log(result); 
 				fs.unlink(extrasource, (err) => { if (err) console.error(err); });
 				console.log('Sfx modules copied successfully!');
 			}).catch(function (err) { console.log(err); }); 
@@ -167,8 +167,8 @@ function platformUnpacker(source, destination) {
                 if ( retrytime.length === downloadandcopy.length ) reject(err);
                 else retry();                                     
             }); 
-    } else if (process.platform == "win32") {
-            unpack(source, process.platform)
+		} else if (process.platform == "win32") {
+            unpack(source, destination)
             .then(function (result) {
                 // console.log(result);
                 return resolve('win32'); 
@@ -179,8 +179,9 @@ function platformUnpacker(source, destination) {
                 else retry();                                     
             });   
         } else if (process.platform == "linux") {
-            unpack(source, process.platform)
+            unpack(source, destination)
             .then(function (result) {
+                // console.log(result);
                 const system_installer = require('system-installer');
                 const distro = system_installer.packager();
                 const toinstall = ((distro.packager == 'yum') || (distro.packager == 'dnf')) ? 'glibc.i686' : 'libc6-i386' ;
