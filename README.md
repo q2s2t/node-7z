@@ -246,6 +246,13 @@ archive.list('archive.zip', {
 });
 ```
 
+### Emoji and Unicode
+
+Due to a `7z` limitation emojis and special characters can't be used as values 
+when passed to an `option` object (ex: password). But they can be used in 
+archive, filenames and destinations.
+
+Use `{ scc: 'UTF-8' }` for special characters.
 
 ***
 With :heart: from [quentinrossetti](http://quentinrossetti.me/)
