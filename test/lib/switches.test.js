@@ -1,10 +1,10 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { toChildProcessArgs } from '../../util/switches'
+import { transformSwitchesToArgs } from '../../lib/switches.js'
 
 describe('Utility: `switches`', function () {
   it('Should return deflaut flags with no args', function () {
-    const r = toChildProcessArgs()
+    const r = transformSwitchesToArgs()
     expect(r).not.to.contain('-sdel')
     expect(r).not.to.contain('-spl')
     expect(r).not.to.contain('-sni')
@@ -18,14 +18,14 @@ describe('Utility: `switches`', function () {
   })
 
   it('Should not assume Yes if specified', function () {
-    const r = toChildProcessArgs({
+    const r = transformSwitchesToArgs({
       y: false
     })
     expect(r).not.to.contain('-y')
   })
 
   it('Should set contextual switches if specified', function () {
-    const r = toChildProcessArgs({
+    const r = transformSwitchesToArgs({
       sns: true,
       ssc: true
     })
@@ -34,7 +34,7 @@ describe('Utility: `switches`', function () {
   })
 
   it('Should unset contextual switches specified', function () {
-    const r = toChildProcessArgs({
+    const r = transformSwitchesToArgs({
       sns: false,
       ssc: false
     })
@@ -43,7 +43,7 @@ describe('Utility: `switches`', function () {
   })
 
   it('should return non default booleans when specified', function () {
-    const r = toChildProcessArgs({
+    const r = transformSwitchesToArgs({
       so: true,
       spl: true,
       ssw: true,
@@ -56,10 +56,10 @@ describe('Utility: `switches`', function () {
   })
 
   it('should return complex values when needed', function () {
-    const r = toChildProcessArgs({
+    const r = transformSwitchesToArgs({
       ssc: true,
       ssw: true,
-      m: 'x0'
+      m: ['x0']
     })
     expect(r).to.contain('-ssc')
     expect(r).to.contain('-ssw')
@@ -68,11 +68,10 @@ describe('Utility: `switches`', function () {
   })
 
   it('should return complex values with spaces and quotes', function () {
-    const r = toChildProcessArgs({
+    const r = transformSwitchesToArgs({
       ssc: true,
       ssw: true,
-      m0: '=BCJ',
-      m1: '=LZMA:d=21',
+      m: ['0=BCJ', '1=LZMA:d=21'],
       p: 'My Super Pasw,àù£*"'
     })
     expect(r).to.contain('-ssc')
@@ -81,22 +80,5 @@ describe('Utility: `switches`', function () {
     expect(r).to.contain('-m1=LZMA:d=21')
     expect(r).to.contain('-pMy Super Pasw,àù£*"')
     expect(r).to.contain('-y')
-  })
-
-  it('should works with the `raw` switch', function () {
-    const r = toChildProcessArgs({
-      raw: ['-i!*.jpg', '-i!*.png', '-r0']
-    })
-    expect(r).to.contain('-i!*.jpg')
-    expect(r).to.contain('-i!*.png')
-    expect(r).to.contain('-r0')
-  })
-
-  it('should add wildcards', function () {
-    const r = toChildProcessArgs({
-      wildcards: ['*.jpg', '*.png']
-    })
-    expect(r).to.contain('*.jpg')
-    expect(r).to.contain('*.png')
   })
 })
