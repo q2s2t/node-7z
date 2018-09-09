@@ -5,11 +5,11 @@ Code quality:
 Package:
     ☐ Update all dependencies
     ☐ Rewite scripts
-    ☐ Helper script to optionnaly fetch 7zip bins?
+    ✘ Helper script to optionnaly fetch 7zip bins? @cancelled(18-09-09 19:02)
 Switches:
     ☐ Add auto-`--` switch when file name starts with `-`
     ☐ Auto-`-an` (Disable parsing of archive_name) switch
-    ☐ Implement -bd	Disable progress indicator
+    ☐ Implement -bd	Disable progress indicator and set as default
     ☐ Implement -bt	Show execution time statistics
     ☐ Implement -slt Show technical information
     ✔ wildcards and raw outside of `toChildProcessArgs()` @done(18-09-04 21:49)
@@ -23,13 +23,16 @@ Maintenance:
     ☐ Keep a Promise and callback style interface on top (do not recommand using it)
     ☐ Check all issues from GitHub and test it
 Features:
-    ☐ Streams? Buffer or Object mode?
+    ✔ Streams? Buffer or Object mode? @done(18-09-09 18:58)
     ✔ 7z path option @done(18-09-02 19:34)
     ☐ Exit codes
     ☐ TypeScript support
     ☐ Babel/ES5 etc support
+    ☐ Close/end SevenZipStream
 Documentation:
     ☐ Usage for wildcard/raw/path input ($ instead of _ preffix)
     ☐ Usage for repeating switches
     ☐ Usage for -r (Recurse subdirectories) switch
     ☐ Struct types and API definition
+    ☐ stream.info usgage
+    ☐ on('error') err.stderr usage
