@@ -20,11 +20,16 @@ Switches:
 Maintenance:
     ☐ Upgrade codebase to ES6
     ✔ Spaces in achive name, file name or in switches @done(18-08-23 12:36)
+    ☐ Keep a Promise and callback style interface on top (do not recommand using it)
+    ☐ Check all issues from GitHub and test it
 Features:
     ☐ Streams? Buffer or Object mode?
     ✔ 7z path option @done(18-09-02 19:34)
     ☐ Exit codes
+    ☐ TypeScript support
+    ☐ Babel/ES5 etc support
 Documentation:
     ☐ Usage for wildcard/raw/path input ($ instead of _ preffix)
     ☐ Usage for repeating switches
     ☐ Usage for -r (Recurse subdirectories) switch
+    ☐ Struct types and API definition
