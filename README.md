@@ -254,6 +254,16 @@ archive, filenames and destinations.
 
 Use `{ scc: 'UTF-8' }` for special characters.
 
+### Log level
+
+The default log level (`-bb` switch) is set to:
+> 3 :show information about additional operations (Analyze, Replicate) for "Add"
+> / "Update" operations.
+It's a base feature of `node-7z` and is required for the `SevenZipStream#data` 
+event to work as expected. A diffrent value can be used but the output values
+from the stream will be impacted. In particular a log level of `0` will cause 
+the stream not to emit data correctly.
+
 ***
 With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 
