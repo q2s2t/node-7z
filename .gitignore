@@ -19,9 +19,11 @@ coverage
 node_modules
 package-lock.json
 
+# Dummy files for local testing
 dummy.*
+test/_mock/DirHex
 
-# Editors, IDE stuff inbetween
+# Editors, IDE & stuff inbetween
 .c9
 .codio
 .vscode

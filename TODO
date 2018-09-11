@@ -6,6 +6,7 @@ Package:
     ☐ Update all dependencies
     ☐ Rewite scripts
     ✘ Helper script to optionnaly fetch 7zip bins? @cancelled(18-09-09 19:02)
+    ☐ 7zip-bin as peer dependecy?
 Switches:
     ☐ Add auto-`--` switch when file name starts with `-`
     ☐ Auto-`-an` (Disable parsing of archive_name) switch
