@@ -2,7 +2,7 @@
 import { expect } from 'chai'
 import { transformPathToString, transformRawToArgs, transformWildCardsToArgs } from '../../lib/special.js'
 
-describe('Utility: `special`', function () {
+describe('Utility: special.js', function () {
   it('should works with the `$raw` special switch', function () {
     const r = transformRawToArgs({
       $raw: ['-i!*.jpg', '-i!*.png', '-r0']
@@ -32,5 +32,17 @@ describe('Utility: `special`', function () {
     /* eslint-disable no-unused-expressions */
     expect(r).to.be.an('array').that.is.empty
     /* eslint-enable no-unused-expressions */
+  })
+
+  it('should use custom $path when specified', function () {
+    const r = transformPathToString({
+      $path: './node_modules/.bin/7z'
+    })
+    expect(r).to.equals('./node_modules/.bin/7z')
+  })
+
+  it('should fallback to deflaut if $path not specified', function () {
+    const r = transformPathToString({})
+    expect(r).to.equals('7za')
   })
 })
