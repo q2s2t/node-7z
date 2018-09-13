@@ -30,6 +30,7 @@ Features:
     ☐ TypeScript support
     ☐ Babel/ES5 etc support
     ☐ Close/end SevenZipStream
+    ☐ Full-named switches for cleaner API
 Documentation:
     ☐ Usage for wildcard/raw/path input ($ instead of _ preffix)
     ☐ Usage for repeating switches

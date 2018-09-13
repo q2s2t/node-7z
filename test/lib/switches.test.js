@@ -15,6 +15,7 @@ describe('Utility: `switches`', function () {
     expect(r).not.to.contain('-ssw')
     expect(r).not.to.contain('-stl')
     expect(r).to.contain('-y')
+    expect(r).to.contain('-bb3')
   })
 
   it('Should not assume Yes if specified', function () {
