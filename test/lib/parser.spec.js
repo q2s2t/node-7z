@@ -8,7 +8,7 @@ describe('Specification: parser.js', function () {
     expect(r).to.be.null
   })
 
-  it('progress should return progress', function () {
+  it('progress should return progress info as int', function () {
     const digit1File = matchProgress('  1% 3')
     expect(digit1File.percent).to.equal(1)
     expect(digit1File.fileCount).to.equal(3)
