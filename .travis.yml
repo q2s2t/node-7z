@@ -1,7 +1,1 @@
-before_install:
-  - sudo apt-get update -qq
 language: node_js
-node_js:
-  - '6'
-script: 'npm run coverage'
-after_script: 'npm run coveralls'
