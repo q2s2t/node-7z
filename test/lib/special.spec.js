@@ -2,7 +2,7 @@
 import { expect } from 'chai'
 import { transformPathToString, transformRawToArgs, transformWildCardsToArgs } from '../../lib/special.js'
 
-describe('Utility: special.js', function () {
+describe('Specification: special.js', function () {
   it('should works with the `$raw` special switch', function () {
     const r = transformRawToArgs({
       $raw: ['-i!*.jpg', '-i!*.png', '-r0']
