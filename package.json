@@ -4,8 +4,9 @@
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -r esm",
-    "coverage": "./node_modules/.bin/nyc --reporter=html ./node_modules/.bin/mocha -r esm"
+    "test": "npx mocha -r esm",
+    "coverage": "npx nyc --reporter=html --reporter=lcov npx mocha -r esm",
+    "coveralls": "npx nyc report --reporter=text-lcov | npx coveralls"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chalk": "^2.4.1",
+    "coveralls": "^3.0.2",
     "mocha": "^5.0.0",
     "nyc": "^12.0.2",
     "standard": "^11.0.1"
