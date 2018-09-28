@@ -61,4 +61,21 @@ describe('Specification: parser.js', function () {
     expect(space[0]['Prop 1']).to.equal('Data 1')
     expect(space[1]['Prop 2']).to.equal('Data 2')
   })
+
+  it('matchPropsEquals() should return null on non match', function () {
+    const r = matchPropsEquals('+ test/file/null')
+    expect(r).to.be.null
+  })
+
+  it('matchPropsEquals() should return props and values', function () {
+    const basic = matchPropsEquals('Prop = Data')
+    expect(basic).to.be.an('array')
+    expect(basic).to.have.lengthOf(1)
+    expect(basic[0]['Prop']).to.equal('Data')
+
+    const space = matchPropsEquals('Prop of archive = 322 MB')
+    expect(space).to.be.an('array')
+    expect(space).to.have.lengthOf(1)
+    expect(space[0]['Prop of archive']).to.equal('322 MB')
+  })
 })
