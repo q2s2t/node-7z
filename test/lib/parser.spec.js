@@ -78,4 +78,57 @@ describe('Specification: parser.js', function () {
     expect(space).to.have.lengthOf(1)
     expect(space[0]['Prop of archive']).to.equal('322 MB')
   })
+
+  it('matchSymbolFile() should return null on non match', function () {
+    const r = matchSymbolFile('random/test/file/null')
+    expect(r).to.be.null
+  })
+
+  it('matchSymbolFile() should return file on add', function () {
+    const r = matchSymbolFile('+ test/file')
+    expect(r).to.be.an('array')
+    expect(r).to.have.lengthOf(1)
+    expect(r[0]['symbol']).to.equal('+')
+    expect(r[0]['file']).to.equal('test/file')
+  })
+
+  it('matchSymbolFile() should return file on update', function () {
+    const r = matchSymbolFile('U test/file')
+    expect(r).to.be.an('array')
+    expect(r).to.have.lengthOf(1)
+    expect(r[0]['symbol']).to.equal('U')
+    expect(r[0]['file']).to.equal('test/file')
+  })
+
+  it('matchSymbolFile() should return file on test', function () {
+    const r = matchSymbolFile('T test/file')
+    expect(r).to.be.an('array')
+    expect(r).to.have.lengthOf(1)
+    expect(r[0]['symbol']).to.equal('T')
+    expect(r[0]['file']).to.equal('test/file')
+  })
+
+  it('matchSymbolFile() should return file on Windows drive', function () {
+    const r = matchSymbolFile('+ C:\\test\\file')
+    expect(r).to.be.an('array')
+    expect(r).to.have.lengthOf(1)
+    expect(r[0]['symbol']).to.equal('+')
+    expect(r[0]['file']).to.equal('C:\\test\\file')
+  })
+
+  it('matchSymbolFile() should return file on Windows remote', function () {
+    const r = matchSymbolFile('+ \\test\\file')
+    expect(r).to.be.an('array')
+    expect(r).to.have.lengthOf(1)
+    expect(r[0]['symbol']).to.equal('+')
+    expect(r[0]['file']).to.equal('\\test\\file')
+  })
+
+  it('matchSymbolFile() should return file with emoji☕️', function () {
+    const r = matchSymbolFile('T test/f☕️le')
+    expect(r).to.be.an('array')
+    expect(r).to.have.lengthOf(1)
+    expect(r[0]['symbol']).to.equal('T')
+    expect(r[0]['file']).to.equal('test/f☕️le')
+  })
 })

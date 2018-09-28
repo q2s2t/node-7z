@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx mocha -r esm",
     "coverage": "npx nyc --reporter=html --reporter=lcov npx mocha -r esm",
-    "coveralls": "npx nyc report --reporter=text-lcov | npx coveralls"
+    "coveralls": "cat ./coverage/lcov.info | npx coveralls"
   },
   "repository": {
     "type": "git",
