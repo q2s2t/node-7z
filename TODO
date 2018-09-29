@@ -1,7 +1,9 @@
 Code quality:
     ☐ Implement `standard`
     ☐ Code coverage 100 %
-    ☐ Tests file naming and test naming conventions
+    ✔ Tests file naming and test naming conventions @done(18-09-29 09:28)
+    ☐ Windows testing on AppVeyor
+    ☐ https://conventionalcommits.org
 Package:
     ☐ Update all dependencies
     ☐ Rewite scripts
@@ -10,7 +12,7 @@ Package:
 Switches:
     ☐ Add auto-`--` switch when file name starts with `-`
     ☐ Auto-`-an` (Disable parsing of archive_name) switch
-    ☐ Implement -bd	Disable progress indicator and set as default
+    ☐ Implement -bd	Disable progress indicator
     ☐ Implement -bt	Show execution time statistics
     ☐ Implement -slt Show technical information
     ✔ wildcards and raw outside of `toChildProcessArgs()` @done(18-09-04 21:49)
