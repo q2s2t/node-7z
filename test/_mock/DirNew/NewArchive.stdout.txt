@@ -1,0 +1,39 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=utf8,Utf16=on,HugeFiles=on,64 bits,4 CPUs x64)
+
+Scanning the drive:
+  0M Scan           3 folders, 27 files, 216 bytes (1 KiB)
+
+Creating archive: DirNew/NewArchive.7z
+
+Items to compress: 30
+
+  0%    + DirHex/42550418a4ef9
+  0%    + DirHex/874696290fcfd
+  0% 1      + DirHex/87f8b56a7bd3d
+  0% 2      + DirHex/a3353e941a92a
+  0% 3      + DirHex/b53a56944a45f
+  0% 4      + DirHex/e825776890f2b
+  0% 5      + DirHex/ed0c254020bfa
+  0% 6      + DirHex/f930abffa355e
+  0% 7      + DirHex/sub1/42550418a4ef9
+  0% 8      + DirHex/sub1/874696290fcfd
+  0% 9      + DirHex/sub1/87f8b56a7bd3d
+  0% 10       + DirHex/sub1/a3353e941a92a
+  0% 11       + DirHex/sub1/b53a56944a45f
+  0% 12       + DirHex/sub1/e825776890f2b
+  0% 13       + DirHex/sub1/ed0c254020bfa
+  0% 14       + DirHex/sub1/f930abffa355e
+  0% 15       + DirHex/sub2/42550418a4ef9
+  0% 16       + DirHex/sub2/874696290fcfd
+  0% 17       + DirHex/sub2/87f8b56a7bd3d
+  0% 18       + DirHex/sub2/a3353e941a92a
+  0% 19       + DirHex/sub2/b53a56944a45f
+  0% 20       + DirHex/sub2/e825776890f2b
+  0% 21       + DirHex/sub2/ed0c254020bfa
+  0% 22       + DirHex/sub2/f930abffa355e
+  0% 23       
+Files read from disk: 24
+Archive size: 427 bytes (1 KiB)
+Everything is Ok

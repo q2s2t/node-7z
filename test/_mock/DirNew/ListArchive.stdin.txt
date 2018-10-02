@@ -1,0 +1,1 @@
+7z l -y -bb3 -bsp1 DirNew/NewArchive.7z > DirNew/ListArchive.stdout.txt

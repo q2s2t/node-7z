@@ -1,0 +1,1 @@
+7z l -y -bb3 -bsp1 DirNew/NewImages.7z > DirNew/ListImages.stdout.txt

@@ -1,0 +1,1 @@
+7z a -r -y -bb3 -bsp1 DirNew/NewArchive.7z DirHex/ > DirNew/NewArchive.stdout.txt

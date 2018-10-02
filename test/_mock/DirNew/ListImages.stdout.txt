@@ -1,0 +1,35 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=utf8,Utf16=on,HugeFiles=on,64 bits,4 CPUs x64)
+
+Scanning the drive for archives:
+  0M Scan         1 file, 18293343 bytes (18 MiB)
+
+Listing archive: DirNew/NewImages.7z
+
+--
+Path = DirNew/NewImages.7z
+Type = 7z
+Physical Size = 18293343
+Headers Size = 625
+Method = LZMA2:24
+Solid = +
+Blocks = 1
+
+   Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+2018-10-02 21:45:49 D....            0            0  DirImages
+2018-10-02 21:45:49 ....A           37     18292718  DirImages/LICENSE
+2018-10-02 21:40:40 ....A       709213               DirImages/abstract-architecture-black-and-white-262367.jpg
+2018-10-02 21:45:03 ....A      2070910               DirImages/action-blur-city-590701.jpg
+2018-10-02 21:42:10 ....A      3864817               DirImages/aerial-alpine-ceresole-reale-1562.jpg
+2018-10-02 21:39:31 ....A      2004486               DirImages/architectural-design-architecture-blueprint-239886.jpg
+2018-10-02 21:44:20 ....A       894213               DirImages/architecture-art-colorful-161154.jpg
+2018-10-02 21:41:41 ....A      2176224               DirImages/architecture-building-glass-163707.jpg
+2018-10-02 21:41:13 ....A      3695047               DirImages/architecture-buildings-city-373965.jpg
+2018-10-02 21:44:52 ....A       531715               DirImages/asia-bicycle-bikes-315191.jpg
+2018-10-02 21:42:45 ....A      1512167               DirImages/clouds-daylight-environment-462146.jpg
+2018-10-02 21:41:58 ....A       193690               DirImages/clouds-fog-forest-9754.jpg
+2018-10-02 21:43:13 ....A       940815               DirImages/craft-monochrome-old-162631.jpg
+------------------- ----- ------------ ------------  ------------------------
+2018-10-02 21:45:49           18593334     18292718  12 files, 1 folders

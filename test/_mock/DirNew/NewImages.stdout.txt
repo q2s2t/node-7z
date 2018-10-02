@@ -1,0 +1,27 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=utf8,Utf16=on,HugeFiles=on,64 bits,4 CPUs x64)
+
+Scanning the drive:
+  0M Scan           1 folder, 12 files, 18593334 bytes (18 MiB)
+
+Creating archive: DirNew/NewImages.7z
+
+Items to compress: 13
+
+  0%    + DirImages/LICENSE
+  0%    + DirImages/abstract-architecture-black-and-white-262367.jpg
+  0% 1      + DirImages/action-blur-city-590701.jpg
+  0% 2        8% 2      + DirImages/aerial-alpine-ceresole-reale-1562.jpg
+  9% 3       17% 3       24% 3       29% 3      + DirImages/architectural-design-architecture-blueprint-239886.jpg
+ 29% 4       36% 4       40% 4      + DirImages/architecture-art-colorful-161154.jpg
+ 40% 5      + DirImages/architecture-building-glass-163707.jpg
+ 45% 6       50% 6       54% 6      + DirImages/architecture-buildings-city-373965.jpg
+ 57% 7       64% 7       70% 7       76% 7      + DirImages/asia-bicycle-bikes-315191.jpg
+ 77% 8      + DirImages/clouds-daylight-environment-462146.jpg
+ 80% 9       86% 9      + DirImages/clouds-fog-forest-9754.jpg
+ 88% 10       + DirImages/craft-monochrome-old-162631.jpg
+ 89% 11        95% 12       
+Files read from disk: 12
+Archive size: 18293343 bytes (18 MiB)
+Everything is Ok

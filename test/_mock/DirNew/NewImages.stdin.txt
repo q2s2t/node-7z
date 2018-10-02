@@ -1,0 +1,1 @@
+7z a -r -y -bb3 -bsp1 DirNew/NewImages.7z DirImages/ > DirNew/NewImages.stdout.txt
