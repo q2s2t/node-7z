@@ -4,7 +4,7 @@
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npx mocha -r esm 'test/**/*.spec.js'",
+    "test": "npx mocha -r esm 'test/**/*.spec.js' --timeout=0",
     "coverage": "npx nyc --reporter=html --reporter=lcov npm test",
     "coveralls": "cat ./coverage/lcov.info | npx coveralls"
   },
@@ -56,6 +56,7 @@
     "coveralls": "^3.0.2",
     "mocha": "^5.0.0",
     "nyc": "^12.0.2",
+    "rimraf": "^2.6.2",
     "standard": "^11.0.1"
   }
 }
