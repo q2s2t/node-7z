@@ -21,7 +21,6 @@ package-lock.json
 
 # Dummy files for local testing
 dummy.*
-test/_mock/DirHex
 
 # Editors, IDE & stuff inbetween
 .c9
