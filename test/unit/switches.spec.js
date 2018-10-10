@@ -2,7 +2,7 @@
 import { expect } from 'chai'
 import { transformSwitchesToArgs } from '../../lib/switches.js'
 
-describe('Specification: `switches.js`', function () {
+describe('Specification: switches.js', function () {
   it('Should return deflaut flags with no args', function () {
     const r = transformSwitchesToArgs()
     expect(r).not.to.contain('-sdel')
