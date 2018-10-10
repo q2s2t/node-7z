@@ -33,6 +33,8 @@ Features:
     ☐ Babel/ES5 etc support
     ☐ Close/end SevenZipStream
     ☐ Full-named switches for cleaner API
+    ☐ Stream methods returns stream
+    ☐ Esier to use progress
 Documentation:
     ☐ Usage for wildcard/raw/path input ($ instead of _ preffix)
     ☐ Usage for repeating switches
@@ -41,3 +43,4 @@ Documentation:
     ☐ stream.info usgage
     ☐ on('error') err.stderr usage
     ✔ -bb switch @done(18-09-11 22:54)
+    ☐ $defer
