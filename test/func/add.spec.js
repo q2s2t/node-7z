@@ -2,47 +2,13 @@
 import { expect } from 'chai'
 import { existsSync, statSync } from 'fs'
 import { sync as rimraf } from 'rimraf'
+import kill from 'tree-kill'
 import { add } from '../../lib/commands.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: add()', function () {
-  // it('should emit progress values', function (done) {
-  //   const mockChildProcess = new EventEmitter()
-  //   mockChildProcess.stdout = createReadStream('./test/_mock/DirNew/NewArchive.stdout.txt')
-  //   mockChildProcess.stderr = new EventEmitter()
-  //   const seven = add(`${mockDir}/DirNew/NewArchive.7z`, `${mockDir}/DirHex`, {
-  //     $defer: true,
-  //     $childProcess: mockChildProcess
-  //   })
-  //   seven.on('progress', function (progress) {
-  //     expect(progress.percent).to.be.an('number')
-  //     expect(progress.fileCount).to.be.an('number')
-  //   }).on('end', function () {
-  //     done()
-  //   })
-  // })
-
-  // it('should get info from headers and footers', function (done) {
-  //   const mockChildProcess = new EventEmitter()
-  //   mockChildProcess.stdout = createReadStream('./test/_mock/DirNew/NewArchive.stdout.txt')
-  //   mockChildProcess.stderr = new EventEmitter()
-  //   const seven = add(`${mockDir}/DirNew/NewArchive.7z`, `${mockDir}/DirHex`, {
-  //     $defer: true,
-  //     $childProcess: mockChildProcess
-  //   })
-  //   seven.on('end', function () {
-  //     // headers
-  //     expect(seven.info['Open archive']).to.equal('DirNew/NewArchive.7z')
-  //     expect(seven.info['Items to compress']).to.equal('31')
-  //     // footers
-  //     expect(seven.info['Files read from disk']).to.equal('25')
-  //     expect(seven.info['Archive size']).to.equal('656 bytes (1 KiB)')
-  //     done()
-  //   })
-  // })
-
   // it('should emit files on processing', function (done) {
   //   const mockChildProcess = new EventEmitter()
   //   mockChildProcess.stdout = createReadStream('./test/_mock/DirNew/NewArchive.stdout.txt')
@@ -81,18 +47,36 @@ describe('Functional: add()', function () {
     seven.on('progress', function (progress) {
       expect(progress.percent).to.be.an('number')
       expect(progress.fileCount).to.be.an('number')
-    }).on('end', done())
+      try { kill(seven._childProcess.pid) } catch (e) {}
+    }).on('end', () => done())
   })
 
   it('should create an archive of correct size', function (done) {
     const archive = `${tmpDir}/size.7z`
-    const source = `${mockDir}/DirHex`
+    const source = `${mockDir}/DirHex/`
     const seven = add(archive, source)
     seven.on('end', function () {
       const size = statSync(archive).size
       expect(size).to.equal(427)
       expect(existsSync(archive)).to.be.true
       done()
+      try { kill(seven._childProcess.pid) } catch (e) {}
+    })
+  })
+
+  it('should get info from headers and footers', function (done) {
+    const archive = `${tmpDir}/headers-and-footers.7z`
+    const source = `${mockDir}/DirHex/`
+    const seven = add(archive, source)
+    seven.on('end', function () {
+      // headers
+      expect(seven.info['Creating archive']).to.equal(archive)
+      expect(seven.info['Items to compress']).to.equal('30')
+      // footers
+      expect(seven.info['Files read from disk']).to.equal('24')
+      expect(seven.info['Archive size']).to.equal('427 bytes (1 KiB)')
+      done()
+      try { kill(seven._childProcess.pid) } catch (e) {}
     })
   })
 })
