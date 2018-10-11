@@ -4,6 +4,7 @@ Code quality:
     ✔ Tests file naming and test naming conventions @done(18-09-29 09:28)
     ☐ Windows testing on AppVeyor
     ☐ https://conventionalcommits.org
+    ☐ Use c8 for coverage
 Package:
     ☐ Update all dependencies
     ☐ Rewite scripts
