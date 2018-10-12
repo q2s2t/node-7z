@@ -36,7 +36,7 @@ describe('Functional: add()', function () {
   })
 
   after(function (done) {
-    // rimraf(`${tmpDir}/*`)
+    rimraf(`${tmpDir}/*`)
     done()
   })
 
