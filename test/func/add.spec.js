@@ -31,13 +31,27 @@ describe('Functional: add()', function () {
 
   before(function (done) {
     rimraf('*/**/.DS_Store')
-    rimraf(`${tmpDir}/*`)
+    // rimraf(`${tmpDir}/*`)
     done()
   })
 
   after(function (done) {
-    rimraf(`${tmpDir}/*`)
+    // rimraf(`${tmpDir}/*`)
     done()
+  })
+
+  it('should return an error on 7z error', function (done) {
+    const archive = `${tmpDir}/addnot.7z`
+    const source = `${mockDir}/dev/null`
+    const seven = add(archive, source)
+    seven.on('error', function (err) {
+      expect(err).to.be.an.instanceof(Error)
+      expect(err.level).to.equal('WARNING')
+      expect(err.message).to.equal('No such file or directory')
+      expect(err.path).to.equal(source)
+      done()
+      try { kill(seven._childProcess.pid) } catch (e) {}
+    })
   })
 
   it('should emit progress values', function (done) {

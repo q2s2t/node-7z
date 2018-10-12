@@ -21,6 +21,7 @@ package-lock.json
 
 # Dummy files for local testing
 dummy.*
+_tmp/
 
 # Editors, IDE & stuff inbetween
 .c9
