@@ -35,7 +35,7 @@ describe('Functional: add()', function () {
     done()
   })
 
-  afterEach(function (done) {
+  after(function (done) {
     rimraf(`${tmpDir}/*`)
     done()
   })
