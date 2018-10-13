@@ -8,18 +8,13 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install -y p7zip-full
 
-  # Code Climate setup
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-
 language: "node_js"
 
 node_js: 
   - "node"
 
 script:
-  - npm run coverage-travis
+  - npm run test
 
 after_script: 
 
