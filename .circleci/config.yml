@@ -6,14 +6,8 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/node:7.10
+      - image: circleci/node:latest
       
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
     working_directory: ~/repo
 
     steps:
@@ -31,7 +25,7 @@ jobs:
           command: sudo apt-get update && sudo apt-get install -y p7zip-full
       - run:
           name: Install Package Dependencies
-          command: yarn install
+          command: npm install
 
       - save_cache:
           paths:
@@ -39,4 +33,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: yarn test
+      - run: npm test
