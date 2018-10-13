@@ -19,7 +19,7 @@ node_js:
   - "node"
 
 script:
-  - npm run coverage
+  - npm run coverage-travis
 
 after_script: 
 
@@ -28,3 +28,5 @@ after_script:
   
   # Send coverage to Code Climate
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+  - rm -rf ./coverage

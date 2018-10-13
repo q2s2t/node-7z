@@ -1,4 +1,4 @@
-/* global describe, it, before, beforeEach, after, afterEach */
+/* global describe, it, before, after */
 import { expect } from 'chai'
 import { existsSync, statSync } from 'fs'
 import { sync as rimraf } from 'rimraf'
@@ -11,6 +11,7 @@ const tmpDir = './test/_tmp'
 describe('Functional: add()', function () {
   before(function (done) {
     rimraf('*/**/.DS_Store')
+    rimraf(`${tmpDir}/*`)
     done()
   })
 
