@@ -37,7 +37,7 @@ Features:
     ☐ Stream methods returns stream
     ☐ Esier to use progress
 Documentation:
-    ☐ Usage for wildcard/raw/path input ($ instead of _ preffix)
+    ☐ Usage for wildcard/raw/bin input ($ instead of _ preffix)
     ☐ Usage for repeating switches
     ☐ Usage for -r (Recurse subdirectories) switch
     ☐ Struct types and API definition
