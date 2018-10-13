@@ -45,3 +45,4 @@ Documentation:
     ☐ on('error') err.stderr usage
     ✔ -bb switch @done(18-09-11 22:54)
     ☐ $defer
+    ☐ add(archive, [source1, source2]) usage

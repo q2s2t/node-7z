@@ -31,7 +31,6 @@ describe('Functional: add()', function () {
 
   before(function (done) {
     rimraf('*/**/.DS_Store')
-    // rimraf(`${tmpDir}/*`)
     done()
   })
 
@@ -91,6 +90,33 @@ describe('Functional: add()', function () {
       expect(seven.info['Archive size']).to.equal('427 bytes (1 KiB)')
       done()
       try { kill(seven._childProcess.pid) } catch (e) {}
+    })
+  })
+
+  it('should emit files on progress', function (done) {
+    const archive = `${tmpDir}/files.7z`
+    const source = `${mockDir}/DirHex/`
+    const seven = add(archive, source, { bs: ['p1'] })
+    seven.on('data', function (data) {
+      expect(data.symbol).to.equal('+')
+      expect(data.file).to.be.a('string')
+      try { kill(seven._childProcess.pid) } catch (e) {}
+    }).on('end', () => done())
+  })
+
+  it.only('should accept multiple sources as a array', function (done) {
+    const archive = `${tmpDir}/txt-and-md-only.7z`
+    const source = [
+      `${mockDir}/DirExt/*.txt`,
+      `${mockDir}/DirExt/*.md`
+    ]
+    const seven = add(archive, source, {
+      r: true
+    })
+    seven.on('end', function () {
+      expect(seven.info['Items to compress']).to.equal('6')
+      expect(seven.info['Files read from disk']).to.equal('6')
+      done()
     })
   })
 })
