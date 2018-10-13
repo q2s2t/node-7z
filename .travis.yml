@@ -29,4 +29,5 @@ after_script:
   # Send coverage to Code Climate
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
+  - cat ./coverage/lcov.info
   - rm -rf ./coverage
