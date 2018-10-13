@@ -9,16 +9,16 @@ const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: add()', function () {
-  before(function (done) {
-    rimraf('*/**/.DS_Store')
-    rimraf(`${tmpDir}/*`)
-    done()
-  })
+  // before(function (done) {
+  //   // rimraf('*/**/.DS_Store')
+  //   // rimraf(`${tmpDir}/*`)
+  //   done()
+  // })
 
-  after(function (done) {
-    rimraf(`${tmpDir}/*`)
-    done()
-  })
+  // after(function (done) {
+  //   // rimraf(`${tmpDir}/*`)
+  //   done()
+  // })
 
   // it('should return an error on 7z error', function (done) {
   //   const archive = `${tmpDir}/addnot.7z`
