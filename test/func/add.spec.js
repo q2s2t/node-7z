@@ -9,26 +9,6 @@ const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: add()', function () {
-  // it('should emit files on processing', function (done) {
-  //   const mockChildProcess = new EventEmitter()
-  //   mockChildProcess.stdout = createReadStream('./test/_mock/DirNew/NewArchive.stdout.txt')
-  //   mockChildProcess.stderr = new EventEmitter()
-  //   const seven = add(`${mockDir}/DirNew/NewArchive.7z`, `${mockDir}/DirHex`, {
-  //     $defer: true,
-  //     $childProcess: mockChildProcess
-  //   })
-  //   let fileCount = 0
-  //   seven.on('data', function (file) {
-  //     expect(file.symbol).to.equal('+')
-  //     expect(file.file).to.be.an('string')
-  //     fileCount++
-  //   }).on('end', function () {
-  //     // DirHex/ contains 3 folder with each 8 files, + persky .DS_Store
-  //     expect(fileCount).to.equal(8 * 3 + 1)
-  //     done()
-  //   })
-  // })
-
   before(function (done) {
     rimraf('*/**/.DS_Store')
     done()
@@ -50,6 +30,24 @@ describe('Functional: add()', function () {
       expect(err.path).to.equal(source)
       done()
       try { kill(seven._childProcess.pid) } catch (e) {}
+    })
+  })
+
+  it('should return an error on spawn error', function (done) {
+    const archive = ``
+    const source = ``
+    const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
+    const seven = add(archive, source, {
+      $bin: bin
+      // or this test will fail
+    })
+    seven.on('error', function (err) {
+      expect(err).to.be.an.instanceof(Error)
+      expect(err.errno).to.equal('ENOENT')
+      expect(err.code).to.equal('ENOENT')
+      expect(err.syscall).to.equal(`spawn ${bin}`)
+      expect(err.path).to.equal(bin)
+      done()
     })
   })
 
