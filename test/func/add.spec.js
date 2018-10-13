@@ -9,48 +9,39 @@ const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: add()', function () {
-  // before(function (done) {
-  //   // rimraf('*/**/.DS_Store')
-  //   // rimraf(`${tmpDir}/*`)
-  //   done()
-  // })
+  it('should return an error on 7z error', function (done) {
+    const archive = `${tmpDir}/addnot.7z`
+    const source = `${mockDir}/dev/null`
+    const seven = add(archive, source)
+    seven.on('error', function (err) {
+      expect(err).to.be.an.instanceof(Error)
+      expect(err.level).to.equal('WARNING')
+      expect(err.message).to.equal('No such file or directory')
+      expect(err.path).to.equal(source)
+      done()
+      try { kill(seven._childProcess.pid) } catch (e) {}
+    })
+    seven.on('error', (err) => console.log(err))
+  })
 
-  // after(function (done) {
-  //   // rimraf(`${tmpDir}/*`)
-  //   done()
-  // })
-
-  // it('should return an error on 7z error', function (done) {
-  //   const archive = `${tmpDir}/addnot.7z`
-  //   const source = `${mockDir}/dev/null`
-  //   const seven = add(archive, source)
-  //   seven.on('error', function (err) {
-  //     expect(err).to.be.an.instanceof(Error)
-  //     expect(err.level).to.equal('WARNING')
-  //     expect(err.message).to.equal('No such file or directory')
-  //     expect(err.path).to.equal(source)
-  //     done()
-  //     try { kill(seven._childProcess.pid) } catch (e) {}
-  //   })
-  // })
-
-  // it('should return an error on spawn error', function (done) {
-  //   const archive = ``
-  //   const source = ``
-  //   const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
-  //   const seven = add(archive, source, {
-  //     $bin: bin
-  //     // or this test will fail
-  //   })
-  //   seven.on('error', function (err) {
-  //     expect(err).to.be.an.instanceof(Error)
-  //     expect(err.errno).to.equal('ENOENT')
-  //     expect(err.code).to.equal('ENOENT')
-  //     expect(err.syscall).to.equal(`spawn ${bin}`)
-  //     expect(err.path).to.equal(bin)
-  //     done()
-  //   })
-  // })
+  it('should return an error on spawn error', function (done) {
+    const archive = ``
+    const source = ``
+    const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
+    const seven = add(archive, source, {
+      $bin: bin
+      // or this test will fail
+    })
+    seven.on('error', function (err) {
+      expect(err).to.be.an.instanceof(Error)
+      expect(err.errno).to.equal('ENOENT')
+      expect(err.code).to.equal('ENOENT')
+      expect(err.syscall).to.equal(`spawn ${bin}`)
+      expect(err.path).to.equal(bin)
+      done()
+    })
+    seven.on('error', (err) => console.log(err))
+  })
 
   it('should emit progress values', function (done) {
     const archive = `${tmpDir}/progress.7z`
@@ -61,6 +52,7 @@ describe('Functional: add()', function () {
       expect(progress.fileCount).to.be.an('number')
       try { kill(seven._childProcess.pid) } catch (e) {}
     }).on('end', () => done())
+    seven.on('error', (err) => console.log(err))
   })
 
   it('should create an archive of correct size', function (done) {
@@ -74,6 +66,7 @@ describe('Functional: add()', function () {
       done()
       try { kill(seven._childProcess.pid) } catch (e) {}
     })
+    seven.on('error', (err) => console.log(err))
   })
 
   it('should get info from headers and footers', function (done) {
@@ -90,6 +83,7 @@ describe('Functional: add()', function () {
       done()
       try { kill(seven._childProcess.pid) } catch (e) {}
     })
+    seven.on('error', (err) => console.log(err))
   })
 
   it('should emit files on progress', function (done) {
@@ -101,6 +95,7 @@ describe('Functional: add()', function () {
       expect(data.file).to.be.a('string')
       try { kill(seven._childProcess.pid) } catch (e) {}
     }).on('end', () => done())
+    seven.on('error', (err) => console.log(err))
   })
 
   it('should accept multiple sources as a array', function (done) {
@@ -117,6 +112,7 @@ describe('Functional: add()', function () {
       expect(seven.info['Files read from disk']).to.equal('6')
       done()
     })
+    seven.on('error', (err) => console.log(err))
   })
 
   it('should add files to an exsiting archive', function (done) {
@@ -140,6 +136,7 @@ describe('Functional: add()', function () {
       expect(seven.info['Archive size']).to.equal('511 bytes (1 KiB)')
       done()
     })
+    seven.on('error', (err) => console.log(err))
   })
 
   it('should update files of an exsiting archive', function (done) {
@@ -161,5 +158,6 @@ describe('Functional: add()', function () {
       expect(seven.info['Archive size']).to.equal('2690 bytes (3 KiB)')
       done()
     })
+    seven.on('error', (err) => console.log(err))
   })
 })
