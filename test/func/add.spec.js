@@ -104,7 +104,7 @@ describe('Functional: add()', function () {
     }).on('end', () => done())
   })
 
-  it.only('should accept multiple sources as a array', function (done) {
+  it('should accept multiple sources as a array', function (done) {
     const archive = `${tmpDir}/txt-and-md-only.7z`
     const source = [
       `${mockDir}/DirExt/*.txt`,
@@ -116,6 +116,50 @@ describe('Functional: add()', function () {
     seven.on('end', function () {
       expect(seven.info['Items to compress']).to.equal('6')
       expect(seven.info['Files read from disk']).to.equal('6')
+      done()
+    })
+  })
+
+  it('should add files to an exsiting archive', function (done) {
+    // This test relies on a predecessor test
+    const archive = `${tmpDir}/files.7z`
+    const source = [
+      `${mockDir}/DirExt/*.txt`,
+      `${mockDir}/DirExt/*.md`
+    ]
+    const seven = add(archive, source, {
+      r: true
+    })
+    seven.on('data', function (data) {
+      expect(data.symbol).to.equal('+')
+      expect(data.file).to.be.a('string')
+    }).on('end', function () {
+      expect(seven.info['Open archive']).to.equal(archive)
+      expect(seven.info['Updating archive']).to.equal(archive)
+      expect(seven.info['Items to compress']).to.equal('6')
+      expect(seven.info['Files read from disk']).to.equal('6')
+      expect(seven.info['Archive size']).to.equal('511 bytes (1 KiB)')
+      done()
+    })
+  })
+
+  it('should update files of an exsiting archive', function (done) {
+    // This test relies on a predecessor test
+    const archive = `${tmpDir}/files.7z`
+    const source = [
+      `${mockDir}/DirExtUpdate/*.txt`,
+      `${mockDir}/DirExtUpdate/*.md`
+    ]
+    const seven = add(archive, source)
+    seven.on('data', function (data) {
+      expect(data.symbol).to.equal('U')
+      expect(data.file).to.be.a('string')
+    }).on('end', function () {
+      expect(seven.info['Open archive']).to.equal(archive)
+      expect(seven.info['Updating archive']).to.equal(archive)
+      expect(seven.info['Items to compress']).to.equal('2')
+      expect(seven.info['Files read from disk']).to.equal('2')
+      expect(seven.info['Archive size']).to.equal('2690 bytes (3 KiB)')
       done()
     })
   })
