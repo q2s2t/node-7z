@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.12-stretch
-      
+
     working_directory: ~/node-7z
 
     steps:
@@ -23,14 +23,27 @@ jobs:
       - run: 
           name: Install System Dependencies
           command: sudo apt-get update && sudo apt-get install -y p7zip-full
+
       - run:
           name: Install Package Dependencies
           command: npm install
+
+      - run:
+          name: Install Code Climate, notify of a pending test report
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
-      - run: npm run test
+
+      - run: 
+          name: Run tests and coverage
+          command: npm run coverage
+
+      - run:
+          name: Send coverage to Code Climate
+          command: ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
