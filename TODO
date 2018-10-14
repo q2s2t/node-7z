@@ -6,7 +6,8 @@ Code quality:
     ☐ https://conventionalcommits.org
     ☐ Use c8 for coverage
     ☐ Move to CircleCI because TravisCI is not using p7zip-full v16.x
-    ☐ CircleCi local test with docker (add circleci to system dev deps) 
+    ☐ CircleCi local test with docker (add circleci to system dev deps)
+    ☐ git hooks: standardjs, circleci config validate
 Package:
     ☐ Update all dependencies
     ☐ Rewite scripts

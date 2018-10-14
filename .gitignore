@@ -10,7 +10,7 @@ pids
 
 # Coverage data
 lib-cov
-coverage/*
+coverage
 .nyc_output
 
 # Dependency directory
