@@ -6,9 +6,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:10.12-stretch
       
-    working_directory: ~/repo
+    working_directory: ~/node-7z
 
     steps:
       - checkout
