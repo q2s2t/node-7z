@@ -1,7 +1,6 @@
-/* global describe, it, before, after */
+/* global describe, it */
 import { expect } from 'chai'
 import { existsSync, statSync } from 'fs'
-import { sync as rimraf } from 'rimraf'
 import kill from 'tree-kill'
 import { add } from '../../lib/commands.js'
 
@@ -50,7 +49,7 @@ describe('Functional: add()', function () {
       expect(progress.percent).to.be.an('number')
       expect(progress.fileCount).to.be.an('number')
     }).on('end', function () {
-      expect(once).to.be.true
+      expect(once).to.be.equal(true)
       done()
     })
   })
@@ -62,7 +61,7 @@ describe('Functional: add()', function () {
     seven.on('end', function () {
       const size = statSync(archive).size
       expect(size).to.greaterThan(400)
-      expect(existsSync(archive)).to.be.true
+      expect(existsSync(archive)).to.equal(true)
       done()
     })
   })

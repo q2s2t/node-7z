@@ -14,9 +14,7 @@ describe('Specification: special.js', function () {
 
   it('should not err with `$raw` special switch', function () {
     const r = transformSpecialArrayToArgs({}, '$raw')
-    /* eslint-disable no-unused-expressions */
-    expect(r).to.be.an('array').that.is.empty
-    /* eslint-enable no-unused-expressions */
+    expect(r).to.be.an('array').that.have.lengthOf(0)
   })
 
   it('should works with the `$wildcards` special switch', function () {
@@ -29,9 +27,7 @@ describe('Specification: special.js', function () {
 
   it('should not err with the `$wildcards` special switch', function () {
     const r = transformSpecialArrayToArgs({}, '$wildcards')
-    /* eslint-disable no-unused-expressions */
-    expect(r).to.be.an('array').that.is.empty
-    /* eslint-enable no-unused-expressions */
+    expect(r).to.be.an('array').that.have.lengthOf(0)
   })
 
   it('should use custom $bin when specified', function () {

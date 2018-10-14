@@ -5,12 +5,12 @@ import { matchProgress, matchProps } from '../../lib/parser.js'
 describe('Specification: parser.js', function () {
   it('matchProgress() should return undefined on non match', function () {
     const r = matchProgress('Colon info: type colon info')
-    expect(r).to.be.undefined
+    expect(r).to.equal(undefined)
   })
 
   it('matchProgress() should return undefined on pseudo-empty line', function () {
     const r = matchProgress('    ')
-    expect(r).to.be.undefined
+    expect(r).to.be.equal(undefined)
   })
 
   it('matchProgress() should return progress info as int', function () {
@@ -98,7 +98,7 @@ describe('Specification: parser.js', function () {
 
   it('matchProps() should return null on non match', function () {
     const r = matchProps('+ test/file/null')
-    expect(r).to.be.null
+    expect(r).to.equal(null)
   })
 
   it('matchProps() should return props and values', function () {
@@ -129,7 +129,7 @@ describe('Specification: parser.js', function () {
 
   it('matchProps() should return null on non match', function () {
     const r = matchProps('+ test/file/null')
-    expect(r).to.be.null
+    expect(r).to.be.equal(null)
   })
 
   it('matchProps() should return props and values', function () {
