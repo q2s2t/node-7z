@@ -5,6 +5,8 @@ Code quality:
     ☐ Windows testing on AppVeyor
     ☐ https://conventionalcommits.org
     ☐ Use c8 for coverage
+    ☐ Move to CircleCI because TravisCI is not using p7zip-full v16.x
+    ☐ CircleCi local test with docker (add circleci to system dev deps) 
 Package:
     ☐ Update all dependencies
     ☐ Rewite scripts
