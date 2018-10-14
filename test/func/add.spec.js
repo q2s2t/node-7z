@@ -42,13 +42,17 @@ describe('Functional: add()', function () {
 
   it('should emit progress values', function (done) {
     const archive = `${tmpDir}/progress.7z`
-    const source = `${mockDir}/DirImages/`
+    const source = `${mockDir}/DirHex/`
     const seven = add(archive, source, { bs: ['p1'] })
+    let once = false
     seven.on('progress', function (progress) {
+      once = true
       expect(progress.percent).to.be.an('number')
       expect(progress.fileCount).to.be.an('number')
-      try { kill(seven._childProcess.pid) } catch (e) {}
-    }).on('end', () => done())
+    }).on('end', function () {
+      expect(once).to.be.true
+      done()
+    })
   })
 
   it('should create an archive of correct size', function (done) {
