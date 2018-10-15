@@ -1,0 +1,32 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=utf8,Utf16=on,HugeFiles=on,64 bits,4 CPUs x64)
+
+Open archive: DirNew/ExtArchiveCopy.7z
+--
+Path = DirNew/ExtArchiveCopy.7z
+Type = 7z
+Physical Size = 290
+Headers Size = 266
+Method = LZMA2:12
+Solid = +
+Blocks = 1
+
+Updating archive: DirNew/ExtArchiveCopy.7z
+
+Items to compress: 0
+
+  0%    R #0
+  0%    . DirExt/root.md
+  0%    R DirExt/root.not
+  0%    . DirExt/root.txt
+  0%    . DirExt/sub1/sub1.md
+  0%    R DirExt/sub1/sub1.not
+  0%    . DirExt/sub1/sub1.txt
+  0%    . DirExt/sub2/sub2.md
+  0%    R DirExt/sub2/sub2.not
+  0%    . DirExt/sub2/sub2.txt
+  0%    
+Files read from disk: 0
+Archive size: 233 bytes (1 KiB)
+Everything is Ok

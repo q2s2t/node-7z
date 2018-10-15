@@ -1,0 +1,1 @@
+7z a -bb3 -bsp1 DirNew/BaseExt.7z ./DirExt/root.* > DirNew/BaseExt.stdout.txt

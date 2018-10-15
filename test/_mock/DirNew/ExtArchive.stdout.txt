@@ -1,0 +1,24 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=utf8,Utf16=on,HugeFiles=on,64 bits,4 CPUs x64)
+
+Scanning the drive:
+  0M Scan           3 folders, 9 files, 81 bytes (1 KiB)
+
+Creating archive: DirNew/ExtArchive.7z
+
+Items to compress: 12
+
+  0%    + DirExt/root.md
+  0%    + DirExt/root.not
+  0% 1      + DirExt/root.txt
+  0% 2      + DirExt/sub1/sub1.md
+  0% 3      + DirExt/sub1/sub1.not
+  0% 4      + DirExt/sub1/sub1.txt
+  0% 5      + DirExt/sub2/sub2.md
+  0% 6      + DirExt/sub2/sub2.not
+  0% 7      + DirExt/sub2/sub2.txt
+  0% 8      
+Files read from disk: 9
+Archive size: 290 bytes (1 KiB)
+Everything is Ok

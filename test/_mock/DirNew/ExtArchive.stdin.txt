@@ -1,0 +1,1 @@
+7z a -r -y -bb3 -bsp1 DirNew/ExtArchive.7z DirExt/ > DirNew/ExtArchive.stdout.txt

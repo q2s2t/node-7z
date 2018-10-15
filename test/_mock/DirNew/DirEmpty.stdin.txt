@@ -1,0 +1,1 @@
+7z d -r -y -bb3 -bsp1 DirNew/DirEmpty.7z DirEmpty/ > DirNew/DirEmpty.stdout.txt

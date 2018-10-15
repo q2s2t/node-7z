@@ -1,0 +1,1 @@
+7z d -r -y -bb3 -bsp1 DirNew/ExtArchiveCopy.7z *.md *.txt > DirNew/DelExt.stdout.txt

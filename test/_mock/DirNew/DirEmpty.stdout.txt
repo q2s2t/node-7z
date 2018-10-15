@@ -1,0 +1,12 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=utf8,Utf16=on,HugeFiles=on,64 bits,4 CPUs x64)
+
+Creating archive: DirNew/DirEmpty.7z
+
+Items to compress: 0
+
+  0%    
+Files read from disk: 0
+Archive size: 32 bytes (1 KiB)
+Everything is Ok
