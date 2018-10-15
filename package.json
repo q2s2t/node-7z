@@ -4,7 +4,7 @@
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npx mocha -r esm --reporter=spec 'test/**/*.spec.js' --timeout=0 && rm -rf test/_tmp/*.*",
+    "test": "npx mocha -r esm --reporter=spec 'test/**/*.spec.js' --timeout=0 ; rm -rf test/_tmp/*.*",
     "test-docker": "circleci local execute --job build",
     "coverage": "npx nyc --reporter=lcov npm test",
     "coveralls": "cat ./coverage/lcov.info | npx coveralls"
@@ -56,6 +56,7 @@
     "chalk": "^2.4.1",
     "coveralls": "^3.0.2",
     "mocha": "^5.2.0",
+    "mock-fs": "^4.7.0",
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
     "standard": "^11.0.1",

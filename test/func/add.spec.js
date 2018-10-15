@@ -1,7 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { existsSync, statSync } from 'fs'
-import kill from 'tree-kill'
+import { copyFileSync, existsSync, statSync } from 'fs'
 import { add } from '../../lib/commands.js'
 
 const mockDir = './test/_mock'
@@ -24,7 +23,7 @@ describe('Functional: add()', function () {
   it('should return an error on spawn error', function (done) {
     const archive = ``
     const source = ``
-    const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
+    const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
     const seven = add(archive, source, {
       $bin: bin
       // or this test will fail
@@ -82,14 +81,18 @@ describe('Functional: add()', function () {
   })
 
   it('should emit files on progress', function (done) {
-    const archive = `${tmpDir}/files.7z`
+    const archive = `${tmpDir}/files-add.7z`
     const source = `${mockDir}/DirHex/`
     const seven = add(archive, source, { bs: ['p1'] })
+    let once = false
     seven.on('data', function (data) {
+      once = true
       expect(data.symbol).to.equal('+')
       expect(data.file).to.be.a('string')
-      try { kill(seven._childProcess.pid) } catch (e) {}
-    }).on('end', () => done())
+    }).on('end', function () {
+      expect(once).to.be.equal(true)
+      done()
+    })
   })
 
   it('should accept multiple sources as a array', function (done) {
@@ -109,12 +112,13 @@ describe('Functional: add()', function () {
   })
 
   it('should add files to an exsiting archive', function (done) {
-    // This test relies on a predecessor test
-    const archive = `${tmpDir}/files.7z`
+    const archiveBase = `${mockDir}/DirNew/DirEmpty.7z`
+    const archive = `${tmpDir}/files-add-existing.7z`
     const source = [
       `${mockDir}/DirExt/*.txt`,
       `${mockDir}/DirExt/*.md`
     ]
+    copyFileSync(archiveBase, archive)
     const seven = add(archive, source, {
       r: true
     })
@@ -132,21 +136,19 @@ describe('Functional: add()', function () {
   })
 
   it('should update files of an exsiting archive', function (done) {
-    // This test relies on a predecessor test
-    const archive = `${tmpDir}/files.7z`
-    const source = [
-      `${mockDir}/DirExtUpdate/*.txt`,
-      `${mockDir}/DirExtUpdate/*.md`
-    ]
-    const seven = add(archive, source)
+    const archiveBase = `${mockDir}/DirNew/BaseExt.7z`
+    const archive = `${tmpDir}/files-add-update-existing.7z`
+    const source = `./${mockDir}/DirExtUpdate/*`
+    const seven = add(archive, source, { bs: ['p1'] })
+    copyFileSync(archiveBase, archive)
     seven.on('data', function (data) {
       expect(data.symbol).to.equal('U')
       expect(data.file).to.be.a('string')
     }).on('end', function () {
       expect(seven.info['Open archive']).to.equal(archive)
       expect(seven.info['Updating archive']).to.equal(archive)
-      expect(seven.info['Items to compress']).to.equal('2')
-      expect(seven.info['Files read from disk']).to.equal('2')
+      expect(seven.info['Items to compress']).to.equal('3')
+      expect(seven.info['Files read from disk']).to.equal('3')
       expect(seven.info['Archive size']).to.be.a('string')
       done()
     })

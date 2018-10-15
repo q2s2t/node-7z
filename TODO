@@ -39,6 +39,7 @@ Features:
     ☐ Full-named switches for cleaner API
     ☐ Stream methods returns stream
     ☐ Esier to use progress
+    ☐ Status (TU+R. and others?) as plain text 
 Documentation:
     ☐ Usage for wildcard/raw/bin input ($ instead of _ preffix)
     ☐ Usage for repeating switches
@@ -49,3 +50,5 @@ Documentation:
     ✔ -bb switch @done(18-09-11 22:54)
     ☐ $defer
     ☐ add(archive, [source1, source2]) usage
+    ☐ No benchmark command: It will output based on the system that it is on, "system-static"
+    ☐ Hack to use delete() command (delete is a JS reserved word)
