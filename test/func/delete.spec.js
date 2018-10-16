@@ -8,7 +8,7 @@ const tmpDir = './test/_tmp'
 
 describe('Functional: delete()', function () {
   it('should return an error on 7z error', function (done) {
-    const archive = '/i/hope/this/is/not/where/yout/7zip/bin/is'
+    const archive = '/i/hope/this/is/not/where/your/archive/is'
     const source = `${mockDir}/dev/null`
     const seven = del(archive, source)
     seven.on('error', function (err) {
