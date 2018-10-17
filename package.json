@@ -7,6 +7,7 @@
     "test": "npx mocha -r esm --reporter=spec 'test/**/*.spec.js' --timeout=0 ; rm -rf test/_tmp/*.*",
     "test-docker": "circleci local execute --job build",
     "coverage": "npx nyc --reporter=lcov npm test",
+    "coverage-html": "npx nyc --reporter=html npm test",
     "coveralls": "cat ./coverage/lcov.info | npx coveralls"
   },
   "repository": {
