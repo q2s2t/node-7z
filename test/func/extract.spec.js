@@ -102,67 +102,37 @@ describe('Functional: extract()', function () {
     })
   })
 
-  // it('should reduce archive size by deleting content') function (done) {
-  //   const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-  //   const archive = `${tmpDir}/del-md.7z`
-  //   const target = `DirExt/*.md`
-  //   copyFileSync(archiveBase, archive)
-  //   const sizeBase = statSync(archiveBase).size
-  //   const seven = del(archive, target, { r: true })
-  //   seven.on('end', function () {
-  //     const size = statSync(archive).size
-  //     expect(size).to.lessThan(sizeBase)
-  //     expect(seven.info['Updating archive']).to.equal(archive)
-  //     done()
-  //   })
-  // })
+  it('should emit progress values', function (done) {
+    const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
+    const archive = `${tmpDir}/extract-flat-progress.7z`
+    const output = `${tmpDir}/extract-flat-progress`
+    copyFileSync(archiveBase, archive)
+    let once = false
+    const seven = extract(archive, output, false, { r: true, bs: ['p1'] })
+    seven.on('progress', function (progress) {
+      once = true
+      expect(progress.percent).to.be.an('number')
+      expect(progress.fileCount).to.be.an('number')
+    }).on('end', function () {
+      expect(once).to.be.equal(true)
+      done()
+    })
+  })
 
-  // it('should accept multiple sources as a array', function (done) {
-  //   const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-  //   const archive = `${tmpDir}/del-multiple.7z`
-  //   const target = [`DirExt/*.md`, `DirExt/*.txt`]
-  //   copyFileSync(archiveBase, archive)
-  //   const sizeBase = statSync(archiveBase).size
-  //   const seven = del(archive, target, { r: true })
-  //   seven.on('end', function () {
-  //     const size = statSync(archive).size
-  //     expect(size).to.lessThan(sizeBase)
-  //     expect(seven.info['Updating archive']).to.equal(archive)
-  //     done()
-  //   })
-  // })
-
-  // it('should emit progress values', function (done) {
-  //   const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-  //   const archive = `${tmpDir}/progress-del.7z`
-  //   const target = `DirExt/*.md`
-  //   copyFileSync(archiveBase, archive)
-  //   const seven = del(archive, target, { bs: ['p1'] })
-  //   let once = false
-  //   seven.on('progress', function (progress) {
-  //     once = true
-  //     expect(progress.percent).to.be.an('number')
-  //     expect(progress.fileCount).to.be.an('number')
-  //   }).on('end', function () {
-  //     expect(once).to.be.equal(true)
-  //     done()
-  //   })
-  // })
-
-  // it('should emit files on progress', function (done) {
-  //   const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-  //   const archive = `${tmpDir}/progress-file-del.7z`
-  //   const target = `DirExt/*.md`
-  //   copyFileSync(archiveBase, archive)
-  //   const seven = del(archive, target, { bs: ['p1'], r: true })
-  //   let once = false
-  //   seven.on('data', function (progress) {
-  //     once = true
-  //     expect(progress.symbol).to.be.an('string')
-  //     expect(progress.file).to.be.an('string')
-  //   }).on('end', function () {
-  //     expect(once).to.be.equal(true)
-  //     done()
-  //   })
-  // })
+  it('should emit files on progress', function (done) {
+    const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
+    const archive = `${tmpDir}/extract-flat-data.7z`
+    const output = `${tmpDir}/extract-flat-data`
+    copyFileSync(archiveBase, archive)
+    let once = false
+    const seven = extract(archive, output, false, { r: true })
+    seven.on('data', function (data) {
+      once = true
+      expect(data.symbol).to.be.equal('-')
+      expect(data.file).to.be.an('string')
+    }).on('end', function () {
+      expect(once).to.be.equal(true)
+      done()
+    })
+  })
 })

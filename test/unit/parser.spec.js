@@ -71,6 +71,13 @@ describe('Specification: parser.js', function () {
     expect(r['file']).to.equal('test/file')
   })
 
+  it('matchProgress() should return file on extracted', function () {
+    const r = matchProgress('- test/file')
+    expect(r).to.be.an('object')
+    expect(r['symbol']).to.equal('-')
+    expect(r['file']).to.equal('test/file')
+  })
+
   it('matchProgress() should return file on Windows drive', function () {
     const r = matchProgress('+ C:\\test\\file')
     expect(r).to.be.an('object')
