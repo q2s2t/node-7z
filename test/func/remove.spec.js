@@ -1,12 +1,12 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync, statSync } from 'fs'
-import { del } from '../../lib/commands.js'
+import { remove as del } from '../../lib/commands.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
-describe('Functional: delete()', function () {
+describe('Functional: remove()', function () {
   it('should return an error on 7z error', function (done) {
     const archive = '/i/hope/this/is/not/where/your/archive/is'
     const source = `${mockDir}/dev/null`
