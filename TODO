@@ -5,12 +5,12 @@ Code quality:
     ☐ Windows testing on AppVeyor
     ☐ https://conventionalcommits.org
     ☐ Use c8 for coverage
-    ☐ Move to CircleCI because TravisCI is not using p7zip-full v16.x
-    ☐ CircleCi local test with docker (add circleci to system dev deps)
+    ✔ Move to CircleCI because TravisCI is not using p7zip-full v16.x @done(18-10-17 20:35)
+    ✔ CircleCi local test with docker (add circleci to system dev deps) @done(18-10-17 20:36)
     ☐ git hooks: standardjs, circleci config validate
 Package:
-    ☐ Update all dependencies
-    ☐ Rewite scripts
+    ✔ Update all dependencies @done(18-10-17 20:36)
+    ✔ Rewite scripts @done(18-10-17 20:36)
     ✘ Helper script to optionnaly fetch 7zip bins? @cancelled(18-09-09 19:02)
     ☐ 7zip-bin as peer dependecy?
 Switches:
@@ -37,7 +37,7 @@ Features:
     ☐ Babel/ES5 etc support
     ☐ Close/end SevenZipStream
     ☐ Full-named switches for cleaner API
-    ☐ Stream methods returns stream
+    ✔ Stream methods returns stream @done(18-10-17 20:35)
     ☐ Esier to use progress
     ☐ Status (TU+R. and others?) as plain text 
 Documentation:
@@ -52,3 +52,4 @@ Documentation:
     ☐ add(archive, [source1, source2]) usage
     ☐ No benchmark command: It will output based on the system that it is on, "system-static"
     ☐ Hack to use delete() command (delete is a JS reserved word)
+    ☐ use `cherryPick` as argument name for clarity

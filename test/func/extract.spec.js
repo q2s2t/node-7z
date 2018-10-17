@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { copyFileSync, statSync } from 'fs'
+import { copyFileSync, readdirSync } from 'fs'
 import { extract } from '../../lib/commands.js'
 
 const mockDir = './test/_mock'
@@ -32,7 +32,77 @@ describe('Functional: extract()', function () {
     })
   })
 
-  // it('should reduce archive size by deleting content', function (done) {
+  it('should overwrite -o switch with output argument', function () {
+    const seven = extract('archive.7z', 'this/path/is/better', undefined, {
+      o: 'than/this/path',
+      $defer: true
+    })
+    expect(seven._args).to.contain('-othis/path/is/better')
+    expect(seven._args).not.to.contain('-othan/this/path')
+  })
+
+  it('should set default 7zip ouptut when non or falsy', function () {
+    const sevenUndefined = extract('archive.7z', 'output', undefined, { $defer: true })
+    const sevenFalse = extract('archive.7z', 'output', null, { $defer: true })
+    const sevenNull = extract('archive.7z', 'output', false, { $defer: true })
+    const sevenEmptyString = extract('archive.7z', 'output', '', { $defer: true })
+    expect(sevenUndefined._args).not.to.contain('-o')
+    expect(sevenFalse._args).not.to.contain('-o')
+    expect(sevenNull._args).not.to.contain('-o')
+    expect(sevenEmptyString._args).not.to.contain('-o')
+  })
+
+  it('should set default 7zip target when non or falsy', function () {
+    const sevenUndefined = extract('archive.7z', undefined, undefined, { $defer: true })
+    const sevenFalse = extract('archive.7z', null, undefined, { $defer: true })
+    const sevenNull = extract('archive.7z', false, undefined, { $defer: true })
+    const sevenEmptyString = extract('archive.7z', '', undefined, { $defer: true })
+    sevenUndefined._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
+    sevenFalse._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
+    sevenNull._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
+    sevenEmptyString._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
+  })
+
+  it('should single accept target as string', function () {
+    const seven = extract('archive.7z', undefined, 'target1', { $defer: true })
+    expect(seven._args).to.contain('target1')
+  })
+
+  it('should multiple accept target as array', function () {
+    const seven = extract('archive.7z', undefined, ['target1', 'target2'], { $defer: true })
+    expect(seven._args).to.contain('target1')
+    expect(seven._args).to.contain('target2')
+  })
+
+  it('should extract on the right path', function (done) {
+    const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
+    const archive = `${tmpDir}/extract-flat-exist.7z`
+    const output = `${tmpDir}/extract-flat-exist`
+    copyFileSync(archiveBase, archive)
+    const seven = extract(archive, output, false, { r: true })
+    seven.on('end', function () {
+      expect(seven.info['Files']).to.equal('9')
+      expect(seven.info['Folders']).to.equal('3')
+      expect(seven.info['Path']).to.equal(archive)
+      const ls = readdirSync(output)
+      expect(ls).to.contain('DirExt')
+      expect(ls).to.contain('DirExt')
+      expect(ls).to.contain('root.md')
+      expect(ls).to.contain('root.not')
+      expect(ls).to.contain('root.txt')
+      expect(ls).to.contain('sub1')
+      expect(ls).to.contain('sub1.md')
+      expect(ls).to.contain('sub1.not')
+      expect(ls).to.contain('sub1.txt')
+      expect(ls).to.contain('sub2')
+      expect(ls).to.contain('sub2.md')
+      expect(ls).to.contain('sub2.not')
+      expect(ls).to.contain('sub2.txt')
+      done()
+    })
+  })
+
+  // it('should reduce archive size by deleting content') function (done) {
   //   const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
   //   const archive = `${tmpDir}/del-md.7z`
   //   const target = `DirExt/*.md`
