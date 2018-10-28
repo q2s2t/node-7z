@@ -43,8 +43,8 @@ describe('Functional: extract()', function () {
 
   it('should set default 7zip ouptut when non or falsy', function () {
     const sevenUndefined = extract('archive.7z', 'output', undefined, { $defer: true })
-    const sevenFalse = extract('archive.7z', 'output', null, { $defer: true })
-    const sevenNull = extract('archive.7z', 'output', false, { $defer: true })
+    const sevenFalse = extract('archive.7z', 'output', false, { $defer: true })
+    const sevenNull = extract('archive.7z', 'output', null, { $defer: true })
     const sevenEmptyString = extract('archive.7z', 'output', '', { $defer: true })
     expect(sevenUndefined._args).not.to.contain('-o')
     expect(sevenFalse._args).not.to.contain('-o')
@@ -54,8 +54,8 @@ describe('Functional: extract()', function () {
 
   it('should set default 7zip target when non or falsy', function () {
     const sevenUndefined = extract('archive.7z', undefined, undefined, { $defer: true })
-    const sevenFalse = extract('archive.7z', null, undefined, { $defer: true })
-    const sevenNull = extract('archive.7z', false, undefined, { $defer: true })
+    const sevenFalse = extract('archive.7z', false, undefined, { $defer: true })
+    const sevenNull = extract('archive.7z', null, undefined, { $defer: true })
     const sevenEmptyString = extract('archive.7z', '', undefined, { $defer: true })
     sevenUndefined._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
     sevenFalse._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
@@ -81,9 +81,9 @@ describe('Functional: extract()', function () {
     copyFileSync(archiveBase, archive)
     const seven = extract(archive, output, false, { r: true })
     seven.on('end', function () {
-      expect(seven.info['Files']).to.equal('9')
-      expect(seven.info['Folders']).to.equal('3')
-      expect(seven.info['Path']).to.equal(archive)
+      expect(seven.info.get('Files')).to.equal('9')
+      expect(seven.info.get('Folders')).to.equal('3')
+      expect(seven.info.get('Path')).to.equal(archive)
       const ls = readdirSync(output)
       expect(ls).to.contain('DirExt')
       expect(ls).to.contain('DirExt')
@@ -124,14 +124,14 @@ describe('Functional: extract()', function () {
     const archive = `${tmpDir}/extract-flat-data.7z`
     const output = `${tmpDir}/extract-flat-data`
     copyFileSync(archiveBase, archive)
-    let once = false
+    let counter = 0
     const seven = extract(archive, output, false, { r: true })
     seven.on('data', function (data) {
-      once = true
+      ++counter
       expect(data.symbol).to.be.equal('-')
       expect(data.file).to.be.an('string')
     }).on('end', function () {
-      expect(once).to.be.equal(true)
+      expect(counter).to.be.equal(12)
       done()
     })
   })

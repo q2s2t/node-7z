@@ -45,7 +45,7 @@ describe('Functional: remove()', function () {
     seven.on('end', function () {
       const size = statSync(archive).size
       expect(size).to.lessThan(sizeBase)
-      expect(seven.info['Updating archive']).to.equal(archive)
+      expect(seven.info.get('Updating archive')).to.equal(archive)
       done()
     })
   })
@@ -60,7 +60,7 @@ describe('Functional: remove()', function () {
     seven.on('end', function () {
       const size = statSync(archive).size
       expect(size).to.lessThan(sizeBase)
-      expect(seven.info['Updating archive']).to.equal(archive)
+      expect(seven.info.get('Updating archive')).to.equal(archive)
       done()
     })
   })
@@ -87,14 +87,14 @@ describe('Functional: remove()', function () {
     const archive = `${tmpDir}/progress-file-del.7z`
     const target = `DirExt/*.md`
     copyFileSync(archiveBase, archive)
-    const seven = del(archive, target, { bs: ['p1'], r: true })
-    let once = false
+    const seven = del(archive, target, { r: true })
+    let counter = 0
     seven.on('data', function (progress) {
-      once = true
+      ++counter
       expect(progress.symbol).to.be.an('string')
       expect(progress.file).to.be.an('string')
     }).on('end', function () {
-      expect(once).to.be.equal(true)
+      expect(counter).to.be.equal(10)
       done()
     })
   })

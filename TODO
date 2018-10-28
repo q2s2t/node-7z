@@ -45,7 +45,7 @@ Documentation:
     ☐ Usage for repeating switches
     ☐ Usage for -r (Recurse subdirectories) switch
     ☐ Struct types and API definition
-    ☐ stream.info usgage
+    ☐ stream.info usage with Map.get()
     ☐ on('error') err.stderr usage
     ✔ -bb switch @done(18-09-11 22:54)
     ☐ $defer

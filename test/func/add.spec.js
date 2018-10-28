@@ -71,11 +71,11 @@ describe('Functional: add()', function () {
     const seven = add(archive, source)
     seven.on('end', function () {
       // headers
-      expect(seven.info['Creating archive']).to.equal(archive)
-      expect(seven.info['Items to compress']).to.equal('30')
+      expect(seven.info.get('Creating archive')).to.equal(archive)
+      expect(seven.info.get('Items to compress')).to.equal('30')
       // footers
-      expect(seven.info['Files read from disk']).to.equal('24')
-      expect(seven.info['Archive size']).to.be.a('string')
+      expect(seven.info.get('Files read from disk')).to.equal('24')
+      expect(seven.info.get('Archive size')).to.be.a('string')
       done()
     })
   })
@@ -84,13 +84,13 @@ describe('Functional: add()', function () {
     const archive = `${tmpDir}/files-add.7z`
     const source = `${mockDir}/DirHex/`
     const seven = add(archive, source)
-    let once = false
+    let counter = 0
     seven.on('data', function (data) {
-      once = true
+      ++counter
       expect(data.symbol).to.equal('+')
       expect(data.file).to.be.a('string')
     }).on('end', function () {
-      expect(once).to.be.equal(true)
+      expect(counter).to.be.equal(24)
       done()
     })
   })
@@ -105,8 +105,8 @@ describe('Functional: add()', function () {
       r: true
     })
     seven.on('end', function () {
-      expect(seven.info['Items to compress']).to.equal('6')
-      expect(seven.info['Files read from disk']).to.equal('6')
+      expect(seven.info.get('Items to compress')).to.equal('6')
+      expect(seven.info.get('Files read from disk')).to.equal('6')
       done()
     })
   })
@@ -126,11 +126,11 @@ describe('Functional: add()', function () {
       expect(data.symbol).to.equal('+')
       expect(data.file).to.be.a('string')
     }).on('end', function () {
-      expect(seven.info['Open archive']).to.equal(archive)
-      expect(seven.info['Updating archive']).to.equal(archive)
-      expect(seven.info['Items to compress']).to.equal('6')
-      expect(seven.info['Files read from disk']).to.equal('6')
-      expect(seven.info['Archive size']).to.be.a('string')
+      expect(seven.info.get('Open archive')).to.equal(archive)
+      expect(seven.info.get('Updating archive')).to.equal(archive)
+      expect(seven.info.get('Items to compress')).to.equal('6')
+      expect(seven.info.get('Files read from disk')).to.equal('6')
+      expect(seven.info.get('Archive size')).to.be.a('string')
       done()
     })
   })
@@ -145,11 +145,11 @@ describe('Functional: add()', function () {
       expect(data.symbol).to.equal('U')
       expect(data.file).to.be.a('string')
     }).on('end', function () {
-      expect(seven.info['Open archive']).to.equal(archive)
-      expect(seven.info['Updating archive']).to.equal(archive)
-      expect(seven.info['Items to compress']).to.equal('3')
-      expect(seven.info['Files read from disk']).to.equal('3')
-      expect(seven.info['Archive size']).to.be.a('string')
+      expect(seven.info.get('Open archive')).to.equal(archive)
+      expect(seven.info.get('Updating archive')).to.equal(archive)
+      expect(seven.info.get('Items to compress')).to.equal('3')
+      expect(seven.info.get('Files read from disk')).to.equal('3')
+      expect(seven.info.get('Archive size')).to.be.a('string')
       done()
     })
   })
