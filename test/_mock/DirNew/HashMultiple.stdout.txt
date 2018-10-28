@@ -1,0 +1,52 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=utf8,Utf16=on,HugeFiles=on,64 bits,4 CPUs x64)
+
+Scanning
+  0M Scan         33 files, 18608765 bytes (18 MiB)
+
+  0%    CRC32             Size  Name
+-------- -------------  ------------
+  0% DirExt/sub1/sub1.txt                         FEDC304F             9  DirExt/sub1/sub1.txt
+  0% 1 DirExt/sub1/sub1.txt                           FEDC304F             9  DirExt/sub2/sub2.txt
+  0% 2 DirExt/sub2/sub2.txt                           FEDC304F             9  DirExt/root.txt
+  0% 3 DirExt/root.txt                      2C0243E4       3864817  DirImages/aerial-alpine-ceresole-reale-1562.jpg
+  0% 4 DirImages/aerial-alpine-ceresole-reale-1562.jpg                                                      2A11A2B0        531715  DirImages/asia-bicycle-bikes-315191.jpg
+ 20% 5 DirImages/asia-bicycle-bikes-315191.jpg                                              6BFE41E8        940815  DirImages/craft-monochrome-old-162631.jpg
+ 23% 6 DirImages/craft-monochrome-old-162631.jpg                                                7721934D        193690  DirImages/clouds-fog-forest-9754.jpg
+ 28% 7 DirImages/clouds-fog-forest-9754.jpg                                           F437674D        894213  DirImages/architecture-art-colorful-161154.jpg
+ 29% 8 DirImages/architecture-art-colorful-161154.jpg                                                     CB090324       3695047  DirImages/architecture-buildings-city-373965.jpg
+ 34% 9 DirImages/architecture-buildings-city-373965.jpg                                                       5D4A567A       1512167  DirImages/clouds-daylight-environment-462146.jpg
+ 54% 10 DirImages/clouds-daylight-environment-462146.jpg                                                        B9BCBB0D        709213  DirImages/abstract-architecture-black-and-white-262367.jpg
+ 62% 11 DirImages/abstract-architecture-black-and-white-262367.jpg                                                                  2598E7FE       2004486  DirImages/architectural-design-architecture-blueprint-239886.jpg
+ 66% 12 DirImages/architectural-design-architecture-blueprint-239886.jpg                                                                        ABA492F9       2176224  DirImages/architecture-building-glass-163707.jpg
+ 77% 13 DirImages/architecture-building-glass-163707.jpg                                                        8042C3E2       2070910  DirImages/action-blur-city-590701.jpg
+ 88% 14 DirImages/action-blur-city-590701.jpg                                             E0EC580F          4049  DirExtUpdate/root.txt
+ 99% 15 DirExtUpdate/root.txt                             480C5922            77  DirNew/BaseExt.stdin.txt
+ 99% 16 DirNew/BaseExt.stdin.txt                                6F2BDB2F          1655  DirNew/NewArchive.stdout.txt
+ 99% 17 DirNew/NewArchive.stdout.txt                                    AD9FC42A            81  DirNew/ExtArchive.stdin.txt
+ 99% 18 DirNew/ExtArchive.stdin.txt                                   8020DB31          1936  DirNew/ListImages.stdout.txt
+ 99% 19 DirNew/ListImages.stdout.txt                                    4A1EC96C           294  DirNew/DirEmpty.stdout.txt
+ 99% 20 DirNew/DirEmpty.stdout.txt                                  4EAE6965            64  DirNew/HashMultiple.stdin.txt
+ 99% 21 DirNew/HashMultiple.stdin.txt                                     3577318B          2950  DirNew/ListArchive.stdout.txt
+ 99% 22 DirNew/ListArchive.stdout.txt                                     659AC78A          1578  DirNew/NewImages.stdout.txt
+ 99% 23 DirNew/NewImages.stdout.txt                                   CA2B8BF3            84  DirNew/DelExt.stdin.txt
+ 99% 24 DirNew/DelExt.stdin.txt                               123840CD           818  DirNew/DelExt.stdout.txt
+ 99% 25 DirNew/DelExt.stdout.txt                                0DAB2A5C           793  DirNew/ExtArchive.stdout.txt
+ 99% 26 DirNew/ExtArchive.stdout.txt                                    27B7AF67            79  DirNew/DirEmpty.stdin.txt
+ 99% 27 DirNew/DirEmpty.stdin.txt                                 4335ECF5           517  DirNew/BaseExt.stdout.txt
+ 99% 28 DirNew/BaseExt.stdout.txt                                 273F3C6C          6523  DirNew/HashMultiple.stdout.txt
+ 99% 29 DirNew/HashMultiple.stdout.txt                                      E3E1B78C            81  DirNew/NewArchive.stdin.txt
+100% 30 DirNew/NewArchive.stdin.txt                                   53350D13            82  DirNew/NewImages.stdin.txt
+100% 31 DirNew/NewImages.stdin.txt                                  DD34E296            71  DirNew/ListArchive.stdin.txt
+100% 32 DirNew/ListArchive.stdin.txt                                    60759E2E            69  DirNew/ListImages.stdin.txt
+100% 33 DirNew/ListImages.stdin.txt                                   -------- -------------  ------------
+4851746F      18615125  
+
+Files: 33
+Size: 18615125
+
+CRC32  for data:              4851746F
+CRC32  for data and names:    E960E21E
+
+Everything is Ok

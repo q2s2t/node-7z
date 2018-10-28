@@ -77,8 +77,8 @@ describe('Functional: extractFull()', function () {
 
   it('should extractFull on the right path', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-    const archive = `${tmpDir}/extractFull-flat-exist.7z`
-    const output = `${tmpDir}/extractFull-flat-exist`
+    const archive = `${tmpDir}/extract-full-exist.7z`
+    const output = `${tmpDir}/extract-full-exist`
     copyFileSync(archiveBase, archive)
     const seven = extractFull(archive, output, false, { r: true })
     seven.on('end', function () {
@@ -101,8 +101,8 @@ describe('Functional: extractFull()', function () {
 
   it('should emit progress values', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-    const archive = `${tmpDir}/extractFull-flat-progress.7z`
-    const output = `${tmpDir}/extractFull-flat-progress`
+    const archive = `${tmpDir}/extract-full-progress.7z`
+    const output = `${tmpDir}/extract-full-progress`
     copyFileSync(archiveBase, archive)
     let once = false
     const seven = extractFull(archive, output, false, { r: true, bs: ['p1'] })
@@ -118,8 +118,8 @@ describe('Functional: extractFull()', function () {
 
   it('should emit files on progress', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-    const archive = `${tmpDir}/extractFull-flat-data.7z`
-    const output = `${tmpDir}/extractFull-flat-data`
+    const archive = `${tmpDir}/extract-full-data.7z`
+    const output = `${tmpDir}/extract-full-data`
     copyFileSync(archiveBase, archive)
     let once = false
     const seven = extractFull(archive, output, false, { r: true })
@@ -129,6 +129,23 @@ describe('Functional: extractFull()', function () {
       expect(data.file).to.be.an('string')
     }).on('end', function () {
       expect(once).to.be.equal(true)
+      done()
+    })
+  })
+
+  it('should work with spaces', function (done) {
+    const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
+    const archive = `${tmpDir}/extractFull-full spaces anc special chars絵🤚🏽.7z`
+    const output = `${tmpDir}/extract-full spaces anc special chars絵🤚🏽`
+    copyFileSync(archiveBase, archive)
+    const seven = extractFull(archive, output, false, { r: true })
+    seven.on('end', function () {
+      expect(seven.info['Files']).to.equal('9')
+      expect(seven.info['Folders']).to.equal('3')
+      expect(seven.info['Path']).to.equal(archive)
+      const ls = readdirRecursiveSync(output)
+      expect(ls).to.contain('DirExt/root.md')
+      expect(ls).to.contain('DirExt/sub1/sub1.md')
       done()
     })
   })

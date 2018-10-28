@@ -2,7 +2,7 @@
 import { expect } from 'chai'
 import { transformBinToString, transformSpecialArrayToArgs } from '../../lib/special.js'
 
-describe('Specification: special.js', function () {
+describe('Unit: special.js', function () {
   it('should works with the `$raw` special switch', function () {
     const r = transformSpecialArrayToArgs({
       $raw: ['-i!*.jpg', '-i!*.png', '-r0']

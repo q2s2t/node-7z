@@ -83,7 +83,7 @@ describe('Functional: add()', function () {
   it('should emit files on progress', function (done) {
     const archive = `${tmpDir}/files-add.7z`
     const source = `${mockDir}/DirHex/`
-    const seven = add(archive, source, { bs: ['p1'] })
+    const seven = add(archive, source)
     let once = false
     seven.on('data', function (data) {
       once = true

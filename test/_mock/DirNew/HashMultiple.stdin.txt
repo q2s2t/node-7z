@@ -1,0 +1,1 @@
+7z h *.jpg *.txt -r -scrcSHA256 > DirNew/HashMultiple.stdout.txt
