@@ -33,26 +33,6 @@ describe('Functional: hash()', function () {
     })
   })
 
-  it('should hash', function (done) {
-    const seven = hash([`${mockDir}/*.jpg`, `${mockDir}/*.txt`], {
-      r: true,
-      bs: ['p1']
-    })
-    // seven.on('data', function (data) {
-    //   console.log(data)
-    // })
-    // seven.on('progress', function (progress) {
-    //   console.log(progress)
-    // })
-    seven.on('end', function () {
-      // expect(seven.info['Files']).to.equal('33')
-      // expect(seven.info['Size']).to.equal('18616384')
-      // expect(seven.info['CRC32  for data']).to.equal('C625C978')
-      // expect(seven.info['CRC32  for data and names']).to.equal('EBD02AD2')
-      done()
-    })
-  })
-
   it('should set default 7zip target when non or falsy', function () {
     const sevenUndefined = hash(undefined, { $defer: true })
     const sevenFalse = hash(false, { $defer: true })
@@ -75,16 +55,20 @@ describe('Functional: hash()', function () {
     expect(seven._args).to.contain('target2')
   })
 
-  // it('should hash the right values', function (done) {
-  //   const seven = hash([`${mockDir}/*.txt`], { r: true })
-  //   let hashes = []
-  //   seven.on('data', (d) => hashes.push(d))
-  //   seven.on('end', function () {
-  //     // console.log(hashes)
-  //     // console.log(seven.info)
-  //     done()
-  //   })
-  // })
+  it('should hash the right values', function (done) {
+    const seven = hash([`${mockDir}/DirExt/sub1/`], { r: true })
+    const hashesKnown = [ { hash: undefined, size: NaN, file: 'sub1' },
+      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.txt' },
+      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.not' },
+      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.md' } ]
+    let hashes = []
+    seven.on('data', (d) => hashes.push(d))
+    seven.on('end', function () {
+      expect(hashes).to.deep.equal(hashesKnown)
+      expect(seven.info.get('CRC32  for data and names')).to.equal('2363C80A')
+      done()
+    })
+  })
 
   it('should emit progress values', function (done) {
     let once = false
@@ -99,17 +83,17 @@ describe('Functional: hash()', function () {
     })
   })
 
-  // it('should emit files on progress', function (done) {
-  //   let once = false
-  //   const seven = hash(`${mockDir}/*.jpg`, { r: true, bs: ['p1'] })
-  //   seven.on('data', function (data) {
-  //     once = true
-  //     console.log(data)
-  //     // expect(data.symbol).to.be.equal('-')
-  //     // expect(data.file).to.be.an('string')
-  //   }).on('end', function () {
-  //     expect(once).to.be.equal(true)
-  //     done()
-  //   })
-  // })
+  it('should emit files on progress', function (done) {
+    let once = false
+    const seven = hash(`${mockDir}/clouds*.jpg`, { r: true, bs: ['p1'] })
+    seven.on('data', function (data) {
+      once = true
+      expect(data.hash).to.be.a('string')
+      expect(data.file).to.be.a('string')
+      expect(data.size).to.be.a('number')
+    }).on('end', function () {
+      expect(once).to.be.equal(true)
+      done()
+    })
+  })
 })
