@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { matchBodyProgress, matchBodySymbol, matchBodyHash, matchEndOfHeadersHyphen, matchInfos, matchEndOfHeadersSymbol, matchEndOfBodySymbol, matchEndOfBodyHyphen } from '../../lib/parser.js'
+import { matchBodyProgress, matchBodySymbol, matchBodyHash, matchEndOfHeadersHyphen, matchInfos, matchEndOfHeadersSymbol, matchEndOfBodySymbol, matchEndOfBodyHyphen, matchBodyList } from '../../lib/parser.js'
 import { STAGE_HEADERS } from '../../lib/references.js'
 import { SevenZipStream } from '../../lib/stream.js'
 
@@ -109,6 +109,18 @@ describe('Unit: parser.js', function () {
       let pass = false
       if (r) pass = true
       expect(pass).to.be.equal(true)
+    })
+
+    it('should set _columnsPositions of the stream', function () {
+      const stream = {}
+      matchEndOfHeadersHyphen(stream, '---- ---- ----')
+      expect(stream._columnsPositions).to.be.deep.equal([4, 9])
+    })
+
+    it('should set _columnsPositions for list command', function () {
+      const stream = {}
+      matchEndOfHeadersHyphen(stream, '------------------- ----- ------------ ------------  ------------------------')
+      expect(stream._columnsPositions).to.be.deep.equal([19, 25, 38, 51, 52])
     })
   })
 
@@ -272,6 +284,46 @@ describe('Unit: parser.js', function () {
       expect(r['hash']).to.equal(undefined)
       expect(r['size']).to.be.NaN
       expect(r['file']).to.equal('DirExt/sub1/sub1.txt')
+    })
+  })
+
+  describe('matchBodyList()', function () {
+    it('should return null on non match', function () {
+      const r = matchBodyList({}, 'Todo: 1')
+      expect(r).to.be.equal(null)
+    })
+
+    it('should work with line full infos', function () {
+      const stream = { _columnsPositions: [19, 25, 38, 51, 52] }
+      const r = matchBodyList(stream, '2018-09-29 09:06:15 ....A            9           24  DirHex/42550418a4ef9')
+      expect(r).to.be.deep.equal({
+        datetime: new Date('2018-09-29T07:06:15.000Z'),
+        attributes: '....A',
+        size: 9,
+        sizeCompressed: 24,
+        file: 'DirHex/42550418a4ef9' })
+    })
+
+    it('should work with line not date', function () {
+      const stream = { _columnsPositions: [19, 25, 38, 51, 52] }
+      const r = matchBodyList(stream, '                    ....A            9           24  DirHex/42550418a4ef9')
+      expect(r).to.be.deep.equal({
+        datetime: undefined,
+        attributes: '....A',
+        size: 9,
+        sizeCompressed: 24,
+        file: 'DirHex/42550418a4ef9' })
+    })
+
+    it('should work with line not much', function () {
+      const stream = { _columnsPositions: [19, 25, 38, 51, 52] }
+      const r = matchBodyList(stream, '                    ....A                            DirHex/42550418a4ef9')
+      expect(r).to.be.deep.equal({
+        datetime: undefined,
+        attributes: '....A',
+        size: undefined,
+        sizeCompressed: undefined,
+        file: 'DirHex/42550418a4ef9' })
     })
   })
 
