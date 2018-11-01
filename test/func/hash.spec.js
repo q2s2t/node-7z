@@ -1,11 +1,8 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { copyFileSync, readdirSync, lchmod } from 'fs'
 import { hash } from '../../lib/commands.js'
-import chalk from 'chalk'
 
 const mockDir = './test/_mock'
-const tmpDir = './test/_tmp'
 
 describe('Functional: hash()', function () {
   it('should return an error on 7z error', function (done) {

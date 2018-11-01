@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { copyFileSync, readdirSync } from 'fs'
+import { copyFileSync } from 'fs'
 import { extractFull } from '../../lib/commands.js'
 import readdirRecursiveSync from 'fs-readdir-recursive'
 
