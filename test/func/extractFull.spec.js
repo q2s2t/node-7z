@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { copyFileSync } from 'fs'
+import { copyFileSync, readdirSync } from 'fs'
 import { extractFull } from '../../lib/commands.js'
 import readdirRecursiveSync from 'fs-readdir-recursive'
 
@@ -139,6 +139,26 @@ describe('Functional: extractFull()', function () {
     const output = `${tmpDir}/extract-full spaces anc special chars絵🤚🏽`
     copyFileSync(archiveBase, archive)
     const seven = extractFull(archive, output, false, { r: true })
+    seven.on('end', function () {
+      expect(seven.info.get('Files')).to.equal('9')
+      expect(seven.info.get('Folders')).to.equal('3')
+      expect(seven.info.get('Path')).to.equal(archive)
+      const ls = readdirRecursiveSync(output)
+      expect(ls).to.contain('DirExt/root.md')
+      expect(ls).to.contain('DirExt/sub1/sub1.md')
+      done()
+    })
+  })
+
+  it('should work with atlernate $path', function (done) {
+    const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
+    const archive = `${tmpDir}/extractFull-full-path.7z`
+    const output = `${tmpDir}/extract-full-path`
+    copyFileSync(archiveBase, archive)
+    const seven = extractFull(archive, output, false, {
+      r: true,
+      $path: `${mockDir}/Seven Zip`
+    })
     seven.on('end', function () {
       expect(seven.info.get('Files')).to.equal('9')
       expect(seven.info.get('Folders')).to.equal('3')

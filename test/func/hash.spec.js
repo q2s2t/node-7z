@@ -93,4 +93,22 @@ describe('Functional: hash()', function () {
       done()
     })
   })
+
+  it('should work with atlernate $path', function (done) {
+    const seven = hash([`${mockDir}/DirExt/sub1/`], {
+      r: true,
+      $path: `${mockDir}/Seven Zip`
+    })
+    const hashesKnown = [ { hash: undefined, size: NaN, file: 'sub1' },
+      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.txt' },
+      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.not' },
+      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.md' } ]
+    let hashes = []
+    seven.on('data', (d) => hashes.push(d))
+    seven.on('end', function () {
+      expect(hashes).to.deep.equal(hashesKnown)
+      expect(seven.info.get('CRC32  for data and names')).to.equal('2363C80A')
+      done()
+    })
+  })
 })

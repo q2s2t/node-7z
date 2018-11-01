@@ -153,4 +153,19 @@ describe('Functional: add()', function () {
       done()
     })
   })
+
+  it('should work with atlernate $path', function (done) {
+    const archive = `${tmpDir}/headers-and-footers-path.7z`
+    const source = `${mockDir}/DirHex/`
+    const seven = add(archive, source, { $path: `${mockDir}/Seven Zip` })
+    seven.on('end', function () {
+      // headers
+      expect(seven.info.get('Creating archive')).to.equal(archive)
+      expect(seven.info.get('Items to compress')).to.equal('30')
+      // footers
+      expect(seven.info.get('Files read from disk')).to.equal('24')
+      expect(seven.info.get('Archive size')).to.be.a('string')
+      done()
+    })
+  })
 })

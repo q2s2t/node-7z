@@ -135,4 +135,35 @@ describe('Functional: extract()', function () {
       done()
     })
   })
+
+  it('should work with atlernate $path', function (done) {
+    const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
+    const archive = `${tmpDir}/extract-flat-exist-path.7z`
+    const output = `${tmpDir}/extract-flat-exist-path`
+    copyFileSync(archiveBase, archive)
+    const seven = extract(archive, output, false, {
+      r: true,
+      $path: `${mockDir}/Seven Zip`
+    })
+    seven.on('end', function () {
+      expect(seven.info.get('Files')).to.equal('9')
+      expect(seven.info.get('Folders')).to.equal('3')
+      expect(seven.info.get('Path')).to.equal(archive)
+      const ls = readdirSync(output)
+      expect(ls).to.contain('DirExt')
+      expect(ls).to.contain('DirExt')
+      expect(ls).to.contain('root.md')
+      expect(ls).to.contain('root.not')
+      expect(ls).to.contain('root.txt')
+      expect(ls).to.contain('sub1')
+      expect(ls).to.contain('sub1.md')
+      expect(ls).to.contain('sub1.not')
+      expect(ls).to.contain('sub1.txt')
+      expect(ls).to.contain('sub2')
+      expect(ls).to.contain('sub2.md')
+      expect(ls).to.contain('sub2.not')
+      expect(ls).to.contain('sub2.txt')
+      done()
+    })
+  })
 })
