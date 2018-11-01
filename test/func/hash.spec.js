@@ -75,30 +75,13 @@ describe('Functional: hash()', function () {
     expect(seven._args).to.contain('target2')
   })
 
-  // it('should extract on the right path', function (done) {
-  //   const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-  //   const archive = `${tmpDir}/extract-flat-exist.7z`
-  //   const output = `${tmpDir}/extract-flat-exist`
-  //   copyFileSync(archiveBase, archive)
-  //   const seven = extract(archive, output, false, { r: true })
+  // it('should hash the right values', function (done) {
+  //   const seven = hash([`${mockDir}/*.txt`], { r: true })
+  //   let hashes = []
+  //   seven.on('data', (d) => hashes.push(d))
   //   seven.on('end', function () {
-  //     expect(seven.info['Files']).to.equal('9')
-  //     expect(seven.info['Folders']).to.equal('3')
-  //     expect(seven.info['Path']).to.equal(archive)
-  //     const ls = readdirSync(output)
-  //     expect(ls).to.contain('DirExt')
-  //     expect(ls).to.contain('DirExt')
-  //     expect(ls).to.contain('root.md')
-  //     expect(ls).to.contain('root.not')
-  //     expect(ls).to.contain('root.txt')
-  //     expect(ls).to.contain('sub1')
-  //     expect(ls).to.contain('sub1.md')
-  //     expect(ls).to.contain('sub1.not')
-  //     expect(ls).to.contain('sub1.txt')
-  //     expect(ls).to.contain('sub2')
-  //     expect(ls).to.contain('sub2.md')
-  //     expect(ls).to.contain('sub2.not')
-  //     expect(ls).to.contain('sub2.txt')
+  //     // console.log(hashes)
+  //     // console.log(seven.info)
   //     done()
   //   })
   // })

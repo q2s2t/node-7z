@@ -2,6 +2,7 @@
 import { expect } from 'chai'
 import { matchBodyProgress, matchBodySymbol, matchBodyHash, matchEndOfHeadersHyphen, matchInfos, matchEndOfHeadersSymbol, matchEndOfBodySymbol, matchEndOfBodyHyphen } from '../../lib/parser.js'
 import { STAGE_HEADERS } from '../../lib/references.js'
+import { SevenZipStream } from '../../lib/stream.js'
 
 describe('Unit: parser.js', function () {
   describe('matchInfos()', function () {
@@ -12,72 +13,80 @@ describe('Unit: parser.js', function () {
 
     it('should return props and values', function () {
       const basic = matchInfos({ info: new Map() }, 'Prop: Data')
-      expect(basic.info).to.be.an('map')
-      expect(basic.info.size).to.equal(1)
-      expect(basic.info.get('Prop')).to.equal('Data')
+      expect(basic).to.be.an('map')
+      expect(basic.size).to.equal(1)
+      expect(basic.get('Prop')).to.equal('Data')
 
       const space = matchInfos({ info: new Map() }, 'Prop of archive: 322 MB')
-      expect(space.info).to.be.an('map')
-      expect(space.info.size).to.equal(1)
-      expect(space.info.get('Prop of archive')).to.equal('322 MB')
+      expect(space).to.be.an('map')
+      expect(space.size).to.equal(1)
+      expect(space.get('Prop of archive')).to.equal('322 MB')
     })
 
     it('should works with line containing 2 infos', function () {
       const basic = matchInfos({ info: new Map() }, 'Prop1: Data1,  # Prop2: Data2')
-      expect(basic.info).to.be.an('map')
-      expect(basic.info.size).to.equal(2)
-      expect(basic.info.get('Prop1')).to.equal('Data1')
-      expect(basic.info.get('Prop2')).to.equal('Data2')
+      expect(basic).to.be.an('map')
+      expect(basic.size).to.equal(2)
+      expect(basic.get('Prop1')).to.equal('Data1')
+      expect(basic.get('Prop2')).to.equal('Data2')
 
       const space = matchInfos({ info: new Map() }, 'Prop 1: Data 1,  # Prop 2: Data 2')
-      expect(space.info).to.be.an('map')
-      expect(space.info.size).to.equal(2)
-      expect(space.info.get('Prop 1')).to.equal('Data 1')
-      expect(space.info.get('Prop 2')).to.equal('Data 2')
+      expect(space).to.be.an('map')
+      expect(space.size).to.equal(2)
+      expect(space.get('Prop 1')).to.equal('Data 1')
+      expect(space.get('Prop 2')).to.equal('Data 2')
     })
 
     it('should return props and values', function () {
       const basic = matchInfos({ info: new Map() }, 'Prop = Data')
-      expect(basic.info).to.be.an('map')
-      expect(basic.info.size).to.equal(1)
-      expect(basic.info.get('Prop')).to.equal('Data')
+      expect(basic).to.be.an('map')
+      expect(basic.size).to.equal(1)
+      expect(basic.get('Prop')).to.equal('Data')
 
       const space = matchInfos({ info: new Map() }, 'Prop of archive = 322 MB')
-      expect(space.info).to.be.an('map')
-      expect(space.info.size).to.equal(1)
-      expect(space.info.get('Prop of archive')).to.equal('322 MB')
+      expect(space).to.be.an('map')
+      expect(space.size).to.equal(1)
+      expect(space.get('Prop of archive')).to.equal('322 MB')
     })
 
     it('should get props of values with colon', function () {
       const equalFirst = matchInfos({ info: new Map() }, 'Equal first = True but:this = is valid val')
-      expect(equalFirst.info).to.be.an('map')
-      expect(equalFirst.info.size).to.equal(1)
-      expect(equalFirst.info.get('Equal first')).to.equal('True but:this = is valid val')
+      expect(equalFirst).to.be.an('map')
+      expect(equalFirst.size).to.equal(1)
+      expect(equalFirst.get('Equal first')).to.equal('True but:this = is valid val')
     })
 
     it('should get props of values with equal', function () {
       const colonFirst = matchInfos({ info: new Map() }, 'Colon first: True but:this = is valid val')
-      expect(colonFirst.info).to.be.an('map')
-      expect(colonFirst.info.size).to.equal(1)
-      expect(colonFirst.info.get('Colon first')).to.equal('True but:this = is valid val')
+      expect(colonFirst).to.be.an('map')
+      expect(colonFirst.size).to.equal(1)
+      expect(colonFirst.get('Colon first')).to.equal('True but:this = is valid val')
     })
   })
 
   describe('matchEndOfHeadersSymbol()', function () {
-    const stream = { _matchBody: matchBodySymbol }
+    // const stubStream = new SevenZipStream({
+    //   _commandArgs: ['a'],
+    //   _matchBodyData: matchBodySymbol
+    // })
+    const opts = { $defer: true }
+    opts._commandArgs = ['a']
+    opts._matchBodyData = matchBodySymbol
+    opts._matchEndOfHeaders = matchEndOfHeadersSymbol
+    const stub = new SevenZipStream(opts)
 
-    it('should return null on non match', function () {
-      const r = matchEndOfHeadersSymbol(stream, 'Colon info: type colon info')
-      expect(r).to.equal(null)
+    it('should return false on non match', function () {
+      const r = matchEndOfHeadersSymbol(stub, 'Colon info: type colon info')
+      expect(r).to.equal(false)
     })
 
-    it('should return null on pseudo-empty line', function () {
-      const r = matchEndOfHeadersSymbol(stream, '    ')
-      expect(r).to.be.equal(null)
+    it('should return false on pseudo-empty line', function () {
+      const r = matchEndOfHeadersSymbol(stub, '    ')
+      expect(r).to.be.equal(false)
     })
 
     it('should be truthly on match of symbol-filname pair', function () {
-      const r = matchEndOfHeadersSymbol(stream, '+ some/file.txt')
+      const r = matchEndOfHeadersSymbol(stub, '+ some/file.txt')
       let pass = false
       if (r) pass = true
       expect(pass).to.be.equal(true)
