@@ -264,6 +264,11 @@ event to work as expected. A diffrent value can be used but the output values
 from the stream will be impacted. In particular a log level of `0` will cause 
 the stream not to emit data correctly.
 
+### Security
+
+Values given by the package are not sanitized, you just get the raw output from
+the `7z` binary. Remember to never trust user input and sanitize accordingly.
+
 ***
 With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 

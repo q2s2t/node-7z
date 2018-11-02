@@ -71,9 +71,9 @@ describe('Unit: parser.js', function () {
     // })
     const opts = { $defer: true }
     opts._commandArgs = ['a']
-    opts._matchBodyData = matchBodySymbol
-    opts._matchEndOfHeaders = matchEndOfHeadersSymbol
     const stub = new SevenZipStream(opts)
+    stub._matchBodyData = matchBodySymbol
+    stub._matchEndOfHeaders = matchEndOfHeadersSymbol
 
     it('should return false on non match', function () {
       const r = matchEndOfHeadersSymbol(stub, 'Colon info: type colon info')
