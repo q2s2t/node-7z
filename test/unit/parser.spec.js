@@ -305,7 +305,7 @@ describe('Unit: parser.js', function () {
       const stream = { _columnsPositions: [19, 25, 38, 51, 52] }
       const r = matchBodyList(stream, '2018-09-29 09:06:15 ....A            9           24  DirHex/42550418a4ef9')
       expect(r).to.be.deep.equal({
-        datetime: new Date('2018-09-29T07:06:15.000Z'),
+        datetime: new Date(Date.parse('2018-09-29T07:06:15.000Z')),
         attributes: '....A',
         size: 9,
         sizeCompressed: 24,
