@@ -15,7 +15,7 @@ test_script:
   - node --version
   - npm --version
   # Copy 7z Binary to _mock for testing $path special option
-  - copy 7z "./test/_mock/Seven Zip"
+  - copy "/c/Program Files/7-Zip/7z" "./test/_mock/Seven Zip"
   # run tests
   - npm run test-ci
 
