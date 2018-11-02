@@ -6,6 +6,7 @@ environment:
 install:
   # Download 7z Binary to _mock for testing $path special option
   - curl -fsS https://www.7-zip.org/a/7z1805-x64.exe -o "./test/_mock/Seven Zip"
+  - dir test
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
   # install modules
