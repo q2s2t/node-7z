@@ -4,6 +4,8 @@ environment:
 
 # Install scripts. (runs after repo cloning)
 install:
+  # Download 7z Binary to _mock for testing $path special option
+  - curl https://www.7-zip.org/a/7z1805-x64.exe "./test/_mock/Seven Zip"
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
   # install modules
@@ -14,8 +16,6 @@ test_script:
   # Output useful info for debugging.
   - node --version
   - npm --version
-  # Copy 7z Binary to _mock for testing $path special option
-  - copy "/c/Program Files/7-Zip/7z" "./test/_mock/Seven Zip"
   # run tests
   - npm run test-ci
 
