@@ -4,12 +4,13 @@
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npx mocha -r esm --reporter=spec 'test/**/*.spec.js' --timeout=0 ; npm run test-cleanup",
+    "test": "npm run test-ci ; npm run test-cleanup",
+    "test-ci": "npx mocha -r esm --reporter=spec 'test/**/*.spec.js' --timeout=0",
     "test-docker": "circleci local execute --job build",
     "test-cleanup": "rm -rf test/_tmp/* ; touch test/_tmp/.gitkeep",
     "test-debug": "DEBUG=node-7z npm run test",
-    "coverage": "npx nyc --reporter=lcov npm test",
-    "coverage-html": "npx nyc --reporter=html npm test"
+    "coverage": "npx nyc --reporter=html npm test",
+    "coverage-ci": "npx nyc --reporter=lcov npm test-ci"
   },
   "repository": {
     "type": "git",
