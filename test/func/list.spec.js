@@ -61,25 +61,25 @@ describe('Functional: list()', function () {
     const seven = list(archive, '*.txt', { r: true })
     const data = []
     const expectedData = [
-      { datetime: new Date('2018-10-13T09:29:26.000Z'),
-        attributes: '....A',
-        size: 9,
-        sizeCompressed: undefined,
-        file: 'DirExt/root.txt' },
-      { datetime: new Date('2018-10-13T09:28:52.000Z'),
-        attributes: '....A',
-        size: 9,
-        sizeCompressed: undefined,
-        file: 'DirExt/sub1/sub1.txt' },
-      { datetime: new Date('2018-10-13T09:29:39.000Z'),
-        attributes: '....A',
-        size: 9,
-        sizeCompressed: undefined,
-        file: 'DirExt/sub2/sub2.txt' }
+      { attributes: '....A', size: 9, sizeCompressed: undefined, file: 'DirExt/root.txt' },
+      { attributes: '....A', size: 9, sizeCompressed: undefined, file: 'DirExt/sub1/sub1.txt' },
+      { attributes: '....A', size: 9, sizeCompressed: undefined, file: 'DirExt/sub2/sub2.txt' }
     ]
     seven.on('data', d => data.push(d))
     seven.on('end', function () {
-      expect(data).to.deep.equal(expectedData)
+      const withoutDatetime = data
+        .map(function (d) {
+          const { datetime, ...rest } = d
+          return rest
+        })
+      const dates = data.map(d => d.datetime)
+      for (let d of dates) {
+        expect(d).to.be.a('date')
+      }
+      expect(withoutDatetime).to.deep.contain(expectedData[0])
+      expect(withoutDatetime).to.deep.contain(expectedData[1])
+      expect(withoutDatetime).to.deep.contain(expectedData[2])
+      expect(data.length).to.equal(3)
       done()
     })
   })
