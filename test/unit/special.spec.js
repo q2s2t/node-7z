@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { transformBinToString, transformSpecialArrayToArgs } from '../../lib/special.js'
+import { transformBinToString, transformSpecialArrayToArgs } from '../../src/special.js'
 
 describe('Unit: special.js', function () {
   it('should works with the `$raw` special switch', function () {

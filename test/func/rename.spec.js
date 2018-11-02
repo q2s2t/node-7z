@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { rename } from '../../lib/commands.js'
+import { rename } from '../../src/commands.js'
 import { copyFileSync } from 'fs'
 
 const mockDir = './test/_mock'

@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { transformSwitchesToArgs } from '../../lib/switches.js'
+import { transformSwitchesToArgs } from '../../src/switches.js'
 
 describe('Unit: switches.js', function () {
   it('Should return deflaut flags with no args', function () {

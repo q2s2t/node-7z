@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync, existsSync, statSync } from 'fs'
-import { add } from '../../lib/commands.js'
+import { add } from '../../src/commands.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'

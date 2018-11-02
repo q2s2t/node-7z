@@ -1,6 +1,6 @@
 Code quality:
-    ☐ Implement `standard`
-    ☐ Code coverage 100 %
+    ✔ Implement `standard` @done(18-11-02 15:53)
+    ✔ Code coverage 100 % @done(18-11-02 15:52)
     ✔ Tests file naming and test naming conventions @done(18-09-29 09:28)
     ☐ Windows testing on AppVeyor
     ☐ https://conventionalcommits.org
@@ -56,3 +56,4 @@ Documentation:
     ☐ Hack to use delete() command (delete is a JS reserved word)
     ☐ use `cherryPick` as argument name for clarity
     ☐ list and rename doesn't output progress percentage (upstream behaviour)
+    ☐ Only support recent versions of 7z

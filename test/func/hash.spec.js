@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { hash } from '../../lib/commands.js'
+import { hash } from '../../src/commands.js'
 
 const mockDir = './test/_mock'
 
@@ -54,14 +54,13 @@ describe('Functional: hash()', function () {
 
   it('should hash the right values', function (done) {
     const seven = hash([`${mockDir}/DirExt/sub1/`], { r: true })
-    const hashesKnown = [ { hash: undefined, size: NaN, file: 'sub1' },
-      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.txt' },
-      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.not' },
-      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.md' } ]
     let hashes = []
     seven.on('data', (d) => hashes.push(d))
     seven.on('end', function () {
-      expect(hashes).to.deep.equal(hashesKnown)
+      expect(hashes).to.deep.include({ hash: undefined, size: NaN, file: 'sub1' })
+      expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.txt' })
+      expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.not' })
+      expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.md' })
       expect(seven.info.get('CRC32  for data and names')).to.equal('2363C80A')
       done()
     })
@@ -99,14 +98,13 @@ describe('Functional: hash()', function () {
       r: true,
       $path: `${mockDir}/Seven Zip`
     })
-    const hashesKnown = [ { hash: undefined, size: NaN, file: 'sub1' },
-      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.txt' },
-      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.not' },
-      { hash: 'FEDC304F', size: 9, file: 'sub1/sub1.md' } ]
     let hashes = []
     seven.on('data', (d) => hashes.push(d))
     seven.on('end', function () {
-      expect(hashes).to.deep.equal(hashesKnown)
+      expect(hashes).to.deep.include({ hash: undefined, size: NaN, file: 'sub1' })
+      expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.txt' })
+      expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.not' })
+      expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.md' })
       expect(seven.info.get('CRC32  for data and names')).to.equal('2363C80A')
       done()
     })

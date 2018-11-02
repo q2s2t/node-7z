@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
-import { extractFull } from '../../lib/commands.js'
+import { extractFull } from '../../src/commands.js'
 import readdirRecursiveSync from 'fs-readdir-recursive'
 
 const mockDir = './test/_mock'

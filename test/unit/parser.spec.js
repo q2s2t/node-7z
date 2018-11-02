@@ -1,8 +1,8 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { matchBodyProgress, matchBodySymbol, matchBodyHash, matchEndOfHeadersHyphen, matchInfos, matchEndOfHeadersSymbol, matchEndOfBodySymbol, matchEndOfBodyHyphen, matchBodyList } from '../../lib/parser.js'
-import { STAGE_HEADERS } from '../../lib/references.js'
-import { SevenZipStream } from '../../lib/stream.js'
+import { matchBodyProgress, matchBodySymbol, matchBodyHash, matchEndOfHeadersHyphen, matchInfos, matchEndOfHeadersSymbol, matchEndOfBodySymbol, matchEndOfBodyHyphen, matchBodyList } from '../../src/parser.js'
+import { STAGE_HEADERS } from '../../src/references.js'
+import { SevenZipStream } from '../../src/stream.js'
 
 describe('Unit: parser.js', function () {
   describe('matchInfos()', function () {
@@ -289,6 +289,7 @@ describe('Unit: parser.js', function () {
       const r = matchBodyHash({}, '               DirExt/sub1/sub1.txt')
       expect(r).to.be.an('object')
       expect(r['hash']).to.equal(undefined)
+      /* eslint-disable-next-line */
       expect(r['size']).to.be.NaN
       expect(r['file']).to.equal('DirExt/sub1/sub1.txt')
     })
