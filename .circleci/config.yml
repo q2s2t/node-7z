@@ -48,7 +48,7 @@ jobs:
           name: Run tests and coverage
           command: |
             set -e
-            npm run coverage
+            npm run coverage-ci
 
       - run:
           name: Send coverage to Code Climate
