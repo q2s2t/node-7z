@@ -9,8 +9,8 @@
     "test-docker": "circleci local execute --job build",
     "test-cleanup": "rm -rf test/_tmp/* ; touch test/_tmp/.gitkeep",
     "test-debug": "DEBUG=node-7z npm run test",
-    "coverage": "npx nyc --reporter=html npm test",
-    "coverage-ci": "npx nyc --reporter=lcov npm test-ci"
+    "coverage": "npx nyc --reporter=html npm run test",
+    "coverage-ci": "npx nyc --reporter=lcov npm run test-ci"
   },
   "repository": {
     "type": "git",
