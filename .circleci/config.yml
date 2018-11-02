@@ -24,6 +24,10 @@ jobs:
           name: Install System Dependencies
           command: sudo apt-get update && sudo apt-get install -y p7zip-full
 
+      - run: 
+          name: Copy 7z Binary to _mock
+          command: cp /usr/bin/7z "./test/_mock/Seven Zip"
+     
       - run:
           name: Install Package Dependencies
           command: npm install
