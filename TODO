@@ -55,4 +55,4 @@ Documentation:
     ☐ No Show information about supported formats command: It will output based on the system that it is on, "system-static"
     ☐ Hack to use delete() command (delete is a JS reserved word)
     ☐ use `cherryPick` as argument name for clarity
-    ☐ list doesn't output progress percentage (upstream behaviour)
+    ☐ list and rename doesn't output progress percentage (upstream behaviour)

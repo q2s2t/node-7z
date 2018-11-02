@@ -212,6 +212,13 @@ describe('Unit: parser.js', function () {
       expect(r['file']).to.equal('test/file')
     })
 
+    it('should return file on rename', function () {
+      const r = matchBodySymbol({}, '= test/file')
+      expect(r).to.be.an('object')
+      expect(r['symbol']).to.equal('=')
+      expect(r['file']).to.equal('test/file')
+    })
+
     it('should return file on Windows drive', function () {
       const r = matchBodySymbol({}, '+ C:\\test\\file')
       expect(r).to.be.an('object')
