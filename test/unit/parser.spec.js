@@ -304,12 +304,11 @@ describe('Unit: parser.js', function () {
     it('should work with line full infos', function () {
       const stream = { _columnsPositions: [19, 25, 38, 51, 52] }
       const r = matchBodyList(stream, '2018-09-29 09:06:15 ....A            9           24  DirHex/42550418a4ef9')
-      expect(r).to.be.deep.equal({
-        datetime: new Date(Date.parse('2018-09-29T07:06:15.000Z')),
-        attributes: '....A',
-        size: 9,
-        sizeCompressed: 24,
-        file: 'DirHex/42550418a4ef9' })
+      expect(r.datetime).to.be.a('date')
+      expect(r.attributes).to.equal('....A')
+      expect(r.size).to.equal(9)
+      expect(r.sizeCompressed).to.equal(24)
+      expect(r.file).to.equal('DirHex/42550418a4ef9')
     })
 
     it('should work with line not date', function () {
