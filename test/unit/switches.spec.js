@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { transformSwitchesToArgs } from '../../src/switches.js'
+import { transformSwitchesToArgs, transformApiToSwitch } from '../../src/switches.js'
 
 describe('Unit: switches.js', function () {
   it('Should return deflaut flags with no args', function () {
@@ -81,5 +81,53 @@ describe('Unit: switches.js', function () {
     expect(r).to.contain('-m1=LZMA:d=21')
     expect(r).to.contain('-pMy Super Pasw,àù£*"')
     expect(r).to.contain('-y')
+  })
+
+  it('should transform module API to cryptic 7z API', function () {
+    const r = transformApiToSwitch({
+      recursive: true,
+      storeSymLinks: true,
+      hashMethod: 'CRC32',
+      method: ['0=BCJ', '=LZMA:d=21'],
+      nonExistingSwitch: 'hello'
+    })
+    expect(r).to.deep.equal({
+      recursive: true,
+      storeSymLinks: true,
+      hashMethod: 'CRC32',
+      method: [ '0=BCJ', '=LZMA:d=21' ],
+      nonExistingSwitch: 'hello',
+      r: true,
+      snl: true,
+      scrc: 'CRC32',
+      m: [ '0=BCJ', '=LZMA:d=21' ]
+    })
+  })
+
+  it('should not add progress when not wanted', function () {
+    const r = transformApiToSwitch({})
+    expect(r.bs).to.equal(undefined)
+  })
+
+  it('should add progress when wanted by `bs`', function () {
+    const r = transformApiToSwitch({
+      bs: ['p1']
+    })
+    expect(r.bs).to.deep.equal(['p1'])
+  })
+
+  it('should add progress when wanted by `outputStreams`', function () {
+    const r = transformApiToSwitch({
+      bs: ['e2'],
+      $progress: true
+    })
+    expect(r.bs).to.deep.equal(['e2', 'p1'])
+  })
+
+  it('should add progress when wanted by `$progress`', function () {
+    const r = transformApiToSwitch({
+      $progress: true
+    })
+    expect(r.bs).to.deep.equal(['p1'])
   })
 })

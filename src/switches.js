@@ -1,7 +1,8 @@
-import { swDefaultBool, swContextBool, swRepeating, swArgs } from './references.js'
+import { swApiNames, swDefaultBool, swContextBool, swRepeating, swArgs } from './references.js'
 
 // Set deflaut values. This block is out of any function for performances (only
 // executed once and code quality concerns (transformSwitchesToArgs to long)
+const swApiNamesKeys = Object.keys(swApiNames)
 const swDefaultBoolKeys = Object.keys(swDefaultBool)
 const swContextBoolKeys = Object.keys(swContextBool)
 const swRepeatingKeys = Object.keys(swRepeating)
@@ -12,12 +13,25 @@ const swDefaults = {
   bs: []
 }
 
-/**
- * Transform an object of options into an array that can be passed to the
- * spawned child process. Only cares about the known switches from 7-zip
- * @param  {Object} options An object of options
- * @return {array} Array to pass to the `run` function.
- */
+// Transform readable switch API to 7zip cryptic switch API
+export function transformApiToSwitch (options) {
+  Object.keys(options).forEach(function (swApiName) {
+    const isApiName = (swApiNamesKeys.includes(swApiName))
+    if (isApiName) {
+      const swName = swApiNames[swApiName]
+      options[swName] = options[swApiName]
+    }
+  })
+  if (options.$progress) {
+    let outputStreams = options.bs || options.outputStreams || []
+    outputStreams.push('p1')
+    options.bs = outputStreams
+  }
+  return options
+}
+
+// Transform an object of options into an array that can be passed to the
+// spawned child process. Only cares about the known switches from 7-zip
 export function transformSwitchesToArgs (options) {
   const switches = Object.assign({}, swDefaultBool, swDefaults, options)
 

@@ -7,23 +7,21 @@ const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: update()', function () {
-  it('should return an error on 7z error', function (done) {
-    const archive = `/file/not/here`
-    const seven = update(archive)
+  it('should emit error on 7z error', function (done) {
+    const seven = update('')
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
+      expect(err.message).to.be.a('string')
+      expect(err.stderr).to.be.a('string')
       done()
     })
   })
 
-  it('should return an error on spawn error', function (done) {
+  it('should emit error on spawn error', function (done) {
     const archive = ``
     const source = ``
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
-    const seven = update(archive, source, {
-      $bin: bin
-      // or this update will fail
-    })
+    const seven = update(archive, source, { $bin: bin })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       expect(err.errno).to.equal('ENOENT')
@@ -34,7 +32,7 @@ describe('Functional: update()', function () {
     })
   })
 
-  it('should emit progress values', function (done) {
+  it('should emit progress', function (done) {
     const archiveBase = `${mockDir}/DirNew/BaseExt.7z`
     const archive = `${tmpDir}/update-progress.7z`
     const source = `${mockDir}/DirExtUpdate/*`
@@ -51,7 +49,7 @@ describe('Functional: update()', function () {
     })
   })
 
-  it('should emit files on data', function (done) {
+  it('should emit data', function (done) {
     const archiveBase = `${mockDir}/DirNew/BaseExt.7z`
     const archive = `${tmpDir}/update-data.7z`
     const source = `${mockDir}/DirExtUpdate/*`
@@ -80,7 +78,6 @@ describe('Functional: update()', function () {
       expect(seven.info.get('Method')).to.equal('LZMA2:12')
       // footers
       expect(seven.info.get('Files read from disk')).to.equal('3')
-      expect(seven.info.get('Archive size')).to.equal('2334 bytes (3 KiB)')
       done()
     })
   })

@@ -2,26 +2,27 @@
 import { expect } from 'chai'
 import { copyFileSync, readdirSync } from 'fs'
 import { extract } from '../../src/commands.js'
+import { normalize } from 'path'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: extract()', function () {
-  it('should return an error on 7z error', function (done) {
-    const archive = '/i/hope/this/is/not/where/your/archive/is'
-    const seven = extract(archive)
+  it('should emit error on 7z error', function (done) {
+    const seven = extract()
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
+      expect(err.message).to.be.a('string')
+      expect(err.stderr).to.be.a('string')
       done()
     })
   })
 
-  it('should return an error on spawn error', function (done) {
-    const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
-    // or this test will fail
-    const seven = extract('archive', undefined, undefined, {
-      $bin: bin
-    })
+  it('should emit error on spawn error', function (done) {
+    const archive = ``
+    const target = ``
+    const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
+    const seven = extract(archive, target, undefined, { $bin: bin })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       expect(err.errno).to.equal('ENOENT')
@@ -63,12 +64,12 @@ describe('Functional: extract()', function () {
     sevenEmptyString._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
   })
 
-  it('should single accept target as string', function () {
+  it('should single accept target as a string', function () {
     const seven = extract('archive.7z', undefined, 'target1', { $defer: true })
     expect(seven._args).to.contain('target1')
   })
 
-  it('should multiple accept target as array', function () {
+  it('should multiple accept target as a flat array', function () {
     const seven = extract('archive.7z', undefined, ['target1', 'target2'], { $defer: true })
     expect(seven._args).to.contain('target1')
     expect(seven._args).to.contain('target2')
@@ -83,26 +84,25 @@ describe('Functional: extract()', function () {
     seven.on('end', function () {
       expect(seven.info.get('Files')).to.equal('9')
       expect(seven.info.get('Folders')).to.equal('3')
-      expect(seven.info.get('Path')).to.equal(archive)
       const ls = readdirSync(output)
-      expect(ls).to.contain('DirExt')
-      expect(ls).to.contain('DirExt')
-      expect(ls).to.contain('root.md')
-      expect(ls).to.contain('root.not')
-      expect(ls).to.contain('root.txt')
-      expect(ls).to.contain('sub1')
-      expect(ls).to.contain('sub1.md')
-      expect(ls).to.contain('sub1.not')
-      expect(ls).to.contain('sub1.txt')
-      expect(ls).to.contain('sub2')
-      expect(ls).to.contain('sub2.md')
-      expect(ls).to.contain('sub2.not')
-      expect(ls).to.contain('sub2.txt')
+      expect(ls).to.contain(normalize('DirExt'))
+      expect(ls).to.contain(normalize('DirExt'))
+      expect(ls).to.contain(normalize('root.md'))
+      expect(ls).to.contain(normalize('root.not'))
+      expect(ls).to.contain(normalize('root.txt'))
+      expect(ls).to.contain(normalize('sub1'))
+      expect(ls).to.contain(normalize('sub1.md'))
+      expect(ls).to.contain(normalize('sub1.not'))
+      expect(ls).to.contain(normalize('sub1.txt'))
+      expect(ls).to.contain(normalize('sub2'))
+      expect(ls).to.contain(normalize('sub2.md'))
+      expect(ls).to.contain(normalize('sub2.not'))
+      expect(ls).to.contain(normalize('sub2.txt'))
       done()
     })
   })
 
-  it('should emit progress values', function (done) {
+  it('should emit progress', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/extract-flat-progress.7z`
     const output = `${tmpDir}/extract-flat-progress`
@@ -119,7 +119,7 @@ describe('Functional: extract()', function () {
     })
   })
 
-  it('should emit files on progress', function (done) {
+  it('should emit data', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/extract-flat-data.7z`
     const output = `${tmpDir}/extract-flat-data`
@@ -148,21 +148,20 @@ describe('Functional: extract()', function () {
     seven.on('end', function () {
       expect(seven.info.get('Files')).to.equal('9')
       expect(seven.info.get('Folders')).to.equal('3')
-      expect(seven.info.get('Path')).to.equal(archive)
       const ls = readdirSync(output)
-      expect(ls).to.contain('DirExt')
-      expect(ls).to.contain('DirExt')
-      expect(ls).to.contain('root.md')
-      expect(ls).to.contain('root.not')
-      expect(ls).to.contain('root.txt')
-      expect(ls).to.contain('sub1')
-      expect(ls).to.contain('sub1.md')
-      expect(ls).to.contain('sub1.not')
-      expect(ls).to.contain('sub1.txt')
-      expect(ls).to.contain('sub2')
-      expect(ls).to.contain('sub2.md')
-      expect(ls).to.contain('sub2.not')
-      expect(ls).to.contain('sub2.txt')
+      expect(ls).to.contain(normalize('DirExt'))
+      expect(ls).to.contain(normalize('DirExt'))
+      expect(ls).to.contain(normalize('root.md'))
+      expect(ls).to.contain(normalize('root.not'))
+      expect(ls).to.contain(normalize('root.txt'))
+      expect(ls).to.contain(normalize('sub1'))
+      expect(ls).to.contain(normalize('sub1.md'))
+      expect(ls).to.contain(normalize('sub1.not'))
+      expect(ls).to.contain(normalize('sub1.txt'))
+      expect(ls).to.contain(normalize('sub2'))
+      expect(ls).to.contain(normalize('sub2.md'))
+      expect(ls).to.contain(normalize('sub2.not'))
+      expect(ls).to.contain(normalize('sub2.txt'))
       done()
     })
   })

@@ -7,24 +7,21 @@ const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: remove()', function () {
-  it('should return an error on 7z error', function (done) {
-    const archive = '/i/hope/this/is/not/where/your/archive/is'
-    const source = `${mockDir}/dev/null`
-    const seven = del(archive, source)
+  it('should emit error on 7z error', function (done) {
+    const seven = del('', [])
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
+      expect(err.message).to.be.a('string')
+      expect(err.stderr).to.be.a('string')
       done()
     })
   })
 
-  it('should return an error on spawn error', function (done) {
+  it('should emit error on spawn error', function (done) {
     const archive = ``
-    const source = ``
-    const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
-    // or this test will fail
-    const seven = del(archive, source, {
-      $bin: bin
-    })
+    const target = ``
+    const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
+    const seven = del(archive, target, { $bin: bin })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       expect(err.errno).to.equal('ENOENT')
@@ -50,7 +47,7 @@ describe('Functional: remove()', function () {
     })
   })
 
-  it('should accept multiple sources as a array', function (done) {
+  it('should accept multiple sources as a flat array', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/del-multiple.7z`
     const target = [`DirExt/*.md`, `DirExt/*.txt`]
@@ -65,7 +62,7 @@ describe('Functional: remove()', function () {
     })
   })
 
-  it('should emit progress values', function (done) {
+  it('should emit progress', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/progress-del.7z`
     const target = `DirExt/*.md`
@@ -82,7 +79,7 @@ describe('Functional: remove()', function () {
     })
   })
 
-  it('should emit files on progress', function (done) {
+  it('should emit data', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/progress-file-del.7z`
     const target = `DirExt/*.md`

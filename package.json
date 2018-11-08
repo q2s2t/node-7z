@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "npm run test-ci ; npm run test-cleanup",
-    "test-ci": "npx mocha -r esm --reporter=spec \"test/**/*.spec.js\" --timeout=0",
+    "test-ci": "npx mocha -r esm --reporter=spec \"test/**/*.spec.js\"",
     "test-docker": "circleci local execute --job build",
     "test-cleanup": "rm -rf test/_tmp/* ; touch test/_tmp/.gitkeep",
     "test-debug": "DEBUG=node-7z npm run test",
@@ -52,7 +52,8 @@
   "dependencies": {
     "cross-spawn": "^6.0.4",
     "debug": "^4.1.0",
-    "esm": "^3.0.79"
+    "esm": "^3.0.79",
+    "normalize-path": "^3.0.0"
   },
   "optionalDependencies": {},
   "devDependencies": {

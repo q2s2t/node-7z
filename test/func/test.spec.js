@@ -7,25 +7,22 @@ const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: test()', function () {
-  it('should return an error on 7z error', function (done) {
+  it('should emit error on 7z error', function (done) {
     const archive = `${tmpDir}/testnot.7z`
     const seven = test(archive)
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       expect(err.level).to.equal('ERROR')
-      expect(err.message).to.equal('No more files')
+      expect(err.message).to.be.a('string')
       done()
     })
   })
 
-  it('should return an error on spawn error', function (done) {
+  it('should emit error on spawn error', function (done) {
     const archive = ``
-    const source = ``
+    const target = ``
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
-    const seven = test(archive, source, {
-      $bin: bin
-      // or this test will fail
-    })
+    const seven = test(archive, target, { $bin: bin })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       expect(err.errno).to.equal('ENOENT')
@@ -36,7 +33,7 @@ describe('Functional: test()', function () {
     })
   })
 
-  it('should emit progress values', function (done) {
+  it('should emit progress', function (done) {
     const archiveBase = `${mockDir}/DirNew/NewImages.7z`
     const archive = `${tmpDir}/test-progress.7z`
     copyFileSync(archiveBase, archive)
@@ -52,9 +49,9 @@ describe('Functional: test()', function () {
     })
   })
 
-  it('should emit files on progress', function (done) {
+  it('should emit data', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-    const archive = `${tmpDir}/test-progress.7z`
+    const archive = `${tmpDir}/test-data.7z`
     copyFileSync(archiveBase, archive)
     const seven = test(archive)
     let counter = 0
@@ -75,7 +72,6 @@ describe('Functional: test()', function () {
     const seven = test(archive)
     seven.on('end', function () {
       // headers
-      expect(seven.info.get('Testing archive')).to.equal(archive)
       expect(seven.info.get('Method')).to.equal('LZMA2:12')
       // footers
       expect(seven.info.get('Files')).to.equal('9')
@@ -85,9 +81,9 @@ describe('Functional: test()', function () {
     })
   })
 
-  it('should accept multiple targets as a string', function (done) {
+  it('should accept single target as a string', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-    const archive = `${tmpDir}/test-headers-footers.7z`
+    const archive = `${tmpDir}/test-single.7z`
     copyFileSync(archiveBase, archive)
     const target = `*.txt`
     const seven = test(archive, target, { r: true })
@@ -111,7 +107,7 @@ describe('Functional: test()', function () {
 
   it('should accept multiple targets as a array', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
-    const archive = `${tmpDir}/test-headers-footers.7z`
+    const archive = `${tmpDir}/test-multiple.7z`
     copyFileSync(archiveBase, archive)
     const target = [
       `*.txt`,
@@ -146,7 +142,6 @@ describe('Functional: test()', function () {
     const seven = test(archive, undefined, { $path: `${mockDir}/Seven Zip` })
     seven.on('end', function () {
       // headers
-      expect(seven.info.get('Testing archive')).to.equal(archive)
       expect(seven.info.get('Method')).to.equal('LZMA2:12')
       // footers
       expect(seven.info.get('Files')).to.equal('9')

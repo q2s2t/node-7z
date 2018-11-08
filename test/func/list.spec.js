@@ -7,7 +7,7 @@ const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: list()', function () {
-  it('should return an error on 7z error', function (done) {
+  it('should emit error on 7z error', function (done) {
     const archive = '/i/hope/this/is/not/where/your/archive/is'
     const seven = list(archive)
     seven.on('error', function (err) {
@@ -16,14 +16,13 @@ describe('Functional: list()', function () {
     })
   })
 
-  it('should return an error on spawn error', function (done) {
+  it.only('should emit error on spawn error', function (done) {
     const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
     const seven = list('archive', undefined, {
       $bin: bin
     })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
-      expect(err.errno).to.equal('ENOENT')
       expect(err.code).to.equal('ENOENT')
       expect(err.syscall).to.equal(`spawn ${bin}`)
       expect(err.path).to.equal(bin)
@@ -43,12 +42,12 @@ describe('Functional: list()', function () {
     })
   })
 
-  it('should single accept target as string', function () {
+  it('should single accept single target as a string', function () {
     const seven = list('archive.7z', 'target1', { $defer: true })
     expect(seven._args).to.contain('target1')
   })
 
-  it('should multiple accept target as array', function () {
+  it('should multiple accept multiple target as an array', function () {
     const seven = list('archive.7z', ['target1', 'target2'], { $defer: true })
     expect(seven._args).to.contain('target1')
     expect(seven._args).to.contain('target2')
@@ -84,7 +83,7 @@ describe('Functional: list()', function () {
     })
   })
 
-  it('should emit files on progress', function (done) {
+  it('should emit data', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/list-data.7z`
     copyFileSync(archiveBase, archive)
@@ -95,6 +94,22 @@ describe('Functional: list()', function () {
       expect(data.file).to.be.a('string')
     }).on('end', function () {
       expect(counter).to.be.equal(12)
+      done()
+    })
+  })
+
+  it('should NOT emit progress', function (done) {
+    const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
+    const archive = `${tmpDir}/list-progress.7z`
+    copyFileSync(archiveBase, archive)
+    let once = false
+    const seven = list(archive, undefined, { r: true, bs: ['p1'] })
+    seven.on('progress', function (progress) {
+      once = true
+      expect(progress.percent).to.be.an('number')
+      expect(progress.fileCount).to.be.an('number')
+    }).on('end', function () {
+      expect(once).to.be.equal(false)
       done()
     })
   })

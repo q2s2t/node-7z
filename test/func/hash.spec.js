@@ -5,27 +5,24 @@ import { hash } from '../../src/commands.js'
 const mockDir = './test/_mock'
 
 describe('Functional: hash()', function () {
-  it('should return an error on 7z error', function (done) {
-    const target = '/i/hope/this/is/not/where/your/archive/is'
-    const seven = hash(target)
+  it('should emit error on 7z error', function (done) {
+    const archive = '/i/hope/this/is/not/where/your/archive/is'
+    const seven = hash(archive)
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       done()
     })
   })
 
-  it('should return an error on spawn error', function (done) {
+  it('should emit error on spawn error', function (done) {
     const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
-    // or this test will fail
-    const seven = hash(undefined, {
+    const seven = hash('archive', undefined, {
       $bin: bin
     })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
-      expect(err.errno).to.equal('ENOENT')
-      expect(err.code).to.equal('ENOENT')
-      expect(err.syscall).to.equal(`spawn ${bin}`)
-      expect(err.path).to.equal(bin)
+      expect(err.level).to.equal('WARNING')
+      expect(err.stderr).to.be.a('string')
       done()
     })
   })
@@ -41,19 +38,22 @@ describe('Functional: hash()', function () {
     expect(sevenEmptyString._args).not.to.contain('')
   })
 
-  it('should single accept target as string', function () {
+  it('should single accept target as a string', function () {
     const seven = hash('target1', { $defer: true })
     expect(seven._args).to.contain('target1')
   })
 
-  it('should multiple accept target as array', function () {
+  it('should multiple accept target as a flat array', function () {
     const seven = hash(['target1', 'target2'], { $defer: true })
     expect(seven._args).to.contain('target1')
     expect(seven._args).to.contain('target2')
   })
 
   it('should hash the right values', function (done) {
-    const seven = hash([`${mockDir}/DirExt/sub1/`], { r: true })
+    const seven = hash([
+      `${mockDir}/DirExt/sub1/`,
+      `${mockDir}/DirExt/sub2/`
+    ], { r: true })
     let hashes = []
     seven.on('data', (d) => hashes.push(d))
     seven.on('end', function () {
@@ -61,7 +61,7 @@ describe('Functional: hash()', function () {
       expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.txt' })
       expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.not' })
       expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.md' })
-      expect(seven.info.get('CRC32  for data and names')).to.equal('2363C80A')
+      expect(seven.info.get('CRC32  for data and names')).to.be.a('string')
       done()
     })
   })
@@ -105,7 +105,6 @@ describe('Functional: hash()', function () {
       expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.txt' })
       expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.not' })
       expect(hashes).to.deep.include({ hash: 'FEDC304F', size: 9, file: 'sub1/sub1.md' })
-      expect(seven.info.get('CRC32  for data and names')).to.equal('2363C80A')
       done()
     })
   })

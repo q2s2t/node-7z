@@ -23,13 +23,12 @@ import {
   ERR_MULTIPLE_LINE
 } from './regexp.js'
 import { transformBinToString, transformSpecialArrayToArgs } from './special.js'
-import { transformSwitchesToArgs } from './switches.js'
+import { transformApiToSwitch, transformSwitchesToArgs } from './switches.js'
 
 const debug = debugModule('node-7z')
 
 export class SevenZipStream extends Readable {
   constructor (options) {
-    debug('stream: new SevenZipStream()')
     // @TODO must be called with the `new` operator
     options.highWaterMark = 16
     options.objectMode = true
@@ -38,7 +37,7 @@ export class SevenZipStream extends Readable {
     // Compose child_process args
     const wildcards = transformSpecialArrayToArgs(options, '$wildcards')
     const raw = transformSpecialArrayToArgs(options, '$raw')
-    const switches = transformSwitchesToArgs(options)
+    const switches = transformSwitchesToArgs(transformApiToSwitch(options))
     const binSpawn = transformBinToString(options)
     const args = options._commandArgs
       .concat(wildcards)
@@ -50,6 +49,7 @@ export class SevenZipStream extends Readable {
     this._progressSwitch = args.includes('-bsp1')
     this._stage = STAGE_HEADERS
     this.info = new Map()
+    debug('stream: new SevenZipStream()', binSpawn, args)
 
     // When $defer option is specified the stream is constructed but the
     // child_process is not spawned, nor the listeners are attached. It allows
@@ -92,6 +92,18 @@ export class SevenZipStream extends Readable {
     })
     stream._childProcess.on('error', function (err) {
       stream._onSpawnError(stream, err)
+    })
+    // stream._childProcess.on('exit', function () {
+    //   if (stream.err) {
+    //     debug('err: %j', stream.err)
+    //     stream.emit('error', stream.err)
+    //   }
+    // })
+    stream._childProcess.on('close', function () {
+      if (stream.err) {
+        debug('err: %j', stream.err)
+        stream.emit('error', stream.err)
+      }
     })
     return this
   }
@@ -241,20 +253,32 @@ export class SevenZipStream extends Readable {
 
   _onSubprocessError (stream, chunk) {
     const stderr = chunk.toString()
-    const inLineError = stderr.match(ERR_ONE_LINE)
-    const offLineError = stderr.match(ERR_MULTIPLE_LINE)
-    const err = new Error('unknown error')
-    let errProps = {}
-    errProps = (inLineError) ? inLineError.groups : errProps
-    errProps = (offLineError) ? offLineError.groups : errProps
-    Object.assign(err, errProps)
+    const matchOneLine = stderr.match(ERR_ONE_LINE)
+    const matchMultipleLine = stderr.match(ERR_MULTIPLE_LINE)
+    let err = new Error('unknown error')
+    if (matchOneLine) {
+      Object.assign(err, matchOneLine.groups)
+    }
+    if (matchMultipleLine) {
+      Object.assign(err, matchMultipleLine.groups)
+    }
     err.stderr = stderr // @TODO doc: usage of raw stderr to get more info
-    stream.emit('error', err)
+    if (stream.err) {
+      Object.assign(stream.err, err)
+    } else {
+      stream.err = err
+    }
+    debug('error-stderr: %o', stream.err)
     return stream
   }
 
   _onSpawnError (stream, err) {
-    stream.emit('error', err)
+    if (stream.err) {
+      Object.assign(stream.err, err)
+    } else {
+      stream.err = err
+    }
+    debug('error-childprocess: %o', err)
     return stream
   }
 }

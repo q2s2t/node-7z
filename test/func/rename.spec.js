@@ -7,20 +7,21 @@ const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: rename()', function () {
-  it('should return an error on 7z error', function (done) {
-    const target = '/i/hope/this/is/not/where/your/archive/is'
-    const seven = rename(target, [])
+  it('should emit error on 7z error', function (done) {
+    const seven = rename('', [])
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
+      expect(err.message).to.be.a('string')
+      expect(err.stderr).to.be.a('string')
       done()
     })
   })
 
-  it('should return an error on spawn error', function (done) {
-    const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
-    const seven = rename('archive', [], {
-      $bin: bin
-    })
+  it('should emit error on spawn error', function (done) {
+    const archive = ``
+    const target = ``
+    const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
+    const seven = rename(archive, target, { $bin: bin })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       expect(err.errno).to.equal('ENOENT')
@@ -31,7 +32,7 @@ describe('Functional: rename()', function () {
     })
   })
 
-  it('should single accept target as flat array', function () {
+  it('should accept single target as flat array', function () {
     const seven = rename('archive', ['src', 'dest'], { $defer: true })
     expect(seven._args).to.deep.equal([
       'rn', 'archive',
@@ -65,7 +66,7 @@ describe('Functional: rename()', function () {
     })
   })
 
-  it('should emit files on progress', function (done) {
+  it('should emit data', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/rename-data.7z`
     copyFileSync(archiveBase, archive)
@@ -77,6 +78,25 @@ describe('Functional: rename()', function () {
       expect(data.file).to.be.an('string')
     }).on('end', function () {
       expect(counter).to.be.equal(10)
+      done()
+    })
+  })
+
+  it('should emit progress', function (done) {
+    const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
+    const archive = `${tmpDir}/rename-progress.7z`
+    copyFileSync(archiveBase, archive)
+    let once = false
+    const seven = rename(archive, ['DirExt/sub1', 'DirExt/renamed'], {
+      r: true,
+      bs: ['p1']
+    })
+    seven.on('progress', function (progress) {
+      once = true
+      expect(progress.percent).to.be.an('number')
+      expect(progress.fileCount).to.be.an('number')
+    }).on('end', function () {
+      expect(once).to.equal(true)
       done()
     })
   })

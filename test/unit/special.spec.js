@@ -39,6 +39,6 @@ describe('Unit: special.js', function () {
 
   it('should fallback to deflaut if $bin not specified', function () {
     const r = transformBinToString({})
-    expect(r).to.equals('7za')
+    expect(r).to.equals('7z')
   })
 })

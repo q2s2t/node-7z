@@ -1,3 +1,4 @@
+import normalizePath from 'normalize-path'
 import { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, END_OF_STAGE_HYPHEN } from './regexp.js'
 import { STAGE_BODY, STAGE_HEADERS } from './references.js'
 
@@ -62,7 +63,7 @@ export function matchBodyProgress (stream, line) {
     return {
       percent: Number.parseInt(match.groups.percent),
       fileCount: Number.parseInt(match.groups.fileCount),
-      file: match.groups.file
+      file: normalizePath(match.groups.file)
     }
   }
   return null
@@ -76,6 +77,7 @@ export function matchBodyProgress (stream, line) {
 export function matchBodySymbol (stream, line) {
   const match = line.match(BODY_SYMBOL_FILE)
   if (match) {
+    match.groups.file = normalizePath(match.groups.file)
     return match.groups
   }
   return null
@@ -101,7 +103,7 @@ export function matchBodyList (stream, line) {
   const attributes = (!isEmpty(raw.attributes)) ? raw.attributes.trim() : undefined
   const size = (!isEmpty(raw.size)) ? Number.parseInt(raw.size) : undefined
   const sizeCompressed = (!isEmpty(raw.sizeCompressed)) ? Number.parseInt(raw.sizeCompressed) : undefined
-  const file = (!isEmpty(raw.file)) ? raw.file.trim() : undefined
+  const file = (!isEmpty(raw.file)) ? normalizePath(raw.file.trim()) : undefined
   return { datetime, attributes, size, sizeCompressed, file }
 }
 
@@ -119,7 +121,7 @@ export function matchBodyHash (stream, line) {
     return {
       hash: match.groups.hash,
       size: Number.parseInt(match.groups.size),
-      file: match.groups.file
+      file: normalizePath(match.groups.file)
     }
   }
   return null

@@ -65,27 +65,32 @@ describe('Unit: parser.js', function () {
   })
 
   describe('matchEndOfHeadersSymbol()', function () {
-    // const stubStream = new SevenZipStream({
-    //   _commandArgs: ['a'],
-    //   _matchBodyData: matchBodySymbol
-    // })
-    const opts = { $defer: true }
-    opts._commandArgs = ['a']
-    const stub = new SevenZipStream(opts)
-    stub._matchBodyData = matchBodySymbol
-    stub._matchEndOfHeaders = matchEndOfHeadersSymbol
-
     it('should return false on non match', function () {
+      const opts = { $defer: true }
+      opts._commandArgs = ['a']
+      const stub = new SevenZipStream(opts)
+      stub._matchBodyData = matchBodySymbol
+      stub._matchEndOfHeaders = matchEndOfHeadersSymbol
       const r = matchEndOfHeadersSymbol(stub, 'Colon info: type colon info')
       expect(r).to.equal(false)
     })
 
     it('should return false on pseudo-empty line', function () {
+      const opts = { $defer: true }
+      opts._commandArgs = ['a']
+      const stub = new SevenZipStream(opts)
+      stub._matchBodyData = matchBodySymbol
+      stub._matchEndOfHeaders = matchEndOfHeadersSymbol
       const r = matchEndOfHeadersSymbol(stub, '    ')
       expect(r).to.be.equal(false)
     })
 
     it('should be truthly on match of symbol-filname pair', function () {
+      const opts = { $defer: true }
+      opts._commandArgs = ['a']
+      const stub = new SevenZipStream(opts)
+      stub._matchBodyData = matchBodySymbol
+      stub._matchEndOfHeaders = matchEndOfHeadersSymbol
       const r = matchEndOfHeadersSymbol(stub, '+ some/file.txt')
       let pass = false
       if (r) pass = true
@@ -223,14 +228,14 @@ describe('Unit: parser.js', function () {
       const r = matchBodySymbol({}, '+ C:\\test\\file')
       expect(r).to.be.an('object')
       expect(r['symbol']).to.equal('+')
-      expect(r['file']).to.equal('C:\\test\\file')
+      expect(r['file']).to.equal('C:/test/file')
     })
 
     it('should return file on Windows remote', function () {
       const r = matchBodySymbol({}, '+ \\test\\file')
       expect(r).to.be.an('object')
       expect(r['symbol']).to.equal('+')
-      expect(r['file']).to.equal('\\test\\file')
+      expect(r['file']).to.equal('/test/file')
     })
 
     it('should return file with emoji☕️', function () {
@@ -260,13 +265,13 @@ describe('Unit: parser.js', function () {
       expect(r).to.be.an('object')
       expect(r['hash']).to.equal('7E9C36FF6828353A')
       expect(r['size']).to.equal(9)
-      expect(r['file']).to.equal('C:\\test\\file')
+      expect(r['file']).to.equal('C:/test/file')
     })
 
     it('should return file on Windows remote', function () {
       const r = matchBodyHash({}, '7E9C36FF6828353A             9   \\test\\file')
       expect(r).to.be.an('object')
-      expect(r['file']).to.equal('\\test\\file')
+      expect(r['file']).to.equal('/test/file')
       expect(r['hash']).to.equal('7E9C36FF6828353A')
       expect(r['size']).to.equal(9)
     })

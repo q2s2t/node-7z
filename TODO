@@ -30,6 +30,7 @@ Maintenance:
     ✔ Spaces in achive name, file name or in switches @done(18-08-23 12:36)
     ☐ Keep a Promise and callback style interface on top (do not recommand using it)
     ☐ Check all issues from GitHub and test them
+    ☐ fix: dual instance (see test-debug)
 Features:
     ✔ Streams? Buffer or Object mode? @done(18-09-09 18:58)
     ✔ 7z path option @done(18-09-02 19:34)
@@ -37,7 +38,7 @@ Features:
     ☐ TypeScript support
     ☐ Babel/ES5 etc support
     ☐ Close/end SevenZipStream
-    ☐ Full-named switches for cleaner API
+    ✔ Full-named switches for cleaner API @done(18-11-04 19:54)
     ✔ Stream methods returns stream @done(18-10-17 20:35)
     ☐ Esier to use progress
     ☐ Status (TU+R. and others?) as plain text 

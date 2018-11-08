@@ -1,3 +1,50 @@
+/**
+ * For less cryptic API
+ */
+export const swApiNames = {
+  // Booleans
+  recursive: 'r', // Recurse subdirectories. For `-r0` usage see `raw`
+  deleteFilesAfter: 'sdel', // Delete files after compression
+  largePageMode: 'spl', // Set Large Pages mode
+  storeNtSecurity: 'sni', // Store NT security
+  alternateStreamExtract: 'snc', // Extract file as alternate stream, if there is ':' character in name
+  alternateStreamReplace: 'snr', // Replace ':' character to '_' character in paths of alternate streams
+  storeHardLinks: 'snh', // Store hard links as links (WIM and TAR formats only)
+  storeSymLinks: 'snl', // Store symbolic links as links (WIM and TAR formats only)
+  toStdout: 'so', // Write data to stdout
+  noWildcards: 'spd', // Disable wildcard matching for file names
+  noRootDuplication: 'spe', // Eliminate duplication of root folder for extract command
+  fullyQualifiedPaths: 'spf', // Use fully qualified file paths
+  openFiles: 'ssw', // Compress files open for writing
+  latestTimeStamp: 'stl', // Set archive timestamp from the most recently modified file
+  yesToAll: 'y', // Assume Yes on all queries
+  // Context Booleans
+  alternateStreamStore: 'sns', // Store NTFS alternate Streams
+  caseSensitive: 'ssc', // Set Sensitive Case mode
+  // Arguments
+  overwrite: 'ao', // Overwrite mode
+  logLevel: 'bb', // Set output log level
+  outputDir: 'o', // Set Output directory
+  password: 'p', // Set Password
+  archiveNameMode: 'sa', // Set Archive name mode
+  hashMethod: 'scrc', // Set hash function
+  listFileCharset: 'scs', // Set charset for list files
+  sfx: 'sfx', // Create SFX archive
+  fromStdin: 'si', // Read data from StdIn
+  cpuAffinity: 'stm', // Set CPU thread affinity mask (hexadecimal number).
+  excludeArchiveType: 'stx', // Exclude archive type
+  archiveType: 't', // Type of archive
+  updateOptions: 'u', // Update options
+  workingDir: 'w', // Set Working directory
+  // Repeatings
+  includeArchive: 'ai', // Include archive filenames
+  excludeArchive: 'ax', // Exclude archive filenames
+  outputStreams: 'bs', // Set output stream for output/error/progress
+  include: 'i', // Include filenames
+  method: 'm', // Set Compression Method
+  volumes: 'v', // Create Volumes
+  exlude: 'x'// Exclude filenames
+}
 
 /**
  * Switches that can be toggled on or off (boolean switches). Default values

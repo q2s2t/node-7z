@@ -13,6 +13,6 @@ export function transformBinToString (options) {
   if (isCustomBin) {
     return options.$bin
   } else {
-    return '7za'
+    return '7z'
   }
 }
