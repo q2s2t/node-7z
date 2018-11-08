@@ -4,7 +4,7 @@ environment:
 
 # Install scripts. (runs after repo cloning)
 install:
-  - copy "./test/_mock/Binaries/7z.exe" "./7z.exe"
+  - copy "./test/_mock/Binaries/7z-win32" "./7z.exe"
   - 7z # Display 7z version and help
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version

@@ -1,49 +1,67 @@
 node-7z
 =======
 
-[![Dependencies Status][david-image]][david-url] [![Build Status][travis-image]][travis-url] [![Code coverage][coveralls-image]][coveralls-url] [![Release][npm-image]][npm-url]
+[![Release][npm-image]][npm-url]
+[![Dependencies Status][david-image]][david-url]
+[![Linux Build][circleci-image]][circleci-url]
+[![Windows Build][appveyor-image]][appveyor-url]
+[![Code coverage][coverage-image]][coverage-url]
+[![Code Maintainability][maintainability-image]][maintainability-url]
 
-> A Node.js wrapper for 7-Zip *with platform binaries*
+> A Node.js wrapper for 7-Zip
 
 Usage
 -----
 
-I chose to use *Promises* in this library. API is consistent with standard use:
+Stream API:
 
 ```js
-var Zip = require('node-7z'); // Name the class as you want!
-var myTask = new Zip();
-myTask.extractFull('myArchive.7z', 'destination', { p: 'myPassword' })
+import extractFull from 'node-7z'
 
-// Equivalent to `on('data', function (files) { // ... });`
-.progress(function (files) {
-  console.log('Some files are extracted: %s', files);
-});
+const seven = extractFull('./archive.7z', './output/dir/')
+  .on('data', function (data) {
+    doStuffWith(data) //? { symbol: '-', file: 'extracted/file.txt" }
+  })
+  .on('progresss', function (progress) {
+    doStuffWith(progress) //? { percent: 67, fileCount: 5, file: undefinded }
+  })
+  .on('end', function () {
+    // end of the operation, get the number of folders involved in the operation
+    seven.info.get('Folders') //? 4
+  })
+  .on('error', (err) => handleError(err))
 
-// When all is done
-.then(function () {
-  console.log('Extracting done!');
-});
-
-// On error
-.catch(function (err) {
-  console.error(err);
-});
 ```
 
 Installation
 ------------
 
-This package download binaries are at install time. Host system does not need to have 7zip installed or in PATH. 
-
-The binaries will be downloaded from:
-> On Linux - https://sourceforge.net/projects/p7zip
-> On Windows - http://www.7-zip.org/download.html
-> On Mac OSX - http://rudix.org/packages/p7zip.html
-  Note: Mac OSX 10.6 to 10.12 are pre included, to reinstall `npm run-script prepack` this must be done on a windows platform.
-
-```
+```sh
 npm install --save node-7z
+```
+
+You must have the a 7-Zip executable (v16.04 or greater) available in your
+system.
+
+> - On Debian and Ubuntu install the p7zip-full package.
+> - On Mac OSX use Homebrew `brew install p7zip`
+> - On Windows get 7-Zip frome [7-Zip download page](https://www.7-zip.org/download.html).
+>
+> By default the module calls the `7z` binary, it should be available in your
+> PATH.
+
+An alernative is to add the `7zip-bin` module to your project. This module
+contains an up-to-date version of 7-Zip for all available plaforms. Then you
+can do:
+
+```js
+import sevenBin from '7zip-bin'
+import extractFull from 'node-7z'
+
+const pathTo7zip = sevenBin.path7za
+const seven = extractFull('./archive.7z', './output/dir/', {
+  $bin: pathTo7zip
+})
 ```
 
 API
@@ -158,31 +176,26 @@ API
 **Error**
  * `err` An Error object.
 
-
 Advanced usage
 --------------
 
 ### Compression method
 
-With the `7za` binary compression is made like that:
+Using the CLI, compression is made like that:
 
-```bat
+```sh
 # adds *.exe and *.dll files to solid archive archive.7z using LZMA method
 # with 2 MB dictionary and BCJ filter.
 7z a archive.7z *.exe -m0=BCJ -m1=LZMA:d=21
 ```
 
-With **node-7z** you can translate it like that:
+With to module you can translate it like that:
 
 ```js
-var archive = new Zip();
-archive.add('archive.7z', '*.exe', {
-  m0: '=BCJ',
-  m1: '=LZMA:d=21'
+import { add } from 'node-7z'
+const myCompressStream = new add('archive.7z', '*.exe', {
+  m: ['0=BCJ', '=LZMA:d=21']
 })
-.then(function () {
-  // Do stuff...
-});
 ```
 
 ### Add, delete and update multiple files
@@ -191,78 +204,41 @@ When adding, deleting or updating archives you can pass either a string or an
 array as second parameter (the `files` parameter).
 
 ```js
-var archive = new Zip();
-archive.delete('bigArchive.7z', [ 'file1', 'file2' ])
-.then(function () {
-  // Do stuff...
-});
+import { remove } from 'node-7z'
+const myDeleteStream = new remove('bigArchive.7z', [ 'file1', 'subdir/*.js' ])
 ```
-
-### Wildcards
-
-You can extract with wildcards to specify one or more file extensions. To do
-this add a `wildcards` attribute to the `options` object. The `wildcard`
-attribute takes an *Array* as value. In this array each item is a wildcard.
-
-```js
-var archive = new Zip();
-archive.extractFull('archive.zip', 'destination/', {
-  wildcards: [ '*.txt', '*.md' ], // extract all text and Markdown files
-  r: true // in each subfolder too
-})
-.progress(function (files) {
-  // Do stuff with files...
-})
-.then(function () {
-  // Do stuff...
-});
-```
-
-Note that the `r` (for recursive) attribute is passed in this example.
-
 
 ### Raw inputs
 
 > Thanks to sketchpunk #9 for this one
 
 Sometimes you just want to use the lib as the original command line. For
-instance you want to apply to switches with different values (e.g.:
-`-i!*.jpg -i!*.png` to target only two types of extensions).
-
-In such cases the default behavior of the `options` argument is not enough. You
-can use the custom `raw` key in your `options` object and pass it an *Array* of
+instance you want to apply to switches with different values. You  can use the
+ custom `$raw` key in your `options` object and pass it an *Array* of
 values.
 
 ```js
-var archive = new Zip();
-archive.list('archive.zip', {
-  raw: [ '-i!*.jpg', '-i!*.png' ], // only images
+import { add } from 'node-7z'
+const myCompressStream = new add('archive.7z', {
+  $raw: [ '-i!*.jpg', '-i!*.png' ], // only images
 })
-.progress(function (files) {
-  // Do stuff with files...
-})
-.then(function () {
-  // Do stuff...
-});
 ```
 
 ### Emoji and Unicode
 
-Due to a `7z` limitation emojis and special characters can't be used as values 
-when passed to an `option` object (ex: password). But they can be used in 
+Due to a `7z` limitation emojis and special characters can't be used as values
+when passed to an `option` object (ex: password). But they can be used in
 archive, filenames and destinations.
 
-Use `{ scc: 'UTF-8' }` for special characters.
+Use the *scc* switch `{ scc: 'UTF-8' }` for special characters.
 
 ### Log level
 
 The default log level (`-bb` switch) is set to:
 > 3 :show information about additional operations (Analyze, Replicate) for "Add"
 > / "Update" operations.
-It's a base feature of `node-7z` and is required for the `SevenZipStream#data` 
-event to work as expected. A diffrent value can be used but the output values
-from the stream will be impacted. In particular a log level of `0` will cause 
-the stream not to emit data correctly.
+It's a base feature of `node-7z` and is required for the module to work as 
+expected. A diffrent value should not be used.
 
 ### Security
 
@@ -274,11 +250,13 @@ With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 
 [david-url]: https://david-dm.org/quentinrossetti/node-7z
 [david-image]: http://img.shields.io/david/quentinrossetti/node-7z.svg
-[travis-url]: https://travis-ci.org/quentinrossetti/node-7z
-[travis-image]: http://img.shields.io/travis/quentinrossetti/node-7z.svg
-[codeclimate-url]: https://codeclimate.com/github/quentinrossetti/node-7z
-[codeclimate-image]: http://img.shields.io/codeclimate/github/quentinrossetti/node-7z.svg
-[coveralls-url]: https://coveralls.io/r/quentinrossetti/node-7z
-[coveralls-image]: http://img.shields.io/coveralls/quentinrossetti/node-7z.svg
+[circleci-url]: https://circleci.com/gh/quentinrossetti/workflows/node-7z
+[circleci-image]: https://img.shields.io/circleci/project/github/quentinrossetti/node-7z.svg?logo=linux
+[appveyor-url]: https://ci.appveyor.com/project/quentinrossetti/node-7z
+[appveyor-image]: https://img.shields.io/appveyor/ci/quentinrossetti/node-7z.svg?logo=windows
 [npm-url]: https://www.npmjs.org/package/node-7z
 [npm-image]: http://img.shields.io/npm/v/node-7z.svg
+[coverage-url]: https://codeclimate.com/github/quentinrossetti/node-7z
+[coverage-image]: https://img.shields.io/codeclimate/coverage/quentinrossetti/node-7z.svg
+[maintainability-url]: https://codeclimate.com/github/quentinrossetti/node-7z
+[maintainability-image]: https://img.shields.io/codeclimate/maintainability/quentinrossetti/node-7z.svg
