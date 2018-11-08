@@ -31,6 +31,7 @@ Maintenance:
     ☐ Keep a Promise and callback style interface on top (do not recommand using it)
     ☐ Check all issues from GitHub and test them
     ☐ fix: dual instance (see test-debug)
+    ☐ Refactor in dependecy injection style
 Features:
     ✔ Streams? Buffer or Object mode? @done(18-09-09 18:58)
     ✔ 7z path option @done(18-09-02 19:34)

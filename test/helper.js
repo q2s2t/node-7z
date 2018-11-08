@@ -10,4 +10,5 @@ export function getAlternateBinByPlatform () {
     dest = dest + '.exe'
   }
   copyFileSync(bin, dest)
+  copyFileSync(bin, './7z.exe')
 }
