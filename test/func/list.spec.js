@@ -1,12 +1,17 @@
-/* global describe, it */
+/* global describe, it, before */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
 import { list } from '../../src/commands.js'
+import { getAlternateBinByPlatform } from '../helper.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: list()', function () {
+  before(function () {
+    getAlternateBinByPlatform()
+  })
+
   it('should emit error on 7z error', function (done) {
     const archive = '/i/hope/this/is/not/where/your/archive/is'
     const seven = list(archive)
@@ -16,7 +21,7 @@ describe('Functional: list()', function () {
     })
   })
 
-  it.only('should emit error on spawn error', function (done) {
+  it('should emit error on spawn error', function (done) {
     const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
     const seven = list('archive', undefined, {
       $bin: bin
@@ -114,14 +119,14 @@ describe('Functional: list()', function () {
     })
   })
 
-  it('should work with atlernate $path', function (done) {
+  it('should work with atlernate $bin', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/list-path.7z`
     copyFileSync(archiveBase, archive)
     let counter = 0
     const seven = list(archive, undefined, {
       r: true,
-      $path: `${mockDir}/Seven Zip`
+      $bin: `${tmpDir}/Seven Zip`
     })
     seven.on('data', function (data) {
       ++counter

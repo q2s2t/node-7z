@@ -1,12 +1,17 @@
-/* global describe, it */
+/* global describe, it, before */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
 import { test } from '../../src/commands.js'
+import { getAlternateBinByPlatform } from '../helper.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: test()', function () {
+  before(function () {
+    getAlternateBinByPlatform()
+  })
+
   it('should emit error on 7z error', function (done) {
     const archive = `${tmpDir}/testnot.7z`
     const seven = test(archive)
@@ -135,11 +140,11 @@ describe('Functional: test()', function () {
     })
   })
 
-  it('should work with atlernate $path', function (done) {
+  it('should work with atlernate $bin', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/test-path.7z`
     copyFileSync(archiveBase, archive)
-    const seven = test(archive, undefined, { $path: `${mockDir}/Seven Zip` })
+    const seven = test(archive, undefined, { $bin: `${tmpDir}/Seven Zip` })
     seven.on('end', function () {
       // headers
       expect(seven.info.get('Method')).to.equal('LZMA2:12')

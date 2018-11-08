@@ -1,12 +1,17 @@
-/* global describe, it */
+/* global describe, it, before */
 import { expect } from 'chai'
 import { rename } from '../../src/commands.js'
 import { copyFileSync } from 'fs'
+import { getAlternateBinByPlatform } from '../helper.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: rename()', function () {
+  before(function () {
+    getAlternateBinByPlatform()
+  })
+
   it('should emit error on 7z error', function (done) {
     const seven = rename('', [])
     seven.on('error', function (err) {
@@ -101,14 +106,14 @@ describe('Functional: rename()', function () {
     })
   })
 
-  it('should work with atlernate $path', function (done) {
+  it('should work with atlernate $bin', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/rename-path.7z`
     copyFileSync(archiveBase, archive)
     let counter = 0
     const seven = rename(archive, ['DirExt/sub1', 'DirExt/renamed'], {
       r: true,
-      $path: `${mockDir}/Seven Zip`
+      $bin: `${tmpDir}/Seven Zip`
     })
     seven.on('data', function (data) {
       ++counter

@@ -6,7 +6,6 @@
   "scripts": {
     "test": "npm run test-ci ; npm run test-cleanup",
     "test-ci": "npx mocha -r esm --reporter=spec \"test/**/*.spec.js\"",
-    "test-docker": "circleci local execute --job build",
     "test-cleanup": "rm -rf test/_tmp/* ; touch test/_tmp/.gitkeep",
     "test-debug": "DEBUG=node-7z npm run test",
     "coverage": "npx nyc --reporter=html npm run test",

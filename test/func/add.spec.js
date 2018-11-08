@@ -1,13 +1,18 @@
-/* global describe, it */
+/* global describe, it, before */
 import { expect } from 'chai'
 import { copyFileSync, existsSync, statSync } from 'fs'
 import { add } from '../../src/commands.js'
+import { getAlternateBinByPlatform } from '../helper.js'
 import normalize from 'normalize-path'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: add()', function () {
+  before(function () {
+    getAlternateBinByPlatform()
+  })
+
   it('should emit error on 7z error', function (done) {
     const seven = add('', '')
     seven.on('error', function (err) {
@@ -145,10 +150,10 @@ describe('Functional: add()', function () {
     })
   })
 
-  it('should work with atlernate $path', function (done) {
+  it('should work with atlernate $bin', function (done) {
     const archive = `${tmpDir}/headers-and-footers-path.7z`
     const source = `${mockDir}/DirHex/`
-    const seven = add(archive, source, { $path: `${mockDir}/Seven Zip` })
+    const seven = add(archive, source, { $bin: `${tmpDir}/Seven Zip` })
     seven.on('end', function () {
       // headers
       expect(seven.info.get('Creating archive')).to.equal(archive)

@@ -1,13 +1,18 @@
-/* global describe, it */
+/* global describe, it, before, before */
 import { expect } from 'chai'
 import { copyFileSync, readdirSync } from 'fs'
 import { extract } from '../../src/commands.js'
+import { getAlternateBinByPlatform } from '../helper.js'
 import { normalize } from 'path'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: extract()', function () {
+  before(function () {
+    getAlternateBinByPlatform()
+  })
+
   it('should emit error on 7z error', function (done) {
     const seven = extract()
     seven.on('error', function (err) {
@@ -136,14 +141,14 @@ describe('Functional: extract()', function () {
     })
   })
 
-  it('should work with atlernate $path', function (done) {
+  it('should work with atlernate $bin', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/extract-flat-exist-path.7z`
     const output = `${tmpDir}/extract-flat-exist-path`
     copyFileSync(archiveBase, archive)
     const seven = extract(archive, output, false, {
       r: true,
-      $path: `${mockDir}/Seven Zip`
+      $bin: `${tmpDir}/Seven Zip`
     })
     seven.on('end', function () {
       expect(seven.info.get('Files')).to.equal('9')

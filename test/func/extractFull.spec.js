@@ -1,14 +1,19 @@
-/* global describe, it */
+/* global describe, it, before */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
 import { extractFull } from '../../src/commands.js'
 import readdirRecursiveSync from 'fs-readdir-recursive'
+import { getAlternateBinByPlatform } from '../helper.js'
 import { normalize } from 'path'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: extractFull()', function () {
+  before(function () {
+    getAlternateBinByPlatform()
+  })
+
   it('should emit error on 7z error', function (done) {
     const seven = extractFull()
     seven.on('error', function (err) {
@@ -149,14 +154,14 @@ describe('Functional: extractFull()', function () {
     })
   })
 
-  it('should work with atlernate $path', function (done) {
+  it('should work with atlernate $bin', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/extractFull-full-path.7z`
     const output = `${tmpDir}/extract-full-path`
     copyFileSync(archiveBase, archive)
     const seven = extractFull(archive, output, false, {
       r: true,
-      $path: `${mockDir}/Seven Zip`
+      $bin: `${tmpDir}/Seven Zip`
     })
     seven.on('end', function () {
       expect(seven.info.get('Files')).to.equal('9')

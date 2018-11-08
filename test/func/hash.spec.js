@@ -1,10 +1,16 @@
-/* global describe, it */
+/* global describe, it, before */
 import { expect } from 'chai'
 import { hash } from '../../src/commands.js'
+import { getAlternateBinByPlatform } from '../helper.js'
 
 const mockDir = './test/_mock'
+const tmpDir = './test/_tmp'
 
 describe('Functional: hash()', function () {
+  before(function () {
+    getAlternateBinByPlatform()
+  })
+
   it('should emit error on 7z error', function (done) {
     const archive = '/i/hope/this/is/not/where/your/archive/is'
     const seven = hash(archive)
@@ -93,10 +99,10 @@ describe('Functional: hash()', function () {
     })
   })
 
-  it('should work with atlernate $path', function (done) {
+  it('should work with atlernate $bin', function (done) {
     const seven = hash([`${mockDir}/DirExt/sub1/`], {
       r: true,
-      $path: `${mockDir}/Seven Zip`
+      $bin: `${tmpDir}/Seven Zip`
     })
     let hashes = []
     seven.on('data', (d) => hashes.push(d))

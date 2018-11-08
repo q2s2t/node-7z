@@ -93,12 +93,6 @@ export class SevenZipStream extends Readable {
     stream._childProcess.on('error', function (err) {
       stream._onSpawnError(stream, err)
     })
-    // stream._childProcess.on('exit', function () {
-    //   if (stream.err) {
-    //     debug('err: %j', stream.err)
-    //     stream.emit('error', stream.err)
-    //   }
-    // })
     stream._childProcess.on('close', function () {
       if (stream.err) {
         debug('err: %j', stream.err)
