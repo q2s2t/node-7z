@@ -1,9 +1,11 @@
+/* globals before, after */
 import { copyFileSync } from 'fs'
+import { sync as rimraf } from 'rimraf'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
-export function getAlternateBinByPlatform () {
+before(function (done) {
   let bin = `${mockDir}/Binaries/7z-${process.platform}`
   let dest = `${tmpDir}/Seven Zip`
   if (process.platform === 'win32') {
@@ -11,4 +13,10 @@ export function getAlternateBinByPlatform () {
   }
   copyFileSync(bin, dest)
   copyFileSync(bin, './7z.exe')
-}
+  done()
+})
+
+after(function (done) {
+  rimraf(`${tmpDir}/*`)
+  done()
+})

@@ -1,19 +1,14 @@
-/* global describe, it, before */
+/* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
 import { extractFull } from '../../src/commands.js'
 import readdirRecursiveSync from 'fs-readdir-recursive'
-import { getAlternateBinByPlatform } from '../helper.js'
 import { normalize } from 'path'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: extractFull()', function () {
-  before(function () {
-    getAlternateBinByPlatform()
-  })
-
   it('should emit error on 7z error', function (done) {
     const seven = extractFull()
     seven.on('error', function (err) {

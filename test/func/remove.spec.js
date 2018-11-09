@@ -1,17 +1,12 @@
-/* global describe, it, before */
+/* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync, statSync } from 'fs'
 import { remove as del } from '../../src/commands.js'
-import { getAlternateBinByPlatform } from '../helper.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: remove()', function () {
-  before(function () {
-    getAlternateBinByPlatform()
-  })
-
   it('should emit error on 7z error', function (done) {
     const seven = del('', [])
     seven.on('error', function (err) {

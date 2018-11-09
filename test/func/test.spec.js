@@ -1,23 +1,18 @@
-/* global describe, it, before */
+/* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
 import { test } from '../../src/commands.js'
-import { getAlternateBinByPlatform } from '../helper.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: test()', function () {
-  before(function () {
-    getAlternateBinByPlatform()
-  })
-
   it('should emit error on 7z error', function (done) {
     const archive = `${tmpDir}/testnot.7z`
     const seven = test(archive)
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
-      expect(err.level).to.equal('ERROR')
+      expect(err.level.toUpperCase()).to.equal('ERROR')
       expect(err.message).to.be.a('string')
       done()
     })

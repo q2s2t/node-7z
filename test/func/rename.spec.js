@@ -1,17 +1,12 @@
-/* global describe, it, before */
+/* global describe, it, */
 import { expect } from 'chai'
 import { rename } from '../../src/commands.js'
 import { copyFileSync } from 'fs'
-import { getAlternateBinByPlatform } from '../helper.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: rename()', function () {
-  before(function () {
-    getAlternateBinByPlatform()
-  })
-
   it('should emit error on 7z error', function (done) {
     const seven = rename('', [])
     seven.on('error', function (err) {

@@ -1,16 +1,11 @@
-/* global describe, it, before */
+/* global describe, it */
 import { expect } from 'chai'
 import { hash } from '../../src/commands.js'
-import { getAlternateBinByPlatform } from '../helper.js'
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 describe('Functional: hash()', function () {
-  before(function () {
-    getAlternateBinByPlatform()
-  })
-
   it('should emit error on 7z error', function (done) {
     const archive = '/i/hope/this/is/not/where/your/archive/is'
     const seven = hash(archive)
