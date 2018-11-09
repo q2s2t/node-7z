@@ -4,7 +4,7 @@
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npx mocha -r esm --reporter=spec \"test/**/*.spec.js\"",
+    "test": "npx mocha -r esm --reporter=spec \"test/**/*.spec.js\" --timeout=0",
     "test-debug": "DEBUG=node-7z npm run test",
     "test-coverage": "npx nyc --reporter=lcov npm run test"
   },
