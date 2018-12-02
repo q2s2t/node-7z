@@ -181,7 +181,7 @@ describe('Unit: lifecycle.js', function () {
 
     it('should should populate child process', function () {
       const sevenFake = new Readable({ read () {} })
-      sevenFake._bin = 'cd'
+      sevenFake._bin = 'npm'
       sevenFake._args = []
       const r = Seven.run(sevenFake)
       expect(isChildProcess(r._childProcess)).to.eql(true)
