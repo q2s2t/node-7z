@@ -1,10 +1,11 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
-import { extractFull } from '../../src/commands.js'
 import readdirRecursiveSync from 'fs-readdir-recursive'
 import { normalize } from 'path'
+import Seven from '../../src/main.js'
 
+const extractFull = Seven.extractFull
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
@@ -21,9 +22,9 @@ describe('Functional: extractFull()', function () {
 
   it('should emit error on spawn error', function (done) {
     const archive = ``
-    const target = ``
+    const output = ``
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
-    const seven = extractFull(archive, target, undefined, { $bin: bin })
+    const seven = extractFull(archive, output, { $bin: bin })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       expect(err.errno).to.equal('ENOENT')
@@ -35,8 +36,8 @@ describe('Functional: extractFull()', function () {
   })
 
   it('should overwrite -o switch with output argument', function () {
-    const seven = extractFull('archive.7z', 'this/path/is/better', undefined, {
-      o: 'than/this/path',
+    const seven = extractFull('archive.7z', 'this/path/is/better', {
+      outputDir: 'than/this/path',
       $defer: true
     })
     expect(seven._args).to.contain('-othis/path/is/better')
@@ -44,34 +45,40 @@ describe('Functional: extractFull()', function () {
   })
 
   it('should set default 7zip ouptut when non or falsy', function () {
-    const sevenUndefined = extractFull('archive.7z', 'output', undefined, { $defer: true })
-    const sevenFalse = extractFull('archive.7z', 'output', false, { $defer: true })
-    const sevenNull = extractFull('archive.7z', 'output', null, { $defer: true })
-    const sevenEmptyString = extractFull('archive.7z', 'output', '', { $defer: true })
+    const sevenUndefined = extractFull('archive.7z', undefined, { $defer: true })
+    const sevenFalse = extractFull('archive.7z', false, { $defer: true })
+    const sevenNull = extractFull('archive.7z', null, { $defer: true })
+    const sevenEmptyString = extractFull('archive.7z', '', { $defer: true })
     expect(sevenUndefined._args).not.to.contain('-o')
     expect(sevenFalse._args).not.to.contain('-o')
     expect(sevenNull._args).not.to.contain('-o')
     expect(sevenEmptyString._args).not.to.contain('-o')
   })
 
-  it('should set default 7zip target when non or falsy', function () {
-    const sevenUndefined = extractFull('archive.7z', undefined, undefined, { $defer: true })
-    const sevenFalse = extractFull('archive.7z', false, undefined, { $defer: true })
-    const sevenNull = extractFull('archive.7z', null, undefined, { $defer: true })
-    const sevenEmptyString = extractFull('archive.7z', '', undefined, { $defer: true })
+  it('should set default 7zip $cherryPick when non or falsy', function () {
+    const sevenUndefined = extractFull('archive.7z', undefined, { $defer: true })
+    const sevenFalse = extractFull('archive.7z', false, { $defer: true })
+    const sevenNull = extractFull('archive.7z', null, { $defer: true })
+    const sevenEmptyString = extractFull('archive.7z', '', { $defer: true })
     sevenUndefined._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
     sevenFalse._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
     sevenNull._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
     sevenEmptyString._args.forEach(v => expect(v).not.to.match(/(^-o.)/))
   })
 
-  it('should single accept target as a string', function () {
-    const seven = extractFull('archive.7z', undefined, 'target1', { $defer: true })
+  it('should single accept $cherryPick as a string', function () {
+    const seven = extractFull('archive.7z', undefined, {
+      $defer: true,
+      $cherryPick: 'target1'
+    })
     expect(seven._args).to.contain('target1')
   })
 
-  it('should multiple accept target as a flat array', function () {
-    const seven = extractFull('archive.7z', undefined, ['target1', 'target2'], { $defer: true })
+  it('should multiple accept $cherryPick as a flat array', function () {
+    const seven = extractFull('archive.7z', undefined, {
+      $defer: true,
+      $cherryPick: ['target1', 'target2']
+    })
     expect(seven._args).to.contain('target1')
     expect(seven._args).to.contain('target2')
   })
@@ -81,7 +88,7 @@ describe('Functional: extractFull()', function () {
     const archive = `${tmpDir}/extract-full-exist.7z`
     const output = `${tmpDir}/extract-full-exist`
     copyFileSync(archiveBase, archive)
-    const seven = extractFull(archive, output, false, { r: true })
+    const seven = extractFull(archive, output, { recursive: true })
     seven.on('end', function () {
       expect(seven.info.get('Files')).to.equal('9')
       expect(seven.info.get('Folders')).to.equal('3')
@@ -105,7 +112,10 @@ describe('Functional: extractFull()', function () {
     const output = `${tmpDir}/extract-full-progress`
     copyFileSync(archiveBase, archive)
     let once = false
-    const seven = extractFull(archive, output, false, { r: true, bs: ['p1'] })
+    const seven = extractFull(archive, output, {
+      recursive: true,
+      $progress: true
+    })
     seven.on('progress', function (progress) {
       once = true
       expect(progress.percent).to.be.an('number')
@@ -122,7 +132,7 @@ describe('Functional: extractFull()', function () {
     const output = `${tmpDir}/extract-full-data`
     copyFileSync(archiveBase, archive)
     let counter = 0
-    const seven = extractFull(archive, output, false, { r: true })
+    const seven = extractFull(archive, output, { recursive: true })
     seven.on('data', function (data) {
       ++counter
       expect(data.symbol).to.be.equal('-')
@@ -138,7 +148,7 @@ describe('Functional: extractFull()', function () {
     const archive = `${tmpDir}/extractFull-full spaces anc special chars絵🤚🏽.7z`
     const output = `${tmpDir}/extract-full spaces anc special chars絵🤚🏽`
     copyFileSync(archiveBase, archive)
-    const seven = extractFull(archive, output, false, { r: true })
+    const seven = extractFull(archive, output, { recursive: true })
     seven.on('end', function () {
       expect(seven.info.get('Files')).to.equal('9')
       expect(seven.info.get('Folders')).to.equal('3')
@@ -154,8 +164,8 @@ describe('Functional: extractFull()', function () {
     const archive = `${tmpDir}/extractFull-full-path.7z`
     const output = `${tmpDir}/extract-full-path`
     copyFileSync(archiveBase, archive)
-    const seven = extractFull(archive, output, false, {
-      r: true,
+    const seven = extractFull(archive, output, {
+      recursive: true,
       $bin: `${tmpDir}/Seven Zip`
     })
     seven.on('end', function () {

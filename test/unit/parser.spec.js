@@ -1,10 +1,40 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { matchBodyProgress, matchBodySymbol, matchBodyHash, matchEndOfHeadersHyphen, matchInfos, matchEndOfHeadersSymbol, matchEndOfBodySymbol, matchEndOfBodyHyphen, matchBodyList } from '../../src/parser.js'
-import { STAGE_HEADERS } from '../../src/references.js'
-import { SevenZipStream } from '../../src/stream.js'
+import {
+  fetch,
+  matchProgress,
+  matchBodySymbol,
+  matchBodyHash,
+  matchEndOfHeadersHyphen,
+  matchInfos,
+  matchEndOfHeadersSymbol,
+  matchEndOfBodySymbol,
+  matchBodyList
+} from '../../src/parser.js'
 
 describe('Unit: parser.js', function () {
+  describe('fetch()', function () {
+    it('should return functions', function () {
+      const commands = [
+        'add',
+        'delete',
+        'extract',
+        'extractFull',
+        'hash',
+        'list',
+        'rename',
+        'test',
+        'update'
+      ]
+      const parsers = ['bodyData', 'endOfHeaders', 'endOfBody']
+      commands.map(command => {
+        parsers.map(parser => {
+          expect(fetch(command, parser)).to.be.a('function')
+        })
+      })
+    })
+  })
+
   describe('matchInfos()', function () {
     it('should return null on non match', function () {
       const r = matchInfos({ info: new Map() }, '+ test/file/null')
@@ -66,32 +96,23 @@ describe('Unit: parser.js', function () {
 
   describe('matchEndOfHeadersSymbol()', function () {
     it('should return false on non match', function () {
-      const opts = { $defer: true }
-      opts._commandArgs = ['a']
-      const stub = new SevenZipStream(opts)
-      stub._matchBodyData = matchBodySymbol
-      stub._matchEndOfHeaders = matchEndOfHeadersSymbol
-      const r = matchEndOfHeadersSymbol(stub, 'Colon info: type colon info')
+      const r = matchEndOfHeadersSymbol({
+        _matchBodyData: () => false
+      }, 'Colon info: type colon info')
       expect(r).to.equal(false)
     })
 
     it('should return false on pseudo-empty line', function () {
-      const opts = { $defer: true }
-      opts._commandArgs = ['a']
-      const stub = new SevenZipStream(opts)
-      stub._matchBodyData = matchBodySymbol
-      stub._matchEndOfHeaders = matchEndOfHeadersSymbol
-      const r = matchEndOfHeadersSymbol(stub, '    ')
+      const r = matchEndOfHeadersSymbol({
+        _matchBodyData: () => false
+      }, '    ')
       expect(r).to.be.equal(false)
     })
 
     it('should be truthly on match of symbol-filname pair', function () {
-      const opts = { $defer: true }
-      opts._commandArgs = ['a']
-      const stub = new SevenZipStream(opts)
-      stub._matchBodyData = matchBodySymbol
-      stub._matchEndOfHeaders = matchEndOfHeadersSymbol
-      const r = matchEndOfHeadersSymbol(stub, '+ some/file.txt')
+      const r = matchEndOfHeadersSymbol({
+        _matchBodyData: () => true
+      }, '+ some/file.txt')
       let pass = false
       if (r) pass = true
       expect(pass).to.be.equal(true)
@@ -129,37 +150,37 @@ describe('Unit: parser.js', function () {
     })
   })
 
-  describe('matchBodyProgress()', function () {
+  describe('matchProgress()', function () {
     it('should return null on non match', function () {
-      const r = matchBodyProgress({}, 'Colon info: type colon info')
+      const r = matchProgress({}, 'Colon info: type colon info')
       expect(r).to.equal(null)
     })
 
     it('should return null on pseudo-empty line', function () {
-      const r = matchBodyProgress({}, '    ')
+      const r = matchProgress({}, '    ')
       expect(r).to.be.equal(null)
     })
 
     it('should return progress info as int', function () {
-      const digit1File = matchBodyProgress({}, '  1% 3')
+      const digit1File = matchProgress({}, '  1% 3')
       expect(digit1File.percent).to.equal(1)
       expect(digit1File.fileCount).to.equal(3)
 
-      const digit2File = matchBodyProgress({}, ' 42% 234')
+      const digit2File = matchProgress({}, ' 42% 234')
       expect(digit2File.percent).to.equal(42)
       expect(digit2File.fileCount).to.equal(234)
 
-      const digit3File = matchBodyProgress({}, '100% 23877')
+      const digit3File = matchProgress({}, '100% 23877')
       expect(digit3File.percent).to.equal(100)
       expect(digit3File.fileCount).to.equal(23877)
 
-      const digit1NoFile = matchBodyProgress({}, '  1%')
+      const digit1NoFile = matchProgress({}, '  1%')
       expect(digit1NoFile.percent).to.equal(1)
 
-      const digit2NoFile = matchBodyProgress({}, ' 42%')
+      const digit2NoFile = matchProgress({}, ' 42%')
       expect(digit2NoFile.percent).to.equal(42)
 
-      const digit3NoFile = matchBodyProgress({}, '100%')
+      const digit3NoFile = matchProgress({}, '100%')
       expect(digit3NoFile.percent).to.equal(100)
     })
   })
@@ -249,6 +270,11 @@ describe('Unit: parser.js', function () {
   describe('matchBodyHash()', function () {
     it('should return null on non match', function () {
       const r = matchBodyHash({}, 'Todo: 1')
+      expect(r).to.be.equal(null)
+    })
+
+    it('should return null on pseudo empty line', function () {
+      const r = matchBodyHash({}, '   ')
       expect(r).to.be.equal(null)
     })
 
@@ -353,53 +379,11 @@ describe('Unit: parser.js', function () {
     })
 
     it('should work when progress switch activated', function () {
-      let stream = Object.assign({ _progressSwitch: true }, baseStream)
+      let stream = Object.assign({ _isProgressFlag: true }, baseStream)
       const first = matchEndOfBodySymbol(stream, '   ')
       expect(first).to.be.equal(null)
       const second = matchEndOfBodySymbol(stream, '')
       expect(second).to.be.equal(true)
-    })
-  })
-
-  describe('matchEndOfBodyHyphen()', function () {
-    it('should return null on non match', function () {
-      const r = matchEndOfBodyHyphen({}, 'Todo: 1')
-      expect(r).to.be.equal(null)
-    })
-
-    it('should be null on match empty line', function () {
-      const r = matchEndOfBodyHyphen({}, '')
-      expect(r).to.be.equal(null)
-    })
-
-    it('should work when progress switch desactivated', function () {
-      const stream = {
-        _progressSwitch: false,
-        _stage: STAGE_HEADERS
-      }
-      const first = matchEndOfBodyHyphen(stream, '---- ---- ----')
-      let firstPass = false
-      if (first === null) firstPass = true
-      expect(firstPass).to.be.equal(true)
-      const second = matchEndOfBodyHyphen(stream, '---- ---- ----')
-      let secondPass = false
-      if (second) secondPass = true
-      expect(secondPass).to.be.equal(true)
-    })
-
-    it('should work when progress switch activated', function () {
-      const stream = {
-        _progressSwitch: true,
-        _stage: STAGE_HEADERS
-      }
-      const first = matchEndOfBodyHyphen(stream, '---- ---- ----')
-      let firstPass = false
-      if (first === null) firstPass = true
-      expect(firstPass).to.be.equal(true)
-      const second = matchEndOfBodyHyphen(stream, '---- ---- ----')
-      let secondPass = false
-      if (second) secondPass = true
-      expect(secondPass).to.be.equal(true)
     })
   })
 })

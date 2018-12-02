@@ -1,6 +1,5 @@
 import normalizePath from 'normalize-path'
 import { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, END_OF_STAGE_HYPHEN } from './regexp.js'
-import { STAGE_BODY, STAGE_HEADERS } from './references.js'
 
 // Infos about the opertation are given by 7z on the stdout. They can be:
 // - colon-seprated: `Creating archive: DirNew/BaseExt.7z`
@@ -31,7 +30,7 @@ export function matchInfos (stream, line) {
 // cause the current loop iteration to end and doing so missing to push the
 // current line to the stream, so we have to push in here.
 export function matchEndOfHeadersSymbol (stream, line) {
-  return stream._maybeBodyData(line)
+  return stream._matchBodyData(stream, line)
 }
 
 // Some 7z commands uses a `--- -----` like string as a maker for the end of
@@ -54,7 +53,7 @@ export function matchEndOfHeadersHyphen (stream, line) {
 // - only percent: `  0%`
 // - with file count: ` 23% 4`
 // - with file name: ` 23% 4 file.txt`
-export function matchBodyProgress (stream, line) {
+export function matchProgress (stream, line) {
   if (isEmpty(line)) {
     return null
   }
@@ -134,33 +133,18 @@ export function matchBodyHash (stream, line) {
 // additionnal empty lines: By adding a marker to the `SevenZipStream` object
 // the function can detect two empty lines in a row.
 export function matchEndOfBodySymbol (stream, line) {
-  if (!isEmpty(line)) {
-    return null
-  }
-  if (!stream._progressSwitch) {
-    return true
-  }
   const isLastLineEmpty = (stream._lastLineEmpty)
-  if (isLastLineEmpty) {
+  if (!isEmpty(line)) {
+    stream._lastLineEmpty = false
+    return null
+  } else if (!stream._isProgressFlag) {
     return true
-  }
-  stream._lastLineEmpty = true
-  return null
-}
-
-// Some 7z commands uses a `--- -----` like string as a maker for the end of
-// headers and the end of body. Using the `stream._stage` value stream we can
-// know if the END_OF_STAGE match is for the end of HEADERS or the end of BODY
-export function matchEndOfBodyHyphen (stream, line) {
-  const isEndOfStage = END_OF_STAGE_HYPHEN.test(line)
-  if (!isEndOfStage) {
+  } else if (isLastLineEmpty) {
+    return true
+  } else {
+    stream._lastLineEmpty = true
     return null
   }
-  if (stream._stage === STAGE_HEADERS) {
-    stream._stage = STAGE_BODY
-    return null
-  }
-  return line
 }
 
 function getSpacesPosition (char, indexOfChar) {
@@ -169,4 +153,69 @@ function getSpacesPosition (char, indexOfChar) {
 
 function isEmpty (string) {
   return (string.trim().length === 0)
+}
+
+// Given a command, the formating of STAGES HEADERS, BODY and FOOTERS differs,
+// so each command as it's particular set of parser functions. ie:
+// - To identify the end of the BODY stage a list command outputs a
+// `---- -- --- ---` line.
+// - An extract command outpus the FOOTERS after after an empty line.
+export const fetch = (command, parser) => {
+  const PARSERS = {
+    add: {
+      bodyData: matchBodySymbol,
+      endOfHeaders: matchEndOfHeadersSymbol,
+      endOfBody: matchEndOfBodySymbol,
+      dataType: 'symbol'
+    },
+    delete: {
+      bodyData: matchBodySymbol,
+      endOfHeaders: matchEndOfHeadersSymbol,
+      endOfBody: matchEndOfBodySymbol,
+      dataType: 'symbol'
+    },
+    extract: {
+      bodyData: matchBodySymbol,
+      endOfHeaders: matchEndOfHeadersSymbol,
+      endOfBody: matchEndOfBodySymbol,
+      dataType: 'symbol'
+    },
+    extractFull: {
+      bodyData: matchBodySymbol,
+      endOfHeaders: matchEndOfHeadersSymbol,
+      endOfBody: matchEndOfBodySymbol,
+      dataType: 'symbol'
+    },
+    hash: {
+      bodyData: matchBodyHash,
+      endOfHeaders: matchEndOfHeadersHyphen,
+      endOfBody: matchEndOfHeadersHyphen,
+      dataType: 'table'
+    },
+    list: {
+      bodyData: matchBodyList,
+      endOfHeaders: matchEndOfHeadersHyphen,
+      endOfBody: matchEndOfHeadersHyphen,
+      dataType: 'table'
+    },
+    rename: {
+      bodyData: matchBodySymbol,
+      endOfHeaders: matchEndOfHeadersSymbol,
+      endOfBody: matchEndOfBodySymbol,
+      dataType: 'symbol'
+    },
+    test: {
+      bodyData: matchBodySymbol,
+      endOfHeaders: matchEndOfHeadersSymbol,
+      endOfBody: matchEndOfBodySymbol,
+      dataType: 'symbol'
+    },
+    update: {
+      bodyData: matchBodySymbol,
+      endOfHeaders: matchEndOfHeadersSymbol,
+      endOfBody: matchEndOfBodySymbol,
+      dataType: 'symbol'
+    }
+  }
+  return PARSERS[command][parser]
 }

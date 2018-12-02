@@ -1,8 +1,9 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
-import { test } from '../../src/commands.js'
+import Seven from '../../src/main.js'
 
+const test = Seven.test
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
@@ -22,7 +23,7 @@ describe('Functional: test()', function () {
     const archive = ``
     const target = ``
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
-    const seven = test(archive, target, { $bin: bin })
+    const seven = test(archive, { $bin: bin, $cherryPick: target })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
       expect(err.errno).to.equal('ENOENT')
@@ -37,7 +38,7 @@ describe('Functional: test()', function () {
     const archiveBase = `${mockDir}/DirNew/NewImages.7z`
     const archive = `${tmpDir}/test-progress.7z`
     copyFileSync(archiveBase, archive)
-    const seven = test(archive, undefined, { bs: ['p1'] })
+    const seven = test(archive, { $progress: true })
     let once = false
     seven.on('progress', function (progress) {
       once = true
@@ -86,7 +87,7 @@ describe('Functional: test()', function () {
     const archive = `${tmpDir}/test-single.7z`
     copyFileSync(archiveBase, archive)
     const target = `*.txt`
-    const seven = test(archive, target, { r: true })
+    const seven = test(archive, { recursive: true, $cherryPick: target })
     let counter = 0
     seven.on('data', function (data) {
       ++counter
@@ -113,7 +114,7 @@ describe('Functional: test()', function () {
       `*.txt`,
       `*.md`
     ]
-    const seven = test(archive, target, { r: true })
+    const seven = test(archive, { recursive: true, $cherryPick: target })
     let counter = 0
     seven.on('data', function (data) {
       ++counter
@@ -139,7 +140,7 @@ describe('Functional: test()', function () {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/test-path.7z`
     copyFileSync(archiveBase, archive)
-    const seven = test(archive, undefined, { $bin: `${tmpDir}/Seven Zip` })
+    const seven = test(archive, { $bin: `${tmpDir}/Seven Zip` })
     seven.on('end', function () {
       // headers
       expect(seven.info.get('Method')).to.equal('LZMA2:12')

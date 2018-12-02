@@ -1,8 +1,9 @@
 /* global describe, it, */
 import { expect } from 'chai'
-import { rename } from '../../src/commands.js'
 import { copyFileSync } from 'fs'
+import Seven from '../../src/main.js'
 
+const rename = Seven.rename
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
@@ -33,22 +34,22 @@ describe('Functional: rename()', function () {
   })
 
   it('should accept single target as flat array', function () {
-    const seven = rename('archive', ['src', 'dest'], { $defer: true })
+    const seven = rename('archive1', ['src', 'dest'], { $defer: true })
     expect(seven._args).to.deep.equal([
-      'rn', 'archive',
+      'rn', 'archive1',
       'src', 'dest',
       '-y', '-bb3'
     ])
   })
 
   it('should multiple accept target as nested array', function () {
-    const seven = rename('archive', [
+    const seven = rename('archive2', [
       ['src1', 'dest1'],
       ['src2', 'dest2'],
       ['src3', 'dest3']
     ], { $defer: true })
     expect(seven._args).to.deep.equal([
-      'rn', 'archive',
+      'rn', 'archive2',
       'src1', 'dest1', 'src2', 'dest2', 'src3', 'dest3',
       '-y', '-bb3'
     ])
@@ -58,7 +59,9 @@ describe('Functional: rename()', function () {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/rename-headers-footers.7z`
     copyFileSync(archiveBase, archive)
-    const seven = rename(archive, ['DirExt/sub1', 'DirExt/renamed'], { r: true })
+    const seven = rename(archive, ['DirExt/sub1', 'DirExt/renamed'], {
+      recursive: true
+    })
     seven.on('end', function () {
       expect(seven.info.get('Physical Size')).to.equal('290')
       expect(seven.info.get('Archive size')).to.equal('302 bytes (1 KiB)')
@@ -71,7 +74,9 @@ describe('Functional: rename()', function () {
     const archive = `${tmpDir}/rename-data.7z`
     copyFileSync(archiveBase, archive)
     let counter = 0
-    const seven = rename(archive, ['DirExt/sub1', 'DirExt/renamed'], { r: true })
+    const seven = rename(archive, ['DirExt/sub1', 'DirExt/renamed'], {
+      recursive: true
+    })
     seven.on('data', function (data) {
       ++counter
       expect(data.symbol).to.be.equal('=')
@@ -88,8 +93,8 @@ describe('Functional: rename()', function () {
     copyFileSync(archiveBase, archive)
     let once = false
     const seven = rename(archive, ['DirExt/sub1', 'DirExt/renamed'], {
-      r: true,
-      bs: ['p1']
+      recursive: true,
+      $progress: true
     })
     seven.on('progress', function (progress) {
       once = true
@@ -107,7 +112,7 @@ describe('Functional: rename()', function () {
     copyFileSync(archiveBase, archive)
     let counter = 0
     const seven = rename(archive, ['DirExt/sub1', 'DirExt/renamed'], {
-      r: true,
+      recursive: true,
       $bin: `${tmpDir}/Seven Zip`
     })
     seven.on('data', function (data) {

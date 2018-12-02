@@ -1,8 +1,9 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
-import { update } from '../../src/commands.js'
+import Seven from '../../src/main.js'
 
+const update = Seven.update
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
@@ -37,7 +38,10 @@ describe('Functional: update()', function () {
     const archive = `${tmpDir}/update-progress.7z`
     const source = `${mockDir}/DirExtUpdate/*`
     copyFileSync(archiveBase, archive)
-    const seven = update(archive, source, { r: true, bs: ['p1'] })
+    const seven = update(archive, source, {
+      recursive: true,
+      $progress: true
+    })
     let once = false
     seven.on('progress', function (progress) {
       once = true
@@ -54,7 +58,7 @@ describe('Functional: update()', function () {
     const archive = `${tmpDir}/update-data.7z`
     const source = `${mockDir}/DirExtUpdate/*`
     copyFileSync(archiveBase, archive)
-    const seven = update(archive, source, { r: true })
+    const seven = update(archive, source, { recursive: true })
     let counter = 0
     seven.on('data', function (data) {
       ++counter
@@ -71,7 +75,7 @@ describe('Functional: update()', function () {
     const archive = `${tmpDir}/update-headers-footers.7z`
     const source = `${mockDir}/DirExtUpdate/*`
     copyFileSync(archiveBase, archive)
-    const seven = update(archive, source, { r: true })
+    const seven = update(archive, source, { recursive: true })
     seven.on('end', function () {
       // headers
       expect(seven.info.get('Open archive')).to.equal(archive)
@@ -87,7 +91,7 @@ describe('Functional: update()', function () {
     const archive = `${tmpDir}/update-one-source.7z`
     const source = `${mockDir}/DirExtUpdate/*.txt`
     copyFileSync(archiveBase, archive)
-    const seven = update(archive, source, { r: true })
+    const seven = update(archive, source, { recursive: true })
     let dataAgg = []
     seven.on('data', d => dataAgg.push(d))
     seven.on('end', function () {
@@ -108,7 +112,7 @@ describe('Functional: update()', function () {
       `${mockDir}/DirExtUpdate/*.md`
     ]
     copyFileSync(archiveBase, archive)
-    const seven = update(archive, source, { r: true })
+    const seven = update(archive, source, { recursive: true })
     let dataAgg = []
     seven.on('data', d => dataAgg.push(d))
     seven.on('end', function () {

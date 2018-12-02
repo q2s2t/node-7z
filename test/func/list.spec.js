@@ -1,8 +1,9 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync } from 'fs'
-import { list } from '../../src/commands.js'
+import Seven from '../../src/main.js'
 
+const list = Seven.list
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
@@ -18,7 +19,7 @@ describe('Functional: list()', function () {
 
   it('should emit error on spawn error', function (done) {
     const bin = '/i/hope/this/is/not/where/yout/7zip/bin/is'
-    const seven = list('archive', undefined, {
+    const seven = list('archive', {
       $bin: bin
     })
     seven.on('error', function (err) {
@@ -34,7 +35,7 @@ describe('Functional: list()', function () {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/list-header-footer.7z`
     copyFileSync(archiveBase, archive)
-    const seven = list(archive, undefined, { r: true })
+    const seven = list(archive, { recursive: true })
     seven.on('end', function () {
       expect(seven.info.get('Physical Size')).to.equal('290')
       expect(seven.info.get('Type')).to.equal('7z')
@@ -42,22 +43,28 @@ describe('Functional: list()', function () {
     })
   })
 
-  it('should single accept single target as a string', function () {
-    const seven = list('archive.7z', 'target1', { $defer: true })
+  it('should single accept single $cherryPick as a string', function () {
+    const seven = list('archive.7z', {
+      $cherryPick: 'target1',
+      $defer: true
+    })
     expect(seven._args).to.contain('target1')
   })
 
-  it('should multiple accept multiple target as an array', function () {
-    const seven = list('archive.7z', ['target1', 'target2'], { $defer: true })
+  it('should multiple accept multiple $cherryPick as an array', function () {
+    const seven = list('archive.7z', {
+      $cherryPick: ['target1', 'target2'],
+      $defer: true
+    })
     expect(seven._args).to.contain('target1')
     expect(seven._args).to.contain('target2')
   })
 
-  it('should accept target and give the good values', function (done) {
+  it('should accept $cherryPick and give the good values', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/list-exist.7z`
     copyFileSync(archiveBase, archive)
-    const seven = list(archive, '*.txt', { r: true })
+    const seven = list(archive, { recursive: true, $cherryPick: '*.txt' })
     const data = []
     const expectedData = [
       { attributes: '....A', size: 9, sizeCompressed: undefined, file: 'DirExt/root.txt' },
@@ -88,7 +95,7 @@ describe('Functional: list()', function () {
     const archive = `${tmpDir}/list-data.7z`
     copyFileSync(archiveBase, archive)
     let counter = 0
-    const seven = list(archive, undefined, { r: true })
+    const seven = list(archive, { recursive: true })
     seven.on('data', function (data) {
       ++counter
       expect(data.file).to.be.a('string')
@@ -103,7 +110,10 @@ describe('Functional: list()', function () {
     const archive = `${tmpDir}/list-progress.7z`
     copyFileSync(archiveBase, archive)
     let once = false
-    const seven = list(archive, undefined, { r: true, bs: ['p1'] })
+    const seven = list(archive, {
+      recursive: true,
+      $progress: true
+    })
     seven.on('progress', function (progress) {
       once = true
       expect(progress.percent).to.be.an('number')
@@ -119,8 +129,8 @@ describe('Functional: list()', function () {
     const archive = `${tmpDir}/list-path.7z`
     copyFileSync(archiveBase, archive)
     let counter = 0
-    const seven = list(archive, undefined, {
-      r: true,
+    const seven = list(archive, {
+      recursive: true,
       $bin: `${tmpDir}/Seven Zip`
     })
     seven.on('data', function (data) {

@@ -1,9 +1,10 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync, existsSync, statSync } from 'fs'
-import { add } from '../../src/commands.js'
+import Seven from '../../src/main.js'
 import normalize from 'normalize-path'
 
+const add = Seven.add
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
@@ -36,13 +37,15 @@ describe('Functional: add()', function () {
   it('should emit progress', function (done) {
     const archive = `${tmpDir}/progress.7z`
     const source = `${mockDir}/DirHex/`
-    const seven = add(archive, source, { bs: ['p1'] })
+    const seven = add(archive, source, { $progress: true })
     let once = false
+    seven.id = 'lqkdfsdf'
     seven.on('progress', function (progress) {
       once = true
       expect(progress.percent).to.be.an('number')
       expect(progress.fileCount).to.be.an('number')
-    }).on('end', function () {
+    })
+    seven.on('end', function () {
       expect(once).to.be.equal(true)
       done()
     })
@@ -96,7 +99,7 @@ describe('Functional: add()', function () {
       `${mockDir}/DirExt/*.md`
     ]
     const seven = add(archive, source, {
-      r: true
+      recursive: true
     })
     seven.on('end', function () {
       expect(seven.info.get('Files read from disk')).to.equal('6')
@@ -113,7 +116,7 @@ describe('Functional: add()', function () {
     ]
     copyFileSync(archiveBase, archive)
     const seven = add(archive, source, {
-      r: true
+      recursive: true
     })
     seven.on('data', function (data) {
       expect(data.symbol).to.equal('+')

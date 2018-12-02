@@ -1,12 +1,13 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync, statSync } from 'fs'
-import { remove as del } from '../../src/commands.js'
+import Seven from '../../src/main.js'
 
+const del = Seven.delete
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
-describe('Functional: remove()', function () {
+describe('Functional: delete()', function () {
   it('should emit error on 7z error', function (done) {
     const seven = del('', [])
     seven.on('error', function (err) {
@@ -38,7 +39,7 @@ describe('Functional: remove()', function () {
     const target = `DirExt/*.md`
     copyFileSync(archiveBase, archive)
     const sizeBase = statSync(archiveBase).size
-    const seven = del(archive, target, { r: true })
+    const seven = del(archive, target, { recursive: true })
     seven.on('end', function () {
       const size = statSync(archive).size
       expect(size).to.lessThan(sizeBase)
@@ -53,7 +54,7 @@ describe('Functional: remove()', function () {
     const target = [`DirExt/*.md`, `DirExt/*.txt`]
     copyFileSync(archiveBase, archive)
     const sizeBase = statSync(archiveBase).size
-    const seven = del(archive, target, { r: true })
+    const seven = del(archive, target, { recursive: true })
     seven.on('end', function () {
       const size = statSync(archive).size
       expect(size).to.lessThan(sizeBase)
@@ -67,7 +68,7 @@ describe('Functional: remove()', function () {
     const archive = `${tmpDir}/progress-del.7z`
     const target = `DirExt/*.md`
     copyFileSync(archiveBase, archive)
-    const seven = del(archive, target, { bs: ['p1'] })
+    const seven = del(archive, target, { $progress: true })
     let once = false
     seven.on('progress', function (progress) {
       once = true
@@ -84,7 +85,7 @@ describe('Functional: remove()', function () {
     const archive = `${tmpDir}/progress-file-del.7z`
     const target = `DirExt/*.md`
     copyFileSync(archiveBase, archive)
-    const seven = del(archive, target, { r: true })
+    const seven = del(archive, target, { recursive: true })
     let counter = 0
     seven.on('data', function (progress) {
       ++counter

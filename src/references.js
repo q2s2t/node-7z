@@ -1,122 +1,65 @@
-/**
- * For less cryptic API
- */
-export const swApiNames = {
-  // Booleans
-  recursive: 'r', // Recurse subdirectories. For `-r0` usage see `raw`
-  deleteFilesAfter: 'sdel', // Delete files after compression
-  largePageMode: 'spl', // Set Large Pages mode
-  storeNtSecurity: 'sni', // Store NT security
-  alternateStreamExtract: 'snc', // Extract file as alternate stream, if there is ':' character in name
-  alternateStreamReplace: 'snr', // Replace ':' character to '_' character in paths of alternate streams
-  storeHardLinks: 'snh', // Store hard links as links (WIM and TAR formats only)
-  storeSymLinks: 'snl', // Store symbolic links as links (WIM and TAR formats only)
-  toStdout: 'so', // Write data to stdout
-  noWildcards: 'spd', // Disable wildcard matching for file names
-  noRootDuplication: 'spe', // Eliminate duplication of root folder for extract command
-  fullyQualifiedPaths: 'spf', // Use fully qualified file paths
-  openFiles: 'ssw', // Compress files open for writing
-  latestTimeStamp: 'stl', // Set archive timestamp from the most recently modified file
-  yesToAll: 'y', // Assume Yes on all queries
-  // Context Booleans
-  alternateStreamStore: 'sns', // Store NTFS alternate Streams
-  caseSensitive: 'ssc', // Set Sensitive Case mode
-  // Arguments
-  overwrite: 'ao', // Overwrite mode
-  logLevel: 'bb', // Set output log level
-  outputDir: 'o', // Set Output directory
-  password: 'p', // Set Password
-  archiveNameMode: 'sa', // Set Archive name mode
-  hashMethod: 'scrc', // Set hash function
-  listFileCharset: 'scs', // Set charset for list files
-  sfx: 'sfx', // Create SFX archive
-  fromStdin: 'si', // Read data from StdIn
-  cpuAffinity: 'stm', // Set CPU thread affinity mask (hexadecimal number).
-  excludeArchiveType: 'stx', // Exclude archive type
-  archiveType: 't', // Type of archive
-  updateOptions: 'u', // Update options
-  workingDir: 'w', // Set Working directory
-  // Repeatings
-  includeArchive: 'ai', // Include archive filenames
-  excludeArchive: 'ax', // Exclude archive filenames
-  outputStreams: 'bs', // Set output stream for output/error/progress
-  include: 'i', // Include filenames
-  method: 'm', // Set Compression Method
-  volumes: 'v', // Create Volumes
-  exlude: 'x'// Exclude filenames
+
+export const FLAGS = [
+  { type: 'bool', api: 'alternateStreamExtract', cli: 'snc' }, // Extract file as alternate stream, if there is ':' character in name
+  { type: 'bool', api: 'alternateStreamReplace', cli: 'snr' }, // Replace ':' character to '_' character in paths of alternate streams
+  { type: 'bool', api: 'deleteFilesAfter', cli: 'sdel' }, // Delete files after compression
+  { type: 'bool', api: 'fullyQualifiedPaths', cli: 'spf' }, // Use fully qualified file paths
+  { type: 'bool', api: 'largePages', cli: 'spl' }, // Set Large Pages mode
+  { type: 'bool', api: 'latestTimeStamp', cli: 'stl' }, // Set archive timestamp from the most recently modified file
+  { type: 'bool', api: 'noRootDuplication', cli: 'spe' }, // Eliminate duplication of root folder for extract command
+  { type: 'bool', api: 'noWildcards', cli: 'spd' }, // Disable wildcard matching for file names
+  { type: 'bool', api: 'openFiles', cli: 'ssw' }, // Compress files open for writing
+  { type: 'bool', api: 'recursive', cli: 'r' }, // Recurse subdirectories. For `-r0` usage see `raw` @TODO doc usage and tech choice
+  { type: 'bool', api: 'hardlinks', cli: 'snh' }, // Store hard links as links (WIM and TAR formats only)
+  { type: 'bool', api: 'ntSecurity', cli: 'sni' }, // Store NT security
+  { type: 'bool', api: 'symlinks', cli: 'snl' }, // Store symbolic links as links (WIM and TAR formats only)
+  { type: 'bool', api: 'toStdout', cli: 'so' }, // Write data to stdout
+  { type: 'bool', api: 'yes', cli: 'y' }, // Assume Yes on all queries
+  { type: 'boolContext', api: 'alternateStreamStore', cli: 'sns' }, // Store NTFS alternate Streams
+  { type: 'boolContext', api: 'caseSensitive', cli: 'ssc' }, // Set Sensitive Case mode
+  { type: 'string', api: 'archiveNameMode', cli: 'sa' }, // Set Archive name mode
+  { type: 'string', api: 'archiveType', cli: 't' }, // Type of archive
+  { type: 'string', api: 'cpuAffinity', cli: 'stm' }, // Set CPU thread affinity mask (hexadecimal number).
+  { type: 'string', api: 'excludeArchiveType', cli: 'stx' }, // Exclude archive type
+  { type: 'string', api: 'fromStdin', cli: 'si' }, // Read data from StdIn
+  { type: 'string', api: 'hashMethod', cli: 'scrc' }, // Set hash function
+  { type: 'string', api: 'listFileCharset', cli: 'scs' }, // Set charset for list files
+  { type: 'string', api: 'logLevel', cli: 'bb' }, // Set output log level
+  { type: 'string', api: 'outputDir', cli: 'o' }, // Set Output directory
+  { type: 'string', api: 'overwrite', cli: 'ao' }, // Overwrite mode
+  { type: 'string', api: 'password', cli: 'p' }, // Set Password
+  { type: 'string', api: 'sfx', cli: 'sfx' }, // Create SFX archive
+  { type: 'string', api: 'updateOptions', cli: 'u' }, // Update options
+  { type: 'string', api: 'workingDir', cli: 'w' }, // Set Working directory
+  { type: 'stringArray', api: 'excludeArchive', cli: 'ax' }, // Exclude archive filenames
+  { type: 'stringArray', api: 'exlude', cli: 'x' }, // Exclude filenames
+  { type: 'stringArray', api: 'include', cli: 'i' }, // Include filenames
+  { type: 'stringArray', api: 'includeArchive', cli: 'ai' }, // Include archive filenames
+  { type: 'stringArray', api: 'method', cli: 'm' }, // Set Compression Method
+  { type: 'stringArray', api: 'outputStreams', cli: 'bs' }, // Set output stream for output/error/progress
+  { type: 'stringArray', api: 'volumes', cli: 'v' } // Create Volumes
+]
+
+export const OPTIONS_DEFAULT = {
+  yes: true,
+  logLevel: '3',
+  outputStreams: []
 }
 
-/**
- * Switches that can be toggled on or off (boolean switches). Default values
- * are based on the 7-zip documentation.
- */
-export const swDefaultBool = {
-  r: false, // Recurse subdirectories. For `-r0` usage see `raw`
-  sdel: false, // Delete files after compression
-  spl: false, // Set Large Pages mode
-  sni: false, // Store NT security
-  snc: false, // Extract file as alternate stream, if there is ':' character in name
-  snr: false, // Replace ':' character to '_' character in paths of alternate streams
-  snh: false, // Store hard links as links (WIM and TAR formats only)
-  snl: false, // Store symbolic links as links (WIM and TAR formats only)
-  so: false, // Write data to stdout
-  spd: false, // Disable wildcard matching for file names
-  spe: false, // Eliminate duplication of root folder for extract command
-  spf: false, // Use fully qualified file paths
-  ssw: false, // Compress files open for writing
-  stl: false, // Set archive timestamp from the most recently modified file
-  y: false // Assume Yes on all queries
-}
+export const BIN_DEFAULT = '7z'
 
-/**
- * Switches that ca be toggles on or of. Their default values changes according
- * to the context (command, platform, ...).
- */
-export const swContextBool = {
-  sns: undefined, // Store NTFS alternate Streams
-  ssc: undefined // Set Sensitive Case mode
-}
-
-/**
- * Switches that can be applied multiple times
- */
-export const swRepeating = {
-  ai: undefined, // Include archive filenames
-  ax: undefined, // Exclude archive filenames
-  bs: undefined, // Set output stream for output/error/progress
-  i: undefined, // Include filenames
-  m: undefined, // Set Compression Method
-  v: undefined, // Create Volumes
-  x: undefined // Exclude filenames
-}
-
-/**
- * Switches with arguments
- */
-export const swArgs = {
-  ao: undefined, // Overwrite mode
-  bb: undefined, // Set output log level
-  o: undefined, // Set Output directory
-  p: undefined, // Set Password
-  // r: undefined, // Recurse subdirectories. Use boolean instead
-  sa: undefined, // Set Archive name mode
-  scrc: undefined, // Set hash function
-  scs: undefined, // Set charset for list files
-  sfx: undefined, // Create SFX archive
-  si: undefined, // Read data from StdIn
-  stm: undefined, // Set CPU thread affinity mask (hexadecimal number).
-  stx: undefined, // Exclude archive type
-  t: undefined, // Type of archive
-  u: undefined, // Update options
-  w: undefined // Set Working directory
-}
-
-/**
- * Stages represents the advancement of the 7z stdout.
- * 1 - Headers: Versions of 7zip, specs
- * 2 - Body: The list of files
- * 3 - Footers: 'Everything is Ok', file count
- */
 export const STAGE_HEADERS = Symbol('STAGE_HEADERS')
 export const STAGE_BODY = Symbol('STAGE_BODY')
 export const STAGE_FOOTERS = Symbol('STAGE_FOOTERS')
+
+export const COMMAND_LETTERS = {
+  add: 'a',
+  delete: 'd',
+  extract: 'e',
+  extractFull: 'x',
+  hash: 'h',
+  list: 'l',
+  rename: 'rn',
+  test: 't',
+  update: 'u'
+}

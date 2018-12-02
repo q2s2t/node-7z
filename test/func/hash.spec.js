@@ -1,7 +1,8 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { hash } from '../../src/commands.js'
+import Seven from '../../src/main.js'
 
+const hash = Seven.hash
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
@@ -54,7 +55,7 @@ describe('Functional: hash()', function () {
     const seven = hash([
       `${mockDir}/DirExt/sub1/`,
       `${mockDir}/DirExt/sub2/`
-    ], { r: true })
+    ], { recursive: true })
     let hashes = []
     seven.on('data', (d) => hashes.push(d))
     seven.on('end', function () {
@@ -69,7 +70,10 @@ describe('Functional: hash()', function () {
 
   it('should emit progress values', function (done) {
     let once = false
-    const seven = hash(`${mockDir}/*.jpg`, { r: true, bs: ['p1'] })
+    const seven = hash(`${mockDir}/*.jpg`, {
+      recursive: true,
+      $progress: true
+    })
     seven.on('progress', function (progress) {
       once = true
       expect(progress.percent).to.be.an('number')
@@ -82,7 +86,10 @@ describe('Functional: hash()', function () {
 
   it('should emit files on progress', function (done) {
     let once = false
-    const seven = hash(`${mockDir}/clouds*.jpg`, { r: true, bs: ['p1'] })
+    const seven = hash(`${mockDir}/clouds*.jpg`, {
+      recursive: true,
+      $progress: true
+    })
     seven.on('data', function (data) {
       once = true
       expect(data.hash).to.be.a('string')
@@ -96,7 +103,7 @@ describe('Functional: hash()', function () {
 
   it('should work with atlernate $bin', function (done) {
     const seven = hash([`${mockDir}/DirExt/sub1/`], {
-      r: true,
+      recursive: true,
       $bin: `${tmpDir}/Seven Zip`
     })
     let hashes = []

@@ -5,5 +5,4 @@ export const BODY_HASH = /^(?<hash>\S+)? +(?<size>\d*) +(?<file>.+)$/
 export const END_OF_STAGE_HYPHEN = /^(-+ +)+-+$/
 export const INFOS = /^(?<property>.+?)(?<separator>( = )|(: +))(?<value>.+)$/
 export const INFOS_SPLIT = /, +# /
-export const ERR_ONE_LINE = /(?<level>WARNING|ERROR): (?<message>.*)\n(\r\n)?/i
-export const ERR_MULTIPLE_LINE = /(?<level>WARNING|ERROR): (?<message>.+)(\n(?<path>.+)\n)?(\r\n)?/i
+export const ERROR = /(?<level>WARNING|ERROR): (?<message>.*)(\r\n)?(\n)?/i
