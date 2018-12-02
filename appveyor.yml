@@ -2,6 +2,9 @@
 environment:
   nodejs_version: ''
 
+cache:
+  - node_modules -> package.json
+
 # Install scripts. (runs after repo cloning)
 install:
   - 7z # Display 7z version and help
