@@ -36,13 +36,13 @@ export const mainFactory = ({
 const main = mainFactory({ Lifecycle, Bin, Args, Flags, Parser, Events, Err, Lines, Maybe })
 
 export default {
-  add: Commands.addFactory({ createSeven: main }),
-  delete: Commands.deleteFactory({ createSeven: main }),
-  extract: Commands.extractFactory({ createSeven: main }),
-  extractFull: Commands.extractFullFactory({ createSeven: main }),
-  hash: Commands.hashFactory({ createSeven: main }),
-  list: Commands.listFactory({ createSeven: main }),
-  rename: Commands.renameFactory({ createSeven: main }),
-  test: Commands.testFactory({ createSeven: main }),
-  update: Commands.updateFactory({ createSeven: main })
+  add: Commands.standardFactory({ main, command: 'add' }),
+  delete: Commands.standardFactory({ main, command: 'delete' }),
+  extract: Commands.extractFactory({ main, command: 'extract' }),
+  extractFull: Commands.extractFactory({ main, command: 'extractFull' }),
+  hash: Commands.simplexFactory({ main, command: 'hash' }),
+  list: Commands.simplexFactory({ main, command: 'list' }),
+  rename: Commands.standardFactory({ main, command: 'rename' }),
+  test: Commands.simplexFactory({ main, command: 'test' }),
+  update: Commands.standardFactory({ main, command: 'update' })
 }
