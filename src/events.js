@@ -36,11 +36,17 @@ export const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
       continue // at next line
     }
 
+    // End of HEADERS can be easy to detect with list and hash commands that
+    // outputs a `---- -- ----` line, but in symbol commands the end of HEADERS
+    // can only be detected when the line match a BODY data: In such cases the
+    // loop has to continue in order to properly porcess the BODY data.
     const endOfHeaders = Maybe.endOfHeaders(stream, line)
     if (endOfHeaders && stream._dataType !== 'symbol') {
       continue // at next line
     }
 
+    // Optimization: Continue to the next line. At this point if the stream is
+    // in stage BODY all data carried by the current line has been processed.
     const stageBody = (stream._stage === STAGE_BODY)
     if (!stageBody) {
       continue // at next line
@@ -69,8 +75,7 @@ export const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
 export const onEndFactory = () => (stream) => {
   if (stream.err) {
     stream.emit('error', stream.err)
-  } else {
-    stream.emit('end')
   }
+  stream.emit('end')
   return stream
 }
