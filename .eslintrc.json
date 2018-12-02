@@ -1,0 +1,7 @@
+{
+  "extends": "standard",
+  "rules": {
+    "complexity": ["error", { "max": 9 }],
+    "max-depth": ["error", { "max": 4 }]  
+  }
+}
