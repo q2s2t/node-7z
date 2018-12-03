@@ -14,10 +14,10 @@ export const fromBuffer = chunk => {
   const stderr = chunk.toString()
   const match = stderr.match(ERROR)
   let err = new Error('unknown error')
-  err.stderr = stderr // @TODO doc: usage of raw stderr to get more info
+  err.stderr = stderr
   if (match) {
     Object.assign(err, match.groups)
-    err.level = err.level.toUpperCase() // @TODO doc: err level and err data stucture
+    err.level = err.level.toUpperCase()
   }
   return err
 }
