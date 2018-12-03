@@ -39,7 +39,6 @@ describe('Functional: add()', function () {
     const source = `${mockDir}/DirHex/`
     const seven = add(archive, source, { $progress: true })
     let once = false
-    seven.id = 'lqkdfsdf'
     seven.on('progress', function (progress) {
       once = true
       expect(progress.percent).to.be.an('number')
