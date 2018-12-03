@@ -1,6 +1,5 @@
 /* global describe, it */
 import { expect } from 'chai'
-import { copyFileSync } from 'fs'
 import Seven from '../../src/main.js'
 
 const mockDir = './test/_mock'
@@ -30,7 +29,7 @@ describe('Functional: Advanced usage', function () {
     ])
   })
 
-  it('should context boolean flags', function () {
+  it('should work with context boolean flags', function () {
     const archive = `${tmpDir}/advanced-raw.7z`
     const sevenUnix = Seven.add(archive, 'nop', {
       caseSensitive: false,
