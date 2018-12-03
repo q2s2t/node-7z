@@ -4,15 +4,17 @@ export const FLAGS = [
   { type: 'bool', api: 'alternateStreamReplace', cli: 'snr' }, // Replace ':' character to '_' character in paths of alternate streams
   { type: 'bool', api: 'deleteFilesAfter', cli: 'sdel' }, // Delete files after compression
   { type: 'bool', api: 'fullyQualifiedPaths', cli: 'spf' }, // Use fully qualified file paths
+  { type: 'bool', api: 'hardlinks', cli: 'snh' }, // Store hard links as links (WIM and TAR formats only)
   { type: 'bool', api: 'largePages', cli: 'spl' }, // Set Large Pages mode
   { type: 'bool', api: 'latestTimeStamp', cli: 'stl' }, // Set archive timestamp from the most recently modified file
   { type: 'bool', api: 'noRootDuplication', cli: 'spe' }, // Eliminate duplication of root folder for extract command
   { type: 'bool', api: 'noWildcards', cli: 'spd' }, // Disable wildcard matching for file names
-  { type: 'bool', api: 'openFiles', cli: 'ssw' }, // Compress files open for writing
-  { type: 'bool', api: 'recursive', cli: 'r' }, // Recurse subdirectories. For `-r0` usage see `raw` @TODO doc usage and tech choice
-  { type: 'bool', api: 'hardlinks', cli: 'snh' }, // Store hard links as links (WIM and TAR formats only)
   { type: 'bool', api: 'ntSecurity', cli: 'sni' }, // Store NT security
+  { type: 'bool', api: 'openFiles', cli: 'ssw' }, // Compress files open for writing
+  { type: 'bool', api: 'recursive', cli: 'r' }, // Recurse subdirectories. For `-r0` usage see `raw`
   { type: 'bool', api: 'symlinks', cli: 'snl' }, // Store symbolic links as links (WIM and TAR formats only)
+  { type: 'bool', api: 'techInfo', cli: 'slt' }, // Show technical information
+  { type: 'bool', api: 'timeStats', cli: 'bt' },
   { type: 'bool', api: 'toStdout', cli: 'so' }, // Write data to stdout
   { type: 'bool', api: 'yes', cli: 'y' }, // Assume Yes on all queries
   { type: 'boolContext', api: 'alternateStreamStore', cli: 'sns' }, // Store NTFS alternate Streams
@@ -38,6 +40,7 @@ export const FLAGS = [
   { type: 'stringArray', api: 'method', cli: 'm' }, // Set Compression Method
   { type: 'stringArray', api: 'outputStreams', cli: 'bs' }, // Set output stream for output/error/progress
   { type: 'stringArray', api: 'volumes', cli: 'v' } // Create Volumes
+  // Advanced
 ]
 
 export const OPTIONS_DEFAULT = {
@@ -62,4 +65,14 @@ export const COMMAND_LETTERS = {
   rename: 'rn',
   test: 't',
   update: 'u'
+}
+
+// =TU+R.-
+export const SYMBOL_OPERATIONS = {
+  '=': 'renamed',
+  'T': 'tested',
+  'U': 'updated',
+  'R': 'skipped',
+  '.': 'deleted',
+  '-': 'extracted'
 }

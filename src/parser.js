@@ -1,5 +1,6 @@
 import normalizePath from 'normalize-path'
 import { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, END_OF_STAGE_HYPHEN } from './regexp.js'
+import { SYMBOL_OPERATIONS } from './references.js'
 
 // Infos about the opertation are given by 7z on the stdout. They can be:
 // - colon-seprated: `Creating archive: DirNew/BaseExt.7z`
@@ -77,7 +78,12 @@ export function matchBodySymbol (stream, line) {
   const match = line.match(BODY_SYMBOL_FILE)
   if (match) {
     match.groups.file = normalizePath(match.groups.file)
-    return match.groups
+    const data = {
+      symbol: match.groups.symbol,
+      file: normalizePath(match.groups.file),
+      status: SYMBOL_OPERATIONS[match.groups.symbol]
+    }
+    return data
   }
   return null
 }
