@@ -3,7 +3,7 @@ Code quality:
     ✔ Code coverage 100 % @done(18-11-02 15:52)
     ✔ Tests file naming and test naming conventions @done(18-09-29 09:28)
     ✔ Windows testing on AppVeyor @done(18-11-13 20:03)
-    ☐ https://conventionalcommits.org
+    ✔ https://conventionalcommits.org @done(18-12-03 22:23)
     ✘ Use c8 for coverage @cancelled(18-12-02 16:32)
     ✔ Move to CircleCI because TravisCI is not using p7zip-full v16.x @done(18-10-17 20:35)
     ✔ CircleCi local test with docker (add circleci to system dev deps) @done(18-10-17 20:36)
@@ -15,36 +15,33 @@ Package:
     ✘ 7zip-bin as peer dependecy? @cancelled(18-11-13 20:04) See README.md for installation
     ☐ upload to npm
 Switches:
-    ☐ Add auto-`--` switch when file name starts with `-`
-    ☐ Auto-`-an` (Disable parsing of archive_name) switch
-    ☐ Implement -bd	Disable progress indicator
-    ☐ Implement -bt	Show execution time statistics
-    ☐ Implement -slt Show technical information
+    ✔ Implement -bt	Show execution time statistics @done(18-12-03 19:51)
+    ✔ Implement -slt Show technical information @done(18-12-03 19:55)
     ✔ wildcards and raw outside of `toChildProcessArgs()` @done(18-09-04 21:49)
     ✔ -snc and -ssc @done(18-08-21 22:50)
     ✔ Default to `-y` @done(18-08-21 22:50)
     ✔ Update test cases @started(18-08-21 22:51) @done(18-08-23 12:36) @lasted(1d13h45m3s)
     ✔ Set -bb as default as it is required for the lib to works @done(18-09-11 22:58)
-    ☐ Proper propagation of errors (both sync and async)
 Maintenance:
+    ✔ Proper propagation of errors (both sync and async) @done(18-12-03 22:23)
     ✔ Upgrade codebase to ES6 @done(18-09-11 22:58)
     ✔ Spaces in achive name, file name or in switches @done(18-08-23 12:36)
-    ☐ Keep a Promise and callback style interface on top (do not recommand using it)
+    ✘ Keep a Promise and callback style interface on top (do not recommand using it) @cancelled(18-12-03 22:23)
     ☐ Check all issues from GitHub and test them
     ✔ fix: dual instance (see test-debug) @done(18-11-13 20:05)
-    ☐ Refactor in dependecy injection style @started(18-11-13 20:05)
+    ✔ Refactor in dependecy injection style @started(18-11-13 20:05) @done(18-12-02 21:37) @lasted(2w5d1h32m17s)
 Features:
     ✔ Streams? Buffer or Object mode? @done(18-09-09 18:58)
     ✔ 7z path option @done(18-09-02 19:34)
-    ☐ Exit codes
+    ✘ Exit codes @cancelled(18-12-03 22:23)
     ☐ TypeScript support
     ☐ Babel/ES5 etc support
     ✔ Close/end SevenZipStream @done(18-12-02 12:31)
     ✔ Full-named switches for cleaner API @done(18-11-04 19:54)
     ✔ Stream methods returns stream @done(18-10-17 20:35)
     ✔ Esier to use progress @done(18-12-02 12:31)
-    ☐ Status (TU+R. and others?) as plain text 
 Documentation:
+    ☐ Status (TU+R. and others?) as plain text 
     ☐ Usage for wildcard/raw/bin input ($ instead of _ preffix)
     ☐ Usage for repeating switches
     ☐ Usage for -r (Recurse subdirectories) switch
@@ -55,6 +52,7 @@ Documentation:
     ☐ $defer
     ☐ attch a child process $childProcess
     ☐ add(archive, [source1, source2]) usage
+    ☐ `-bd`	Disable progress indicator is like using a different log level and incompatible with this implementation
     ☐ No benchmark command: It will output based on the system that it is on, "system-static"
     ☐ No Show information about supported formats command: It will output based on the system that it is on, "system-static"
     ☐ Hack to use delete() command (delete is a JS reserved word)
@@ -62,3 +60,5 @@ Documentation:
     ☐ list and rename doesn't output progress percentage (upstream behaviour)
     ☐ Only support recent versions of 7z
     ☐ $legacy support
+    ☐ `--` switch when file name starts with `-`
+    ☐ `-an` (Disable parsing of archive_name) switch

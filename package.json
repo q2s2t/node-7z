@@ -5,6 +5,10 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "npx mocha -r esm --reporter=spec \"test/**/*.spec.js\" --timeout=0",
+    "test-unit": "npx mocha -r esm --reporter=spec \"test/unit/*.spec.js\"",
+    "test-unit-coverage": "npx nyc --reporter=html npm run test-unit",
+    "test-func": "npx mocha -r esm --reporter=spec \"test/func/*.spec.js\" --timeout=0",
+    "test-func-coverage": "npx nyc --reporter=html npm run test-func",
     "test-debug": "DEBUG=node-7z npm run test",
     "test-coverage": "npx nyc --reporter=lcov npm run test"
   },
@@ -50,7 +54,8 @@
     "debug": "^4.1.0",
     "esm": "^3.0.79",
     "lodash": "^4.17.11",
-    "normalize-path": "^3.0.0"
+    "normalize-path": "^3.0.0",
+    "stream-to-promise": "^2.2.0"
   },
   "optionalDependencies": {},
   "devDependencies": {
