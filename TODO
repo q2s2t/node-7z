@@ -41,24 +41,24 @@ Features:
     ✔ Stream methods returns stream @done(18-10-17 20:35)
     ✔ Esier to use progress @done(18-12-02 12:31)
 Documentation:
-    ☐ Status (TU+R. and others?) as plain text 
-    ☐ Usage for wildcard/raw/bin input ($ instead of _ preffix)
-    ☐ Usage for repeating switches
-    ☐ Usage for -r (Recurse subdirectories) switch
-    ☐ Struct types and API definition
-    ☐ stream.info usage with Map.get()
-    ☐ on('error') err.stderr usage
+    ✔ Status (TU+R. and others?) as plain text @done(18-12-04 22:50)
+    ✔ Usage for wildcard/raw/bin input ($ instead of _ preffix) @done(18-12-04 22:50)
+    ✔ Usage for repeating switches @done(18-12-04 22:50)
+    ✔ Usage for -r (Recurse subdirectories) switch @done(18-12-04 22:50)
+    ✔ Struct types and API definition @done(18-12-04 22:50)
+    ✔ stream.info usage with Map.get() @done(18-12-04 22:50)
+    ✔ on('error') err.stderr usage @done(18-12-04 22:50)
     ✔ -bb switch @done(18-09-11 22:54)
-    ☐ $defer
-    ☐ attch a child process $childProcess
-    ☐ add(archive, [source1, source2]) usage
-    ☐ `-bd`	Disable progress indicator is like using a different log level and incompatible with this implementation
-    ☐ No benchmark command: It will output based on the system that it is on, "system-static"
-    ☐ No Show information about supported formats command: It will output based on the system that it is on, "system-static"
-    ☐ Hack to use delete() command (delete is a JS reserved word)
-    ☐ use `$cherryPick` as name for clarity
-    ☐ list and rename doesn't output progress percentage (upstream behaviour)
-    ☐ Only support recent versions of 7z
+    ✔ $defer @done(18-12-04 22:50)
+    ✔ attch a child process $childProcess @done(18-12-04 22:50)
+    ✔ add(archive, [source1, source2]) usage @done(18-12-04 22:50)
+    ✔ `-bd`	Disable progress indicator is like using a different log level and incompatible with this implementation @done(18-12-04 22:50)
+    ✔ No benchmark command: It will output based on the system that it is on, "system-static" @done(18-12-04 22:50)
+    ✔ No Show information about supported formats command: It will output based on the system that it is on, "system-static" @done(18-12-04 22:50)
+    ✘ Hack to use delete() command (delete is a JS reserved word) @cancelled(18-12-04 22:51)
+    ✔ use `$cherryPick` as name for clarity @done(18-12-04 22:51)
+    ✔ list and rename doesn't output progress percentage (upstream behaviour) @done(18-12-04 22:51)
+    ✔ Only support recent versions of 7z @done(18-12-04 22:51)
     ☐ $legacy support
-    ☐ `--` switch when file name starts with `-`
-    ☐ `-an` (Disable parsing of archive_name) switch
+    ✘ `--` switch when file name starts with `-` @cancelled(18-12-04 22:51)
+    ✘ `-an` (Disable parsing of archive_name) switch @cancelled(18-12-04 22:51)

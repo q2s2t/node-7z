@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync, existsSync, statSync } from 'fs'
-import Seven from '../../src/main.js'
+import Seven from '../../src/index.js'
 import normalize from 'normalize-path'
 
 const add = Seven.add

@@ -1,8 +1,8 @@
 {
   "name": "node-7z",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
-  "main": "lib/index.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "npx mocha -r esm --reporter=spec \"test/**/*.spec.js\" --timeout=0",
     "test-unit": "npx mocha -r esm --reporter=spec \"test/unit/*.spec.js\"",
@@ -27,35 +27,18 @@
   ],
   "author": "Quentin Rossetti <quentin.rossetti@gmail.com>",
   "contributors": [
-    "HelloGravity",
-    "sketchpunk",
-    "Dannii Willis <curiousdannii@gmail.com>",
-    "toantk911",
-    "redx25 <red.mage25@gmail.com>",
-    "l. stubbs <technoexpressnet@gmail.com>",
-    "Royalgamer06 <royalgamer06@gmail.com>",
-    "AbdelghaniTassi"
   ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/quentinrossetti/node-7zip/issues"
   },
   "homepage": "https://github.com/quentinrossetti/node-7zip.git",
-  "files": [
-    "*.js",
-    "LICENSE",
-    "README.md",
-    "lib",
-    "test",
-    "util"
-  ],
   "dependencies": {
     "cross-spawn": "^6.0.4",
     "debug": "^4.1.0",
     "esm": "^3.0.79",
     "lodash": "^4.17.11",
-    "normalize-path": "^3.0.0",
-    "stream-to-promise": "^2.2.0"
+    "normalize-path": "^3.0.0"
   },
   "optionalDependencies": {},
   "devDependencies": {

@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { copyFileSync } from 'fs'
 import readdirRecursiveSync from 'fs-readdir-recursive'
 import { normalize } from 'path'
-import Seven from '../../src/main.js'
+import Seven from '../../src/index.js'
 
 const extractFull = Seven.extractFull
 const mockDir = './test/_mock'

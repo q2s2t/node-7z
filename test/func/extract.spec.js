@@ -1,7 +1,7 @@
 /* global describe, it */
 import { expect } from 'chai'
 import { copyFileSync, readdirSync } from 'fs'
-import Seven from '../../src/main.js'
+import Seven from '../../src/index.js'
 import { normalize } from 'path'
 
 const extract = Seven.extract
