@@ -1,5 +1,4 @@
-node-7z
-=======
+# node-7z
 
 [![Release][npm-image]][npm-url]
 [![Dependencies Status][david-image]][david-url]
@@ -7,41 +6,38 @@ node-7z
 [![Windows Build][appveyor-image]][appveyor-url]
 [![Code coverage][coverage-image]][coverage-url]
 [![Code Maintainability][maintainability-image]][maintainability-url]
+[![Known Vulnerabilities][vulnerabilities-image]][vulnerabilities-url]
 
-> A Node.js wrapper for 7-Zip
+A Node.js wrapper for 7-Zip
 
-Usage
------
-
-Stream API:
+## Usage
 
 ```js
-import extractFull from 'node-7z'
+import Seven from 'node-7z'
 
-const seven = extractFull('./archive.7z', './output/dir/')
+// myStream is an Readable stream
+const myStream = Seven.extractFull('./archive.7z', './output/dir/')
   .on('data', function (data) {
-    doStuffWith(data) //? { symbol: '-', file: 'extracted/file.txt" }
+    doStuffWith(data) //? { status: 'extracted', file: 'extracted/file.txt" }
   })
   .on('progresss', function (progress) {
     doStuffWith(progress) //? { percent: 67, fileCount: 5, file: undefinded }
   })
   .on('end', function () {
     // end of the operation, get the number of folders involved in the operation
-    seven.info.get('Folders') //? 4
+    myStream.info.get('Folders') //? '4'
   })
   .on('error', (err) => handleError(err))
 
 ```
 
-Installation
-------------
+## Installation
 
 ```sh
 npm install --save node-7z
 ```
 
-You must have the a 7-Zip executable (v16.04 or greater) available in your
-system.
+You should have the a 7-Zip executable (v16.04 or greater) available in your system.
 
 > - On Debian and Ubuntu install the p7zip-full package.
 > - On Mac OSX use Homebrew `brew install p7zip`
@@ -56,7 +52,7 @@ can do:
 
 ```js
 import sevenBin from '7zip-bin'
-import extractFull from 'node-7z'
+import { extractFull } from 'node-7z'
 
 const pathTo7zip = sevenBin.path7za
 const seven = extractFull('./archive.7z', './output/dir/', {
@@ -64,120 +60,258 @@ const seven = extractFull('./archive.7z', './output/dir/', {
 })
 ```
 
-API
----
+## API
 
 > See the [7-Zip documentation](http://sevenzip.sourceforge.jp/chm/cmdline/index.htm)
 > for the full list of usages and options (switches).
 
-> The type of the list of files can be either *String* or *Array*.
+### Commands
 
-### Add: `Zip.add`
+#### Add
+Adds files to archive.
 
-**Arguments**
- * `archive` Path to the archive you want to create.
- * `files` The file list to add.
- * `options` An object of options (7-Zip switches).
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| archive   | `string`          | Archive to create | 
+| source    | `string|string[]` | Source files to add to the archive. Multiple sources can be given using an `Array` |
+| [options] | `Object`          | [Options object](api-options). Can be omitted  |
 
-**Progress**
- * `files` A array of all the added files. The `/`
-   character is used as a path separator on every platform.
+```js
+// adds all *.txt files from current folder and its subfolders to archive Files.7z.
+const myStream = Seven.add('Files.7z', '*.txt', {
+  recursive: true
+})
+```
 
-**Error**
- * `err` An Error object.
+#### Delete
+Deletes files from archive.
 
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| archive   | `string`          | Archive to target | 
+| target    | `string|string[]` | Target files to remove from the archive. Multiple targets can be given using an `Array` |
+| [options] | `Object`          | [Options object](api-options). Can be omitted  |
 
-### Delete: `Zip.delete`
+```js
+// deletes *.bak files from archive archive.zip.
+const myStream = Seven.delete('archive.zip', '*.bak')
+```
 
-**Arguments**
- * `archive` Path to the archive you want to delete files from.
- * `files` The file list to delete.
- * `options` An object of options (7-Zip switches).
+#### Extract
+Extracts files from an archive to the current directory or to the output directory. This command copies all extracted files to one directory.
 
-**Error**
- * `err` An Error object.
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| archive   | `string` | Archive to extract files from | 
+| output    | `string` | Output directory |
+| [options] | `Object` | [Options object](api-options). Can be omitted  |
 
+```js
+// extracts all *.cpp files from archive archive.zip to c:\soft folder.
+const myStream = Seven.extract('archive.zip', 'c:/soft', {
+  recursive: true,
+  $cherryPick: '*.cpp'
+})
+```
 
-### Extract: `Zip.extract`
+#### Extract with full paths
+Extracts files from an archive with their full paths in the current directory, or in an output directory if specified.
 
-**Arguments**
- * `archive` The path to the archive you want to extract.
- * `dest` Where to extract the archive.
- * `options` An object of options.
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| archive   | `string` | Archive to extract files from | 
+| output    | `string` | Output directory |
+| [options] | `Object` | [Options object](api-options). Can be omitted  |
 
-**Progress**
- * `files` A array of all the extracted files *AND* directories. The `/`
-   character is used as a path separator on every platform.
+```js
+// extracts all *.cpp files from the archive archive.zip to c:\soft folder.
+const myStream = Seven.extractFull('archive.zip', 'c:/soft', {
+  recursive: true,
+  $cherryPick: '*.cpp'
+})
+```
 
-**Error**
- * `err` An Error object.
+#### Hash
+Calculate hash values for files.
 
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| target    | `string|string[]` | Target files to calculate the hash of. Multiple targets can be given using an `Array` |
+| [options] | `Object`          | [Options object](api-options). Can be omitted  |
 
-### Extract with full paths: `Zip.extractFull`
+```js
+// calculates SHA256 for a.iso.
+const myStream = Seven.hash('a.iso', {
+  hashMethod: 'sha256'
+})
+```
 
-**Arguments**
- * `archive` The path to the archive you want to extract.
- * `dest` Where to extract the archive (creates folders for you).
- * `options` An object of options.
+#### List
+Lists contents of archive.
 
-**Progress**
- * `files` A array of all the extracted files *AND* directories. The `/`
-   character is used as a path separator on every platform.
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| archive    | `string` | Archive to list the file from |
+| [options] | `Object`  | [Options object](api-options). Can be omitted  |
 
-**Error**
- * `err` An Error object.
+```js
+// list all the *.txt and *.js files in archive.zip
+const myStream = Seven.list('archive.zip', {
+  $cherryPick: ['*.txt*', '*.js'],
+})
+```
 
+#### Rename
+Renames files in archive.
 
-### List contents of archive: `Zip.list`
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| archive   | `string`          | Archive to target | 
+| target    | `Array[string[]]` | Pair of target/new names files to remove rename. Multiple targets can be given using an `Array` |
+| [options] | `Object`          | [Options object](api-options). Can be omitted  |
 
-**Arguments**
- * `archive` The path to the archive you want to analyse.
- * `options` An object of options.
+```js
+// renames old.txt to new.txt and 2.txt to folder\2new.txt .
+const myStream = Seven.rename('a.7z', [
+  ['old.txt', 'new.txt'],
+  ['2.txt', 'folder/2new.txt']
+])
+```
 
-**Progress**
- * `files` A array of objects of all the extracted files *AND* directories.
-   The `/` character is used as a path separator on every platform. Object's
-   properties are: `date`, `attr`, `size` and `name`.
+#### Test integrity
+Tests archive files.
 
-**Fulfill**
- * `spec` An object of tech spec about the archive. Properties are: `path`,
-   `type`, `method`, `physicalSize` and `headersSize` (Some of them may be
-   missing with non-7z archives).
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| archive    | `string` | Archive to test |
+| [options] | `Object`  | [Options object](api-options). Can be omitted  |
 
-**Error**
- * `err` An Error object.
+```js
+// tests *.doc files in archive archive.zip.
+const myStream = Seven.list('archive.zip', {
+  recursive: true,
+  $cherryPick: '*.doc'
+})
+```
 
+#### Update
+Update older files in the archive and add files that are not already in the archive.
 
-### Test integrity of archive: `Zip.test`
+| Arguments | Type              | Description |
+|-----------|-------------------|-------------|
+| archive   | `string`          | Archive to create | 
+| source    | `string|string[]` | Source files to update from the file-system to the archive. Multiple sources can be given using an `Array` |
+| [options] | `Object`          | [Options object](api-options). Can be omitted  |
 
-**Arguments**
- * `archive` The path to the archive you want to analyse.
- * `options` An object of options.
+```js
+// updates *.doc files to archive archive.zip.
+const myStream = Seven.add('archive.zip', '*.doc')
+```
 
-**Progress**
- * `files` A array of all the tested files. The `/`
-   character is used as a path separator on every platform.
+### [Options](#api-options)
 
-**Error**
- * `err` An Error object.
+#### Switches
 
+In the 7-Zip world, command flags are called switches. In order to use them you can pass their name and value in the [Options object](api-options)
 
-### Update: `Zip.update`
+| Name                     | Type       | Description                                                           | Switches | 
+|--------------------------|------------|-----------------------------------------------------------------------|----------| 
+| `alternateStreamExtract` | `boolean`  | "Extract file as alternate stream, if there is ':' character in name" | `-snc`   | 
+| `alternateStreamReplace` | `boolean`  | Replace ':' character to '_' character in paths of alternate streams  | `-snr`   | 
+| `deleteFilesAfter`       | `boolean`  | Delete files after compression                                        | `-sdel`  | 
+| `fullyQualifiedPaths`    | `boolean`  | Usefully qualified file paths                                         | `-spf`   | 
+| `hardlinks`              | `boolean`  | Store hard links as links (WIM and TAR formats only)                  | `-snh`   | 
+| `largePages`             | `boolean`  | Set Large Pages mode                                                  | `-spl`   | 
+| `latestTimeStamp`        | `boolean`  | Set archive timestamp from the most recently modified file            | `-stl`   | 
+| `noRootDuplication`      | `boolean`  | Eliminate duplication of root folder for extract command              | `-spe`   | 
+| `noWildcards`            | `boolean`  | Disable wildcard matching for file names                              | `-spd`   | 
+| `ntSecurity`             | `boolean`  | Store NT security                                                     | `-sni`   | 
+| `openFiles`              | `boolean`  | Compress files open for writing                                       | `-ssw`   | 
+| `recursive`              | `boolean`  | Recurse subdirectories. For `-r0` usage see `raw`                     | `-r`     | 
+| `symlinks`               | `boolean`  | Store symbolic links as links (WIM and TAR formats only)              | `-snl`   | 
+| `techInfo`               | `boolean`  | Show technical information                                            | `-slt`   | 
+| `timeStats`              | `boolean`  |                                                                       | `-bt`    | 
+| `toStdout`               | `boolean`  | Write data to stdout                                                  | `-so`    | 
+| `yes`                    | `boolean`  | Assume Yes on all queries                                             | `-y`     | 
+| `alternateStreamStore`   | `boolean`  | Store NTFS alternate Streams                                          | `-sns`   | 
+| `caseSensitive`          | `boolean`  | Set Sensitive Case mode                                               | `-ssc`   | 
+| `archiveNameMode`        | `string`   | Set Archive name mode                                                 | `-sa`    | 
+| `archiveType`            | `string`   | Type of archive                                                       | `-t`     | 
+| `cpuAffinity`            | `string`   | Set CPU thread affinity mask (hexadecimal number).                    | `-stm`   | 
+| `excludeArchiveType`     | `string`   | Exclude archive type                                                  | `-stx`   | 
+| `fromStdin`              | `string`   | Read data from StdIn                                                  | `-si`    | 
+| `hashMethod`             | `string`   | Set hash function                                                     | `-scrc`  | 
+| `listFileCharset`        | `string`   | Set charset for list files                                            | `-scs`   | 
+| `logLevel`               | `string`   | Set output log level                                                  | `-bb`    | 
+| `outputDir`              | `string`   | Set Output directory                                                  | `-o`     | 
+| `overwrite`              | `string`   | Overwrite mode                                                        | `-ao`    | 
+| `password`               | `string`   | Set Password                                                          | `-p`     | 
+| `sfx`                    | `string`   | Create SFX archive                                                    | `-sfx`   | 
+| `updateOptions`          | `string`   | Update options                                                        | `-u`     | 
+| `workingDir`             | `string`   | Set Working directory                                                 | `-w`     | 
+| `excludeArchive`         | `string[]` | Exclude archive filenames                                             | `-ax`    | 
+| `exlude`                 | `string[]` | Exclude filenames                                                     | `-x`     | 
+| `include`                | `string[]` | Include filenames                                                     | `-i`     | 
+| `includeArchive`         | `string[]` | Include archive filenames                                             | `-ai`    | 
+| `method`                 | `string[]` | Set Compression Method                                                | `-m`     | 
+| `outputStreams`          | `string[]` | Set output stream for output/error/progress                           | `-bs`    | 
+| `volumes`                | `string[]` | Create Volumes                                                        | `-v`     | 
 
-**Arguments**
- * `archive` Path to the archive you want to update.
- * `files` The file list to update.
- * `options` An object of options (7-Zip switches).
+#### Special options
 
-**Progress**
- * `files` A array of all the updated files. The `/`
-   character is used as a path separator on every platform.
+Those options are not provided by 7-Zip but are features of this module.
 
-**Error**
- * `err` An Error object.
+| Name            | Type                                                                                         | Description                                                              |
+|-----------------|----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| `$progress`     | `boolean`                                                                                    | Progress percentage gets fired. Shortcut for `{ outputStreams: ['b1'] }` |
+| `$defer`        | `boolean`                                                                                    | Create the stream but do not spawn child process                         |
+| `$childProcess` | [`ChildProcess`](https://nodejs.org/api/child_process.html#child_process_class_childprocess) | Attach an external child process to be parsed                            |
+| `$bin`          | `string`                                                                                     | Path to an other 7-Zip binary. Default: `7z`                             |
+| `$cherryPick`   | `string[]`                                                                                   | Some commands accepts more specific targets, see example above           |
+| `$raw`          | `string[]`                                                                                   | Pass raw arguments to the `child_process.spawn()`command                 |
 
-Advanced usage
---------------
+### Events
+
+#### Event: `data`
+
+The `data` event is emitted for each processed file. The payload is an object. WARNING only the `data.file` proprety is guaranteed to be present
+
+```js
+mySevenStream.on('data', function (data) {
+  console.log(data)
+  // {
+  //   file: 'path/of/the/file/in/the/archive',
+  //   status: 'renamed|tested|updated|skipped|deleted|extracted',
+  //   attributes: '....A', size: 9, sizeCompressed: 3, (only list command)
+  //   hash: 'FEDC304F', size: 9 (only hash command)
+  // }
+})
+```
+
+### Event: `end`
+
+An `.info` proprety can contain meta-data (type [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map))
+
+```js
+myStream.info
+// Map {
+//   '7-Zip [64] 16.02 ' => 'Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21',
+//   'Creating archive' => './test/_tmp/txt-and-md-only.7z',
+//   'Items to compress' => '6',
+//   'Files read from disk' => '6',
+//   'Archive size' => '212 bytes (1 KiB)' }
+```
+
+### Event: `error`
+
+```js
+mySevenStream.on('error', function (err) {
+  // a standard error
+  // `err.stderr` is a string that can contain extra info about the error
+})
+```
+
+## Advanced usage
 
 ### Compression method
 
@@ -194,18 +328,8 @@ With to module you can translate it like that:
 ```js
 import { add } from 'node-7z'
 const myCompressStream = new add('archive.7z', '*.exe', {
-  m: ['0=BCJ', '=LZMA:d=21']
+  method: ['0=BCJ', '1=LZMA:d=21']
 })
-```
-
-### Add, delete and update multiple files
-
-When adding, deleting or updating archives you can pass either a string or an
-array as second parameter (the `files` parameter).
-
-```js
-import { remove } from 'node-7z'
-const myDeleteStream = new remove('bigArchive.7z', [ 'file1', 'subdir/*.js' ])
 ```
 
 ### Raw inputs
@@ -219,7 +343,7 @@ values.
 
 ```js
 import { add } from 'node-7z'
-const myCompressStream = new add('archive.7z', {
+const myCompressStream = new add('archive.7z', '*.gif', {
   $raw: [ '-i!*.jpg', '-i!*.png' ], // only images
 })
 ```
@@ -230,13 +354,14 @@ Due to a `7z` limitation emojis and special characters can't be used as values
 when passed to an `option` object (ex: password). But they can be used in
 archive, filenames and destinations.
 
-Use the *scc* switch `{ scc: 'UTF-8' }` for special characters.
+Use the `{ charset: 'UTF-8' }` for special characters.
 
 ### Log level
 
 The default log level (`-bb` switch) is set to:
-> 3 :show information about additional operations (Analyze, Replicate) for "Add"
-> / "Update" operations.
+
+> 3 :show information about additional operations (Analyze, Replicate) for "Add" / "Update" operations.
+
 It's a base feature of `node-7z` and is required for the module to work as 
 expected. A diffrent value should not be used.
 
@@ -244,6 +369,21 @@ expected. A diffrent value should not be used.
 
 Values given by the package are not sanitized, you just get the raw output from
 the `7z` binary. Remember to never trust user input and sanitize accordingly.
+
+### External child process
+
+You can pipe a child procress from an other source and pass it to `node-7z`. An
+use case may be that the 7-Zip process runs on an other machine and the sdtio is
+piped in the application.
+
+```js
+const external = // an external child process
+const myStream = Seven.add('dummy', 'dummy', {
+  $defer: true
+})
+myStream.on('data', data => yourLogic())
+Seven.listen(myStream)
+```
 
 ***
 With :heart: from [quentinrossetti](http://quentinrossetti.me/)
@@ -260,3 +400,5 @@ With :heart: from [quentinrossetti](http://quentinrossetti.me/)
 [coverage-image]: https://img.shields.io/codeclimate/coverage/quentinrossetti/node-7z.svg
 [maintainability-url]: https://codeclimate.com/github/quentinrossetti/node-7z
 [maintainability-image]: https://img.shields.io/codeclimate/maintainability/quentinrossetti/node-7z.svg
+[vulnerabilities-image]: https://snyk.io/test/github/quentinrossetti/node-7z/badge.svg?targetFile=package.json
+[vulnerabilities-url]: https://snyk.io/test/github/quentinrossetti/node-7z?targetFile=package.json
