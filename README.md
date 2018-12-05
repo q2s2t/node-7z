@@ -1,4 +1,5 @@
-# node-7z
+<h1 align="center">node-7z</h1>
+<p align="center">A Node.js wrapper for 7-Zip</p>
 
 [![Release][npm-image]][npm-url]
 [![Dependencies Status][david-image]][david-url]
@@ -7,8 +8,6 @@
 [![Code coverage][coverage-image]][coverage-url]
 [![Code Maintainability][maintainability-image]][maintainability-url]
 [![Known Vulnerabilities][vulnerabilities-image]][vulnerabilities-url]
-
-A Node.js wrapper for 7-Zip
 
 ## Usage
 
@@ -30,6 +29,17 @@ const myStream = Seven.extractFull('./archive.7z', './output/dir/')
   .on('error', (err) => handleError(err))
 
 ```
+
+## Table of content
+
+ * [Usage](#usage)
+ * [Installation](#installation)
+ * [API](#api)
+   * [Commands](#commands)
+   * [<a href="#api-options">Options</a>](#options)
+   * [Events](#events)
+ * [Advanced usage](#advanced-usage)
+
 
 ## Installation
 
@@ -74,7 +84,7 @@ Adds files to archive.
 |-----------|-------------------|-------------|
 | archive   | `string`          | Archive to create | 
 | source    | `string|string[]` | Source files to add to the archive. Multiple sources can be given using an `Array` |
-| [options] | `Object`          | [Options object](api-options). Can be omitted  |
+| [options] | `Object`          | [Options object](#options). Can be omitted  |
 
 ```js
 // adds all *.txt files from current folder and its subfolders to archive Files.7z.
@@ -90,7 +100,7 @@ Deletes files from archive.
 |-----------|-------------------|-------------|
 | archive   | `string`          | Archive to target | 
 | target    | `string|string[]` | Target files to remove from the archive. Multiple targets can be given using an `Array` |
-| [options] | `Object`          | [Options object](api-options). Can be omitted  |
+| [options] | `Object`          | [Options object](#options). Can be omitted  |
 
 ```js
 // deletes *.bak files from archive archive.zip.
@@ -104,7 +114,7 @@ Extracts files from an archive to the current directory or to the output directo
 |-----------|-------------------|-------------|
 | archive   | `string` | Archive to extract files from | 
 | output    | `string` | Output directory |
-| [options] | `Object` | [Options object](api-options). Can be omitted  |
+| [options] | `Object` | [Options object](#options). Can be omitted  |
 
 ```js
 // extracts all *.cpp files from archive archive.zip to c:\soft folder.
@@ -121,7 +131,7 @@ Extracts files from an archive with their full paths in the current directory, o
 |-----------|-------------------|-------------|
 | archive   | `string` | Archive to extract files from | 
 | output    | `string` | Output directory |
-| [options] | `Object` | [Options object](api-options). Can be omitted  |
+| [options] | `Object` | [Options object](#options). Can be omitted  |
 
 ```js
 // extracts all *.cpp files from the archive archive.zip to c:\soft folder.
@@ -137,7 +147,7 @@ Calculate hash values for files.
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
 | target    | `string|string[]` | Target files to calculate the hash of. Multiple targets can be given using an `Array` |
-| [options] | `Object`          | [Options object](api-options). Can be omitted  |
+| [options] | `Object`          | [Options object](#options). Can be omitted  |
 
 ```js
 // calculates SHA256 for a.iso.
@@ -152,7 +162,7 @@ Lists contents of archive.
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
 | archive    | `string` | Archive to list the file from |
-| [options] | `Object`  | [Options object](api-options). Can be omitted  |
+| [options] | `Object`  | [Options object](#options). Can be omitted  |
 
 ```js
 // list all the *.txt and *.js files in archive.zip
@@ -168,7 +178,7 @@ Renames files in archive.
 |-----------|-------------------|-------------|
 | archive   | `string`          | Archive to target | 
 | target    | `Array[string[]]` | Pair of target/new names files to remove rename. Multiple targets can be given using an `Array` |
-| [options] | `Object`          | [Options object](api-options). Can be omitted  |
+| [options] | `Object`          | [Options object](#options). Can be omitted  |
 
 ```js
 // renames old.txt to new.txt and 2.txt to folder\2new.txt .
@@ -184,7 +194,7 @@ Tests archive files.
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
 | archive    | `string` | Archive to test |
-| [options] | `Object`  | [Options object](api-options). Can be omitted  |
+| [options] | `Object`  | [Options object](#options). Can be omitted  |
 
 ```js
 // tests *.doc files in archive archive.zip.
@@ -201,18 +211,18 @@ Update older files in the archive and add files that are not already in the arch
 |-----------|-------------------|-------------|
 | archive   | `string`          | Archive to create | 
 | source    | `string|string[]` | Source files to update from the file-system to the archive. Multiple sources can be given using an `Array` |
-| [options] | `Object`          | [Options object](api-options). Can be omitted  |
+| [options] | `Object`          | [Options object](#options). Can be omitted  |
 
 ```js
 // updates *.doc files to archive archive.zip.
 const myStream = Seven.add('archive.zip', '*.doc')
 ```
 
-### [Options](#api-options)
+### Options
 
 #### Switches
 
-In the 7-Zip world, command flags are called switches. In order to use them you can pass their name and value in the [Options object](api-options)
+In the 7-Zip world, command flags are called switches. In order to use them you can pass their name and value in the [Options object](#options)
 
 | Name                     | Type       | Description                                                           | Switches | 
 |--------------------------|------------|-----------------------------------------------------------------------|----------| 
@@ -288,7 +298,7 @@ mySevenStream.on('data', function (data) {
 })
 ```
 
-### Event: `end`
+#### Event: `end`
 
 An `.info` proprety can contain meta-data (type [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map))
 
@@ -302,7 +312,7 @@ myStream.info
 //   'Archive size' => '212 bytes (1 KiB)' }
 ```
 
-### Event: `error`
+#### Event: `error`
 
 ```js
 mySevenStream.on('error', function (err) {
