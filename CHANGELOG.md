@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### `v1.0.0` 2018-12-05
+
+ * Total rewrite.
+
 ### `v0.4.3` 
 
  * Feature: Platform binary included, downloaded at install time, host system no longer needs them pre installed.
@@ -8,7 +12,7 @@ Changelog
  * Feature: Add: `Zip.binary` method that points to option to supply path util, but instead returns object to the 
    included binary path and filename.
 
-### `v0.4.2` **CURRENT**
+### `v0.4.2`
 
  * Fix: `run` returns useful error from stderr (#31)
  * Doc: It's better with the correct verbs (commit 7c0355beea59c42e040d0e776ff945be94705a74)

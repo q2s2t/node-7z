@@ -1,0 +1,11 @@
+test/
+.nyc_output/
+.circleci/
+.vscode/
+coverage/
+7z.exe
+appveyor.yml
+.eslintrc.json
+.gitignore
+CONTRIBUTING.md
+TODO
