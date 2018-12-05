@@ -26,6 +26,7 @@ export const FLAGS = [
   { type: 'string', api: 'fromStdin', cli: 'si' }, // Read data from StdIn
   { type: 'string', api: 'hashMethod', cli: 'scrc' }, // Set hash function
   { type: 'string', api: 'listFileCharset', cli: 'scs' }, // Set charset for list files
+  { type: 'string', api: 'charset', cli: 'scc' }, // Set charset for console input/output
   { type: 'string', api: 'logLevel', cli: 'bb' }, // Set output log level
   { type: 'string', api: 'outputDir', cli: 'o' }, // Set Output directory
   { type: 'string', api: 'overwrite', cli: 'ao' }, // Overwrite mode
