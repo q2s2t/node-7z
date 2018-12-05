@@ -56,7 +56,7 @@ describe('Functional: add()', function () {
     const seven = add(archive, source)
     seven.on('end', function () {
       const size = statSync(archive).size
-      expect(size).to.greaterThan(398)
+      expect(size).to.greaterThan(350)
       expect(existsSync(archive)).to.equal(true)
       done()
     })
