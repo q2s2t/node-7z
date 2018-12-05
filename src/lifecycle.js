@@ -29,7 +29,6 @@ export const createFactory = ({
     .concat(Args.fromOptions(options))
     .concat(Flags.fromOptions(options))
   seven._isProgressFlag = seven._args.includes('-bsp1')
-  seven._childProcess = options.$childProcess
   seven._stage = STAGE_HEADERS
   seven._matchBodyData = Parser.fetch(options._command, 'bodyData')
   seven._matchEndOfHeaders = Parser.fetch(options._command, 'endOfHeaders')

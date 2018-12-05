@@ -46,36 +46,6 @@ describe('Unit: lifecycle.js', function () {
       expect(sevenFake._stage).to.eql(STAGE_HEADERS)
     })
 
-    it('should import $childProcess when specified', function () {
-      const create = Seven.createFactory({
-        Bin: binFromOptionsFake,
-        Flags: flagsFromOptionsFake,
-        Parser: parserFake,
-        Args: argsFromOptionsFake
-      })
-      const sevenFake = create({
-        $childProcess: 0
-      })
-      expect(sevenFake._childProcess).to.eql(0)
-    })
-
-    it('should $defer running when specified', function () {
-      const incrementChildProcess = stream => ++stream._childProcess
-      const create = Seven.createFactory({
-        Bin: binFromOptionsFake,
-        Flags: flagsFromOptionsFake,
-        Parser: parserFake,
-        Args: argsFromOptionsFake,
-        listen: incrementChildProcess,
-        run: incrementChildProcess
-      })
-      const sevenFake = create({
-        $childProcess: 0,
-        $defer: true
-      })
-      expect(sevenFake._childProcess).to.eql(0)
-    })
-
     it('should set _isProgressFlag when specified', function () {
       const create = Seven.createFactory({
         Bin: binFromOptionsFake,

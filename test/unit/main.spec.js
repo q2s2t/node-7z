@@ -1,9 +1,47 @@
 /* global describe, it */
 import { expect } from 'chai'
-import * as main from '../../src/main.js'
+const main = require('../../src/main.js')
 
 describe('Unit: main.js', function () {
   describe('mainFactory()', function () {
+    const Lifecycle = {
+      createFactory: () => {
+        return (stream) => {
+          stream.create = true
+          return stream
+        }
+      },
+      run: (stream) => {
+        stream.run = true
+        return stream
+      }
+    }
+    const listen = stream => { stream.isListened = true }
+    it('should not run or listen given $defer', function () {
+      const res = main.mainFactory({ Lifecycle })({ $defer: true })
+      expect(res.$defer).to.eql(true)
+      expect(res.create).to.eql(true)
+      expect(res.run).to.eql(undefined)
+      expect(res.isListened).to.eql(undefined)
+    })
+
+    it('should run or listen by default', function () {
+      const res = main.mainFactory({ Lifecycle, listen })({})
+      expect(res.create).to.eql(true)
+      expect(res.run).to.eql(true)
+      expect(res.isListened).to.eql(true)
+    })
+
+    it('should use $childProcess', function () {
+      const res = main.mainFactory({ Lifecycle })({
+        $childProcess: 'custom child process',
+        $defer: true
+      })
+      expect(res._childProcess).to.eql('custom child process')
+    })
+  })
+
+  describe('listenFactory()', function () {
     const Events = {
       onErrorFactory: () => {
         return (stream) => {
@@ -31,19 +69,8 @@ describe('Unit: main.js', function () {
       }
     }
     const Lifecycle = {
-      createFactory: () => {
-        return (stream) => {
-          stream.create = true
-          return stream
-        }
-      },
-      run: (stream) => {
-        stream.run = true
-        return stream
-      },
       listenFactory: () => {
         return (stream) => {
-          stream.listen = true
           Events.onErrorFactory()(stream)
           Events.onStderrFactory()(stream)
           Events.onStdoutFactory()(stream)
@@ -52,23 +79,9 @@ describe('Unit: main.js', function () {
         }
       }
     }
-    it('should not run or listen given $defer', function () {
-      const res = main.mainFactory({ Lifecycle, Events })({ $defer: true })
-      expect(res.$defer).to.eql(true)
-      expect(res.create).to.eql(true)
-      expect(res.run).to.eql(undefined)
-      expect(res.listen).to.eql(undefined)
-    })
-
-    it('should run or listen given', function () {
-      const res = main.mainFactory({ Lifecycle, Events })({})
-      expect(res.create).to.eql(true)
-      expect(res.run).to.eql(true)
-      expect(res.listen).to.eql(true)
-    })
 
     it('should register event handlers', function () {
-      const res = main.mainFactory({ Lifecycle, Events })({})
+      const res = main.listenFactory({ Lifecycle, Events })({})
       expect(res.registerOnError).to.eql(true)
       expect(res.registerOnStderr).to.eql(true)
       expect(res.registerOnStdout).to.eql(true)
