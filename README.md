@@ -15,11 +15,11 @@
 import Seven from 'node-7z'
 
 // myStream is an Readable stream
-const myStream = Seven.extractFull('./archive.7z', './output/dir/')
+const myStream = Seven.extractFull('./archive.7z', './output/dir/', { $progress: true })
   .on('data', function (data) {
     doStuffWith(data) //? { status: 'extracted', file: 'extracted/file.txt" }
   })
-  .on('progresss', function (progress) {
+  .on('progress', function (progress) {
     doStuffWith(progress) //? { percent: 67, fileCount: 5, file: undefinded }
   })
   .on('end', function () {
@@ -47,7 +47,7 @@ const myStream = Seven.extractFull('./archive.7z', './output/dir/')
 npm install --save node-7z
 ```
 
-You should have the a 7-Zip executable (v16.04 or greater) available in your system.
+You should have the a 7-Zip executable (v16.02 or greater) available in your system.
 
 > - On Debian and Ubuntu install the p7zip-full package.
 > - On Mac OSX use Homebrew `brew install p7zip`
@@ -273,7 +273,7 @@ Those options are not provided by 7-Zip but are features of this module.
 
 | Name            | Type                                                                                         | Description                                                              |
 |-----------------|----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| `$progress`     | `boolean`                                                                                    | Progress percentage gets fired. Shortcut for `{ outputStreams: ['b1'] }` |
+| `$progress`     | `boolean`                                                                                    | Progress percentage gets fired. Shortcut for `{ outputStreams: ['b1'] }` Use if you want access to the `progress` event. |
 | `$defer`        | `boolean`                                                                                    | Create the stream but do not spawn child process                         |
 | `$childProcess` | [`ChildProcess`](https://nodejs.org/api/child_process.html#child_process_class_childprocess) | Attach an external child process to be parsed                            |
 | `$bin`          | `string`                                                                                     | Path to an other 7-Zip binary. Default: `7z`                             |
