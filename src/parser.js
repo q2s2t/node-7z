@@ -1,6 +1,6 @@
-import normalizePath from 'normalize-path'
-import { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, END_OF_STAGE_HYPHEN } from './regexp.js'
-import { SYMBOL_OPERATIONS } from './references.js'
+const normalizePath = require('normalize-path')
+const { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, END_OF_STAGE_HYPHEN } = require('./regexp')
+const { SYMBOL_OPERATIONS } = require('./references')
 
 // Infos about the opertation are given by 7z on the stdout. They can be:
 // - colon-seprated: `Creating archive: DirNew/BaseExt.7z`
@@ -9,7 +9,7 @@ import { SYMBOL_OPERATIONS } from './references.js'
 // - in the HEADERS or in the FOOTERS
 // This function match if the current line contains some infos. A **Map** is
 // used to store infos in the stream.
-export function matchInfos (stream, line) {
+function matchInfos (stream, line) {
   const infosLine = line
     .split(INFOS_SPLIT)
     .map(res => res.match(INFOS))
@@ -30,14 +30,14 @@ export function matchInfos (stream, line) {
 // delimited by a `matchBodySymbol() === true`. Retunring a truthly value would
 // cause the current loop iteration to end and doing so missing to push the
 // current line to the stream, so we have to push in here.
-export function matchEndOfHeadersSymbol (stream, line) {
+function matchEndOfHeadersSymbol (stream, line) {
   return stream._matchBodyData(stream, line)
 }
 
 // Some 7z commands uses a `--- -----` like string as a maker for the end of
 // headers and the end of headers. The position of spaces are saved in the
 // stream to be exploited by the `matchBodyList()` function
-export function matchEndOfHeadersHyphen (stream, line) {
+function matchEndOfHeadersHyphen (stream, line) {
   const isEnd = END_OF_STAGE_HYPHEN.test(line)
   if (isEnd) {
     stream._columnsPositions = Array.from(line)
@@ -54,7 +54,7 @@ export function matchEndOfHeadersHyphen (stream, line) {
 // - only percent: `  0%`
 // - with file count: ` 23% 4`
 // - with file name: ` 23% 4 file.txt`
-export function matchProgress (stream, line) {
+function matchProgress (stream, line) {
   if (isEmpty(line)) {
     return null
   }
@@ -74,7 +74,7 @@ export function matchProgress (stream, line) {
 // command to the file. E.g.:
 // - testing file: `T file/to/test.txt`
 // - adding file to archive: `+ file/to/add.txt`
-export function matchBodySymbol (stream, line) {
+function matchBodySymbol (stream, line) {
   const match = line.match(BODY_SYMBOL_FILE)
   if (match) {
     match.groups.file = normalizePath(match.groups.file)
@@ -92,7 +92,7 @@ export function matchBodySymbol (stream, line) {
 // 2018-09-29 09:06:15 ....A            9           24  DirHex/42550418a4ef9
 // The caveat is that each value can be empty. So we don't use a Regexp but
 // the values of were the columns are to split the line into an object.
-export function matchBodyList (stream, line) {
+function matchBodyList (stream, line) {
   const raw = {}
   try {
     const columns = stream._columnsPositions
@@ -117,7 +117,7 @@ export function matchBodyList (stream, line) {
 // - hash with all info: `hebdf6      43      hashed/file.txt`
 // - hash with some info: `hebdf6              hashed/file.txt`
 // - hash for directories: `                    hashed/file.txt`
-export function matchBodyHash (stream, line) {
+function matchBodyHash (stream, line) {
   if (isEmpty(line)) {
     return null
   }
@@ -138,7 +138,7 @@ export function matchBodyHash (stream, line) {
 // When the progress switch is activated the `formatByLine()` method adds
 // additionnal empty lines: By adding a marker to the `SevenZipStream` object
 // the function can detect two empty lines in a row.
-export function matchEndOfBodySymbol (stream, line) {
+function matchEndOfBodySymbol (stream, line) {
   const isLastLineEmpty = (stream._lastLineEmpty)
   if (!isEmpty(line)) {
     stream._lastLineEmpty = false
@@ -166,7 +166,7 @@ function isEmpty (string) {
 // - To identify the end of the BODY stage a list command outputs a
 // `---- -- --- ---` line.
 // - An extract command outpus the FOOTERS after after an empty line.
-export const fetch = (command, parser) => {
+const fetch = (command, parser) => {
   const PARSERS = {
     add: {
       bodyData: matchBodySymbol,
@@ -224,4 +224,16 @@ export const fetch = (command, parser) => {
     }
   }
   return PARSERS[command][parser]
+}
+
+module.exports = {
+  matchInfos,
+  matchEndOfHeadersSymbol,
+  matchEndOfHeadersHyphen,
+  matchProgress,
+  matchBodySymbol,
+  matchBodyList,
+  matchBodyHash,
+  matchEndOfBodySymbol,
+  fetch
 }

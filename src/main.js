@@ -1,13 +1,13 @@
-import * as Lifecycle from './lifecycle.js'
-import * as Bin from './bin.js'
-import * as Args from './args.js'
-import * as Flags from './flags.js'
-import * as Parser from './parser.js'
-import * as Events from './events.js'
-import * as Err from './error.js'
-import * as Lines from '../src/lines.js'
-import * as Maybe from '../src/maybe.js'
-import * as Commands from './commands.js'
+const Lifecycle = require('./lifecycle')
+const Bin = require('./bin')
+const Args = require('./args')
+const Flags = require('./flags')
+const Parser = require('./parser')
+const Events = require('./events')
+const Err = require('./error')
+const Lines = require('../src/lines')
+const Maybe = require('../src/maybe')
+const Commands = require('./commands')
 
 // Expose the listen function to the API so a user can listen to a sdtio stream
 // non emitted by the current (ie. in the run() function).

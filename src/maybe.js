@@ -1,9 +1,7 @@
-import Debug from 'debug'
-import { STAGE_HEADERS, STAGE_BODY, STAGE_FOOTERS } from './references.js'
+const debug = require('debug')('node-7z')
+const { STAGE_HEADERS, STAGE_BODY, STAGE_FOOTERS } = require('./references')
 
-const debug = Debug('node-7z')
-
-export const info = (stream, line) => {
+const info = (stream, line) => {
   const stageWithInfo = (stream._stage === STAGE_HEADERS || stream._stage === STAGE_FOOTERS)
   if (!stageWithInfo) {
     return false
@@ -18,7 +16,7 @@ export const info = (stream, line) => {
   }
 }
 
-export const progress = (stream, line) => {
+const progress = (stream, line) => {
   const progress = stream._matchProgress(stream, line)
   if (!progress) {
     return false
@@ -29,7 +27,7 @@ export const progress = (stream, line) => {
   }
 }
 
-export const endOfHeaders = (stream, line) => {
+const endOfHeaders = (stream, line) => {
   if (stream._stage !== STAGE_HEADERS) {
     return false
   } else {
@@ -44,7 +42,7 @@ export const endOfHeaders = (stream, line) => {
   }
 }
 
-export const endOfBody = (stream, line) => {
+const endOfBody = (stream, line) => {
   const match = stream._matchEndOfBody(stream, line)
   if (!match) {
     return false
@@ -55,7 +53,7 @@ export const endOfBody = (stream, line) => {
   }
 }
 
-export const bodyData = (stream, line) => {
+const bodyData = (stream, line) => {
   const match = stream._matchBodyData(stream, line)
   if (!match) {
     return false
@@ -66,3 +64,5 @@ export const bodyData = (stream, line) => {
     return true
   }
 }
+
+module.exports = { info, progress, endOfHeaders, endOfBody, bodyData }

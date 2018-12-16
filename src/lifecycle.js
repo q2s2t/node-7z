@@ -1,11 +1,9 @@
-import Debug from 'debug'
-import spawn from 'cross-spawn'
-import { Readable } from 'stream'
-import { STAGE_HEADERS } from './references.js'
+const debug = require('debug')('node-7z')
+const spawn = require('cross-spawn')
+const { Readable } = require('stream')
+const { STAGE_HEADERS } = require('./references')
 
-const debug = Debug('node-7z')
-
-export const createFactory = ({
+const createFactory = ({
   Bin,
   Args,
   Flags,
@@ -41,7 +39,7 @@ export const createFactory = ({
   return seven
 }
 
-export const listenFactory = ({
+const listenFactory = ({
   errorHandler,
   stdoutHandler,
   stderrHandler,
@@ -54,7 +52,9 @@ export const listenFactory = ({
   return stream
 }
 
-export const run = stream => {
+const run = stream => {
   stream._childProcess = spawn(stream._bin, stream._args, { detached: true })
   return stream
 }
+
+module.exports = { createFactory, listenFactory, run }

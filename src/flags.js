@@ -1,9 +1,11 @@
-import { negate, isEmpty, defaultsDeep } from 'lodash'
-import { FLAGS, OPTIONS_DEFAULT } from './references.js'
+const negate = require('lodash/negate')
+const isEmpty = require('lodash/isEmpty')
+const defaultsDeep = require('lodash/defaultsDeep')
+const { FLAGS, OPTIONS_DEFAULT } = require('./references')
 
 // Build arguments ready to be passed to `childProcess.spawn()` from the
 // `options` provided by the module consumer.
-export const fromOptions = options => {
+const fromOptions = options => {
   let opts = { ...defaultsDeep(options, OPTIONS_DEFAULT) }
   opts = populateOutputStreams(opts)
   opts = populateOutputDir(opts)
@@ -80,3 +82,5 @@ const populateOutputDir = options => {
     return optionsWithoutOuptutDir
   }
 }
+
+module.exports = { fromOptions }

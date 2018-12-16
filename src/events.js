@@ -1,21 +1,20 @@
-import Debug from 'debug'
-import { STAGE_BODY } from './references.js'
-const debug = Debug('node-7z')
+const debug = require('debug')('node-7z')
+const { STAGE_BODY } = require('./references')
 
-export const onErrorFactory = ({ Err }) => (stream, err) => {
+const onErrorFactory = ({ Err }) => (stream, err) => {
   Err.assign(stream, err)
   debug('error: from child process: %O', err)
   return stream
 }
 
-export const onStderrFactory = ({ Err }) => (stream, buffer) => {
+const onStderrFactory = ({ Err }) => (stream, buffer) => {
   const err = Err.fromBuffer(buffer)
   Err.assign(stream, err)
   debug('error: from stderr: %O', err)
   return stream
 }
 
-export const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
+const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
   const lines = Lines.fromBuffer(stream, chunk)
 
   // Maybe functions check if a condition is true and run the corresponding
@@ -72,10 +71,12 @@ export const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
   return stream
 }
 
-export const onEndFactory = () => (stream) => {
+const onEndFactory = () => (stream) => {
   if (stream.err) {
     stream.emit('error', stream.err)
   }
   stream.emit('end')
   return stream
 }
+
+module.exports = { onErrorFactory, onStderrFactory, onStdoutFactory, onEndFactory }

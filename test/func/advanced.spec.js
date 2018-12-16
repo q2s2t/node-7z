@@ -1,6 +1,6 @@
 /* global describe, it */
-import { expect } from 'chai'
-import Seven from '../../src/index.js'
+const { expect } = require('chai')
+const Seven = require('../../src/main')
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'

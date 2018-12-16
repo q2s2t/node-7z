@@ -1,5 +1,4 @@
-
-export const FLAGS = [
+const FLAGS = [
   { type: 'bool', api: 'alternateStreamExtract', cli: 'snc' }, // Extract file as alternate stream, if there is ':' character in name
   { type: 'bool', api: 'alternateStreamReplace', cli: 'snr' }, // Replace ':' character to '_' character in paths of alternate streams
   { type: 'bool', api: 'deleteFilesAfter', cli: 'sdel' }, // Delete files after compression
@@ -44,19 +43,19 @@ export const FLAGS = [
   // Advanced
 ]
 
-export const OPTIONS_DEFAULT = {
+const OPTIONS_DEFAULT = {
   yes: true,
   logLevel: '3',
   outputStreams: []
 }
 
-export const BIN_DEFAULT = '7z'
+const BIN_DEFAULT = '7z'
 
-export const STAGE_HEADERS = Symbol('STAGE_HEADERS')
-export const STAGE_BODY = Symbol('STAGE_BODY')
-export const STAGE_FOOTERS = Symbol('STAGE_FOOTERS')
+const STAGE_HEADERS = Symbol('STAGE_HEADERS')
+const STAGE_BODY = Symbol('STAGE_BODY')
+const STAGE_FOOTERS = Symbol('STAGE_FOOTERS')
 
-export const COMMAND_LETTERS = {
+const COMMAND_LETTERS = {
   add: 'a',
   delete: 'd',
   extract: 'e',
@@ -69,11 +68,22 @@ export const COMMAND_LETTERS = {
 }
 
 // =TU+R.-
-export const SYMBOL_OPERATIONS = {
+const SYMBOL_OPERATIONS = {
   '=': 'renamed',
   'T': 'tested',
   'U': 'updated',
   'R': 'skipped',
   '.': 'deleted',
   '-': 'extracted'
+}
+
+module.exports = {
+  FLAGS,
+  OPTIONS_DEFAULT,
+  BIN_DEFAULT,
+  STAGE_HEADERS,
+  STAGE_BODY,
+  STAGE_FOOTERS,
+  COMMAND_LETTERS,
+  SYMBOL_OPERATIONS
 }

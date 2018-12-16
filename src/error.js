@@ -1,7 +1,7 @@
-import { ERROR } from './regexp.js'
+const { ERROR } = require('./regexp')
 
 // Just assign an error to the stream. The event error is emitted on close
-export const assign = (stream, err) => {
+const assign = (stream, err) => {
   if (stream.err) {
     stream.err = Object.assign(err, stream.err)
   } else {
@@ -10,7 +10,7 @@ export const assign = (stream, err) => {
   return stream
 }
 
-export const fromBuffer = chunk => {
+const fromBuffer = chunk => {
   const stderr = chunk.toString()
   const match = stderr.match(ERROR)
   let err = new Error('unknown error')
@@ -21,3 +21,5 @@ export const fromBuffer = chunk => {
   }
   return err
 }
+
+module.exports = { assign, fromBuffer }
