@@ -15,18 +15,24 @@
 import Seven from 'node-7z'
 
 // myStream is an Readable stream
-const myStream = Seven.extractFull('./archive.7z', './output/dir/', { $progress: true })
-  .on('data', function (data) {
-    doStuffWith(data) //? { status: 'extracted', file: 'extracted/file.txt" }
-  })
-  .on('progress', function (progress) {
-    doStuffWith(progress) //? { percent: 67, fileCount: 5, file: undefinded }
-  })
-  .on('end', function () {
+const myStream = Seven.extractFull('./archive.7z', './output/dir/', { 
+  $progress: true
+})
+
+myStream.on('data', function (data) {
+  doStuffWith(data) //? { status: 'extracted', file: 'extracted/file.txt" }
+})
+
+myStream.on('progress', function (progress) {
+  doStuffWith(progress) //? { percent: 67, fileCount: 5, file: undefinded }
+})
+
+myStream.on('end', function () {
     // end of the operation, get the number of folders involved in the operation
-    myStream.info.get('Folders') //? '4'
-  })
-  .on('error', (err) => handleError(err))
+  myStream.info.get('Folders') //? '4'
+})
+
+myStream.on('error', (err) => handleError(err))
 
 ```
 
@@ -36,7 +42,7 @@ const myStream = Seven.extractFull('./archive.7z', './output/dir/', { $progress:
  * [Installation](#installation)
  * [API](#api)
    * [Commands](#commands)
-   * [<a href="#api-options">Options</a>](#options)
+   * [Options](#options)
    * [Events](#events)
  * [Advanced usage](#advanced-usage)
 
@@ -80,11 +86,11 @@ const seven = extractFull('./archive.7z', './output/dir/', {
 #### Add
 Adds files to archive.
 
-| Arguments | Type              | Description |
-|-----------|-------------------|-------------|
-| archive   | `string`          | Archive to create | 
-| source    | `string|string[]` | Source files to add to the archive. Multiple sources can be given using an `Array` |
-| [options] | `Object`          | [Options object](#options). Can be omitted  |
+| Arguments | Type               | Description |
+|-----------|--------------------|-------------|
+| archive   | `string`           | Archive to create | 
+| source    | `string\|string[]` | Source files to add to the archive. Multiple sources can be given using an `Array` |
+| [options] | `Object`           | [Options object](#options). Can be omitted  |
 
 ```js
 // adds all *.txt files from current folder and its subfolders to archive Files.7z.
@@ -96,11 +102,11 @@ const myStream = Seven.add('Files.7z', '*.txt', {
 #### Delete
 Deletes files from archive.
 
-| Arguments | Type              | Description |
-|-----------|-------------------|-------------|
-| archive   | `string`          | Archive to target | 
-| target    | `string|string[]` | Target files to remove from the archive. Multiple targets can be given using an `Array` |
-| [options] | `Object`          | [Options object](#options). Can be omitted  |
+| Arguments | Type               | Description |
+|-----------|--------------------|-------------|
+| archive   | `string`           | Archive to target | 
+| target    | `string\|string[]` | Target files to remove from the archive. Multiple targets can be given using an `Array` |
+| [options] | `Object`           | [Options object](#options). Can be omitted  |
 
 ```js
 // deletes *.bak files from archive archive.zip.
@@ -144,10 +150,10 @@ const myStream = Seven.extractFull('archive.zip', 'c:/soft', {
 #### Hash
 Calculate hash values for files.
 
-| Arguments | Type              | Description |
-|-----------|-------------------|-------------|
-| target    | `string|string[]` | Target files to calculate the hash of. Multiple targets can be given using an `Array` |
-| [options] | `Object`          | [Options object](#options). Can be omitted  |
+| Arguments | Type               | Description |
+|-----------|--------------------|-------------|
+| target    | `string\|string[]` | Target files to calculate the hash of. Multiple targets can be given using an `Array` |
+| [options] | `Object`           | [Options object](#options). Can be omitted  |
 
 ```js
 // calculates SHA256 for a.iso.
@@ -161,7 +167,7 @@ Lists contents of archive.
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
-| archive    | `string` | Archive to list the file from |
+| archive   | `string` | Archive to list the file from |
 | [options] | `Object`  | [Options object](#options). Can be omitted  |
 
 ```js
@@ -193,7 +199,7 @@ Tests archive files.
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
-| archive    | `string` | Archive to test |
+| archive   | `string` | Archive to test |
 | [options] | `Object`  | [Options object](#options). Can be omitted  |
 
 ```js
@@ -210,7 +216,7 @@ Update older files in the archive and add files that are not already in the arch
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
 | archive   | `string`          | Archive to create | 
-| source    | `string|string[]` | Source files to update from the file-system to the archive. Multiple sources can be given using an `Array` |
+| source    | `string\|string[]` | Source files to update from the file-system to the archive. Multiple sources can be given using an `Array` |
 | [options] | `Object`          | [Options object](#options). Can be omitted  |
 
 ```js
@@ -240,7 +246,7 @@ In the 7-Zip world, command flags are called switches. In order to use them you 
 | `recursive`              | `boolean`  | Recurse subdirectories. For `-r0` usage see `raw`                     | `-r`     | 
 | `symlinks`               | `boolean`  | Store symbolic links as links (WIM and TAR formats only)              | `-snl`   | 
 | `techInfo`               | `boolean`  | Show technical information                                            | `-slt`   | 
-| `timeStats`              | `boolean`  |                                                                       | `-bt`    | 
+| `timeStats`              | `boolean`  | Show execution time statistics                                        | `-bt`    | 
 | `toStdout`               | `boolean`  | Write data to stdout                                                  | `-so`    | 
 | `yes`                    | `boolean`  | Assume Yes on all queries                                             | `-y`     | 
 | `alternateStreamStore`   | `boolean`  | Store NTFS alternate Streams                                          | `-sns`   | 
@@ -273,7 +279,7 @@ Those options are not provided by 7-Zip but are features of this module.
 
 | Name            | Type                                                                                         | Description                                                              |
 |-----------------|----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| `$progress`     | `boolean`                                                                                    | Progress percentage gets fired. Shortcut for `{ outputStreams: ['b1'] }` Use if you want access to the `progress` event. |
+| `$progress`     | `boolean`                                                                                    | Progress percentage gets fired. Shortcut for `{ outputStreams: ['b1'] }` Use if you want access to the `progress` event. Has an impact on performances. |
 | `$defer`        | `boolean`                                                                                    | Create the stream but do not spawn child process                         |
 | `$childProcess` | [`ChildProcess`](https://nodejs.org/api/child_process.html#child_process_class_childprocess) | Attach an external child process to be parsed                            |
 | `$bin`          | `string`                                                                                     | Path to an other 7-Zip binary. Default: `7z`                             |
@@ -333,11 +339,10 @@ Using the CLI, compression is made like that:
 7z a archive.7z *.exe -m0=BCJ -m1=LZMA:d=21
 ```
 
-With to module you can translate it like that:
+Using this module:
 
 ```js
-import { add } from 'node-7z'
-const myCompressStream = new add('archive.7z', '*.exe', {
+const compress = Seven.add('archive.7z', '*.exe', {
   method: ['0=BCJ', '1=LZMA:d=21']
 })
 ```
@@ -352,8 +357,7 @@ instance you want to apply to switches with different values. You  can use the
 values.
 
 ```js
-import { add } from 'node-7z'
-const myCompressStream = new add('archive.7z', '*.gif', {
+const compress = Seven.add('archive.7z', '*.gif', {
   $raw: [ '-i!*.jpg', '-i!*.png' ], // only images
 })
 ```
@@ -378,7 +382,7 @@ expected. A diffrent value should not be used.
 ### Security
 
 Values given by the package are not sanitized, you just get the raw output from
-the `7z` binary. Remember to never trust user input and sanitize accordingly.
+the 7-Zip binary. Remember to never trust user input and sanitize accordingly.
 
 ### External child process
 
@@ -391,7 +395,7 @@ const external = // an external child process
 const myStream = Seven.add('dummy', 'dummy', {
   $defer: true
 })
-myStream.on('data', data => yourLogic())
+myStream.on('data', data => yourLogicWith(data))
 Seven.listen(myStream)
 ```
 
