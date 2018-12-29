@@ -13,7 +13,7 @@ Package:
     ✔ Rewite scripts @done(18-10-17 20:36)
     ✘ Helper script to optionnaly fetch 7zip bins? @cancelled(18-09-09 19:02)
     ✘ 7zip-bin as peer dependecy? @cancelled(18-11-13 20:04) See README.md for installation
-    ☐ upload to npm
+    ✔ upload to npm @done(18-12-29 18:26)
 Switches:
     ✔ Implement -bt	Show execution time statistics @done(18-12-03 19:51)
     ✔ Implement -slt Show technical information @done(18-12-03 19:55)
@@ -34,8 +34,8 @@ Features:
     ✔ Streams? Buffer or Object mode? @done(18-09-09 18:58)
     ✔ 7z path option @done(18-09-02 19:34)
     ✘ Exit codes @cancelled(18-12-03 22:23)
-    ☐ TypeScript support
-    ☐ Babel/ES5 etc support
+    ✘ TypeScript support @cancelled(18-12-29 18:26)
+    ✘ Babel/ES5 etc support @cancelled(18-12-29 18:26)
     ✔ Close/end SevenZipStream @done(18-12-02 12:31)
     ✔ Full-named switches for cleaner API @done(18-11-04 19:54)
     ✔ Stream methods returns stream @done(18-10-17 20:35)
