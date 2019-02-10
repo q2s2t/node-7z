@@ -1,4 +1,12 @@
-## <small>1.0.1 (2018-12-29)</small>
+## 1.1.0 (2019-02-10)
+
+* chore: Use named capture groups polyfill on Node.js < v10 ([b0a7d77](https://github.com/quentinrossetti/node-7z/commit/b0a7d77))
+* chore: Update dependencies ([8f5cb7f](https://github.com/quentinrossetti/node-7z/commit/8f5cb7f))
+* ci:  Fix nvm usage by substractive design :) ([5b58713](https://github.com/quentinrossetti/node-7z/commit/5b58713))
+
+
+
+## 1.0.1 (2018-12-29)
 
 * doc: Clean usage & typos ([6c53c5a](https://github.com/quentinrossetti/node-7z/commit/6c53c5a))
 * doc: Fixing clerical errors ([e244438](https://github.com/quentinrossetti/node-7z/commit/e244438))
