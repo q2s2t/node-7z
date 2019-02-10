@@ -41,10 +41,16 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: 
-          name: Run tests and coverage
+          name: Run Node.js v10 tests and coverage
           command: |
             set -e
             npm run test-coverage
+
+      - run: 
+          name: Run Node.js v8 tests
+          command: |
+            nvm use 8
+            npm run test
 
       - run:
           name: Send coverage to Code Climate
