@@ -10,7 +10,9 @@
     "test-func": "npx mocha -r esm --reporter=spec \"test/func/*.spec.js\" --timeout=0",
     "test-func-coverage": "npx nyc --reporter=html npm run test-func",
     "test-debug": "DEBUG=node-7z npm run test",
-    "test-coverage": "npx nyc --reporter=lcov npm run test"
+    "test-coverage": "npx nyc --reporter=lcov npm run test",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -37,7 +39,8 @@
     "debug": "^4.1.1",
     "lodash": "^4.17.11",
     "normalize-path": "^3.0.0",
-    "regexp-polyfill": "^1.0.1"
+    "regexp-polyfill": "^1.0.1",
+    "snyk": "^1.189.0"
   },
   "optionalDependencies": {},
   "devDependencies": {
@@ -49,5 +52,6 @@
     "mocha": "^5.2.0",
     "nyc": "^13.2.0",
     "rimraf": "^2.6.3"
-  }
+  },
+  "snyk": true
 }
