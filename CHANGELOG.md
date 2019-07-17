@@ -1,3 +1,8 @@
+## 1.1.1 (2019-07-17)
+
+* chore: Fix lodash security vulnerability ([8a8f9a4](https://github.com/quentinrossetti/node-7z/commit/8a8f9a4))
+
+
 ## 1.1.0 (2019-02-10)
 
 * chore: Use named capture groups polyfill on Node.js < v10 ([b0a7d77](https://github.com/quentinrossetti/node-7z/commit/b0a7d77))
