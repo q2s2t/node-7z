@@ -2,7 +2,7 @@
 // Support until Jan 2020 (https://github.com/nodejs/Release)
 const RegExp = (() => {
   try {
-    new RegExp('(?<test>a)')
+    new RegExp('(?<test>a)') // eslint-disable-line no-new
     return RegExp
   } catch (error) {
     return require('named-regexp-groups')
