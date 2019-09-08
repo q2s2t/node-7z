@@ -1,13 +1,13 @@
-// @COMPAT Named capture groups aren't available before Node.js 10. This
-// compatibility checks the running Node.js version and apply a polyfill
-// if needed.
+// @COMPAT Named capture groups aren't available before Node.js 10.
 // Support until Jan 2020 (https://github.com/nodejs/Release)
-const semver = /v(\d+)\.(\d+)\.(\d+)/
-const nodeVersionResults = process.version.match(semver)
-const nodeVersionMajor = parseInt(nodeVersionResults[1])
-if (nodeVersionMajor < 10) {
-  require('regexp-polyfill')
-}
+const RegExp = (() => {
+  try {
+    new RegExp('(?<test>a)') // eslint-disable-line no-new
+    return RegExp
+  } catch (error) {
+    return require('named-regexp-groups')
+  }
+})()
 
 const LINE_SPLIT = new RegExp('\n|\r\n|\x08+|\r +\r')
 const BODY_PROGRESS = new RegExp('^ *(?<percent>\\d+)% ?(?<fileCount>\\d+)? ?(?<file>.*)$')

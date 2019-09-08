@@ -36,8 +36,8 @@
     "cross-spawn": "^6.0.4",
     "debug": "^4.1.1",
     "lodash": "^4.17.12",
-    "normalize-path": "^3.0.0",
-    "regexp-polyfill": "^1.0.1"
+    "named-regexp-groups": "^1.0.3",
+    "normalize-path": "^3.0.0"
   },
   "optionalDependencies": {},
   "devDependencies": {
