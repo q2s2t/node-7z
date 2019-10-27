@@ -36,7 +36,6 @@
     "cross-spawn": "^7.0.1",
     "debug": "^4.1.1",
     "lodash": "^4.17.12",
-    "named-regexp-groups": "^1.0.3",
     "normalize-path": "^3.0.0"
   },
   "optionalDependencies": {},
