@@ -43,7 +43,7 @@ describe('Functional: Advanced usage', function () {
     expect(sevenWindows._args).to.includes('-ssc')
   })
 
-  it.only('should be able to compress from stdin', function (done) {
+  it('should be able to compress from stdin', function (done) {
     const source = `${mockDir}/DirImages/architectural-design-architecture-blueprint-239886.jpg`
     const archive = `${tmpDir}/advanced-stdin.7z`
     const stdin = require('fs').createReadStream(source)
