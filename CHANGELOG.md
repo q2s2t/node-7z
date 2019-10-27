@@ -1,3 +1,14 @@
+## 2.0.0 (2019-10-27)
+
+*BREAKING CHANGES : Drop support for Node.JS 8*
+
+* fix: Add debug statement for Windows ([ddfc4b9](https://github.com/quentinrossetti/node-7z/commit/ddfc4b9))
+* fix: Add plateform condition in test case ([f9c080a](https://github.com/quentinrossetti/node-7z/commit/f9c080a))
+* fix: no longer depend on regexp polyfill, as polyfills dangerously modify the environment ([b923e9d](https://github.com/quentinrossetti/node-7z/commit/b923e9d))
+* chore: Update dependencies ([708a5fd](https://github.com/quentinrossetti/node-7z/commit/708a5fd))
+* test: Add compress from stdin ([6a337ad](https://github.com/quentinrossetti/node-7z/commit/6a337ad))
+* style: make an exception to eslint rule no-new for regexp named groups test ([b710b82](https://github.com/quentinrossetti/node-7z/commit/b710b82))
+
 ## 1.1.1 (2019-07-17)
 
 * chore: Fix lodash security vulnerability ([8a8f9a4](https://github.com/quentinrossetti/node-7z/commit/8a8f9a4))
