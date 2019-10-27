@@ -1,6 +1,6 @@
 {
   "name": "node-7z",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "./src/main.js",
   "scripts": {
