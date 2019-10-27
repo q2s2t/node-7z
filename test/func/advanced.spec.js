@@ -49,11 +49,14 @@ describe('Functional: Advanced usage', function () {
     const stdin = require('fs').createReadStream(source)
     const seven = Seven.add(archive, '', {
       fromStdin: 'public-name.jpg',
-    })    
+    })
     stdin.pipe(seven._childProcess.stdin)
     seven.on('end', function () {
-      console.log(seven.info)
-      expect(seven.info.get('Items to compress')).to.eql('1')
+      if (process.platform === 'win32') {
+        expect(seven.info.get('Add new data to archive')).to.eql('1 file')
+      } else {
+        expect(seven.info.get('Items to compress')).to.eql('1')
+      }
       done()
     })
   })
