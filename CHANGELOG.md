@@ -1,3 +1,7 @@
+## 2.0.1 (2019-10-27)
+
+* test: Fix clerical error ([5b1e8a6](https://github.com/quentinrossetti/node-7z/commit/5b1e8a6))
+
 ## 2.0.0 (2019-10-27)
 
 *BREAKING CHANGES : Drop support for Node.JS 8*
