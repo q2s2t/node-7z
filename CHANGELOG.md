@@ -1,5 +1,6 @@
-## 2.0.1 (2019-10-27)
+## 2.0.1 ... 2.0.3 (2019-10-27)
 
+* dist: npm problems
 * test: Fix clerical error ([5b1e8a6](https://github.com/quentinrossetti/node-7z/commit/5b1e8a6))
 
 ## 2.0.0 (2019-10-27)
