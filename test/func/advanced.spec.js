@@ -42,4 +42,18 @@ describe('Functional: Advanced usage', function () {
     })
     expect(sevenWindows._args).to.includes('-ssc')
   })
+
+  it('should be able to compress from stdin', function (done) {
+    const source = `${mockDir}/DirImages/architectural-design-architecture-blueprint-239886.jpg`
+    const archive = `${tmpDir}/advanced-stdin.7z`
+    const stdin = require('fs').createReadStream(source)
+    const seven = Seven.add(archive, '', {
+      fromStdin: 'public-name.jpg',
+    })    
+    stdin.pipe(seven._childProcess.stdin)
+    seven.on('end', function () {
+      expect(seven.info.get('Items to compress')).to.eql('1')
+      done()
+    })
+  })
 })
