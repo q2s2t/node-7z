@@ -35,14 +35,14 @@
   "dependencies": {
     "cross-spawn": "^7.0.1",
     "debug": "^4.1.1",
-    "lodash": "^4.17.12",
+    "lodash": "^4.17.15",
     "normalize-path": "^3.0.0"
   },
   "optionalDependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint-config-standard": "^14.1.0",
-    "esm": "^3.2.4",
+    "esm": "^3.2.25",
     "fs-readdir-recursive": "^1.1.0",
     "is-child-process": "^1.0.2",
     "mocha": "^6.2.2",
