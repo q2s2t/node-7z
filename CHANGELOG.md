@@ -1,3 +1,11 @@
+## 2.0.4 (2019-11-23)
+
+* doc: Update license distribution ([68f753c](https://github.com/quentinrossetti/node-7z/commit/68f753c))
+* chore: npm audit fix ([fcd7e41](https://github.com/quentinrossetti/node-7z/commit/fcd7e41))
+* feat: Add -mqs switch ([0540b42](https://github.com/quentinrossetti/node-7z/commit/0540b42))
+* feat: Add -ms switch ([68ec3eb](https://github.com/quentinrossetti/node-7z/commit/68ec3eb))
+* feat: Add -sse switch ([472e278](https://github.com/quentinrossetti/node-7z/commit/472e278))
+
 ## 2.0.1 ... 2.0.3 (2019-10-27)
 
 * dist: npm problems
