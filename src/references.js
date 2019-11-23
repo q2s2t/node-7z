@@ -6,6 +6,7 @@ const FLAGS = [
   { type: 'bool', api: 'hardlinks', cli: 'snh' }, // Store hard links as links (WIM and TAR formats only)
   { type: 'bool', api: 'largePages', cli: 'spl' }, // Set Large Pages mode
   { type: 'bool', api: 'latestTimeStamp', cli: 'stl' }, // Set archive timestamp from the most recently modified file
+  { type: 'bool', api: 'noArchiveOnFail', cli: 'sse' }, // Stop archive creating, if 7-Zip can't open some input file.
   { type: 'bool', api: 'noRootDuplication', cli: 'spe' }, // Eliminate duplication of root folder for extract command
   { type: 'bool', api: 'noWildcards', cli: 'spd' }, // Disable wildcard matching for file names
   { type: 'bool', api: 'ntSecurity', cli: 'sni' }, // Store NT security

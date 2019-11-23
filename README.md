@@ -239,6 +239,7 @@ In the 7-Zip world, command flags are called switches. In order to use them you 
 | `hardlinks`              | `boolean`  | Store hard links as links (WIM and TAR formats only)                  | `-snh`   | 
 | `largePages`             | `boolean`  | Set Large Pages mode                                                  | `-spl`   | 
 | `latestTimeStamp`        | `boolean`  | Set archive timestamp from the most recently modified file            | `-stl`   | 
+| `noArchiveOnFail`        | `boolean`  | Stop archive creating, if 7-Zip can't open some input file.           | `-sse`   | 
 | `noRootDuplication`      | `boolean`  | Eliminate duplication of root folder for extract command              | `-spe`   | 
 | `noWildcards`            | `boolean`  | Disable wildcard matching for file names                              | `-spd`   | 
 | `ntSecurity`             | `boolean`  | Store NT security                                                     | `-sni`   | 
