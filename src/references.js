@@ -17,6 +17,7 @@ const FLAGS = [
   { type: 'bool', api: 'timeStats', cli: 'bt' },
   { type: 'bool', api: 'toStdout', cli: 'so' }, // Write data to stdout
   { type: 'bool', api: 'yes', cli: 'y' }, // Assume Yes on all queries
+  { type: 'bool', api: 'sortByType', cli: 'mqs' }, // Sort files by type while adding to solid 7z archive
   { type: 'boolContext', api: 'alternateStreamStore', cli: 'sns' }, // Store NTFS alternate Streams
   { type: 'boolContext', api: 'caseSensitive', cli: 'ssc' }, // Set Sensitive Case mode
   { type: 'string', api: 'archiveNameMode', cli: 'sa' }, // Set Archive name mode

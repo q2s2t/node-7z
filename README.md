@@ -242,7 +242,8 @@ In the 7-Zip world, command flags are called switches. In order to use them you 
 | `noArchiveOnFail`        | `boolean`  | Stop archive creating, if 7-Zip can't open some input file.           | `-sse`   | 
 | `noRootDuplication`      | `boolean`  | Eliminate duplication of root folder for extract command              | `-spe`   | 
 | `noWildcards`            | `boolean`  | Disable wildcard matching for file names                              | `-spd`   | 
-| `ntSecurity`             | `boolean`  | Store NT security                                                     | `-sni`   | 
+| `ntSecurity`             | `boolean`  | Store NT security                                                     | `-sni`   |
+| `sortByType`             | `boolean`  | Sort files by type while adding to solid 7z archive                   | `-mqs`   |
 | `openFiles`              | `boolean`  | Compress files open for writing                                       | `-ssw`   | 
 | `recursive`              | `boolean`  | Recurse subdirectories. For `-r0` usage see `raw`                     | `-r`     | 
 | `symlinks`               | `boolean`  | Store symbolic links as links (WIM and TAR formats only)              | `-snl`   | 
