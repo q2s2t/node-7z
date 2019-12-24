@@ -1,3 +1,7 @@
+## 2.0.5 (2019-12-24) 🎄
+
+* chore: Enforce usage of Node.js >= v10 ([9cbe75d](https://github.com/quentinrossetti/node-7z/commit/9cbe75d))
+
 ## 2.0.4 (2019-11-23)
 
 * doc: Update license distribution ([68f753c](https://github.com/quentinrossetti/node-7z/commit/68f753c))
