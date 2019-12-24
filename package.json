@@ -32,6 +32,9 @@
     "url": "https://github.com/quentinrossetti/node-7zip/issues"
   },
   "homepage": "https://github.com/quentinrossetti/node-7zip.git",
+  "engines": {
+    "node": ">=10"
+  },
   "dependencies": {
     "cross-spawn": "^7.0.1",
     "debug": "^4.1.1",
