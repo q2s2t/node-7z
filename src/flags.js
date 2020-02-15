@@ -13,7 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 const negate = require('lodash.negate')
-const isEmpty = require('lodash.isEmpty')
+const isEmpty = require('lodash.isempty')
 const defaultsDeep = require('lodash.defaultsdeep')
 const { FLAGS, OPTIONS_DEFAULT } = require('./references')
 
