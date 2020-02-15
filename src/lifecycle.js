@@ -42,6 +42,7 @@ const createFactory = ({
     .concat(Flags.fromOptions(options))
   seven._isProgressFlag = seven._args.includes('-bsp1')
   seven._stage = STAGE_HEADERS
+  seven._spawnOptions = options.$spawnOptions
   seven._matchBodyData = Parser.fetch(options._command, 'bodyData')
   seven._matchEndOfHeaders = Parser.fetch(options._command, 'endOfHeaders')
   seven._matchEndOfBody = Parser.fetch(options._command, 'endOfBody')
@@ -67,7 +68,8 @@ const listenFactory = ({
 }
 
 const run = stream => {
-  stream._childProcess = spawn(stream._bin, stream._args, { detached: true })
+  let spawnOptions = Object.assign({ detached: true }, stream._spawnOptions)
+  stream._childProcess = spawn(stream._bin, stream._args, spawnOptions)
   return stream
 }
 

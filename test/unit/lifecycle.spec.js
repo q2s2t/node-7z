@@ -138,7 +138,7 @@ describe('Unit: lifecycle.js', function () {
   })
 
   describe('run()', function () {
-    it('should should emit an child process error', function (done) {
+    it('should emit an child process error', function (done) {
       const sevenFake = sevenFakeFactory()
       sevenFake._bin = 'not_a_program'
       sevenFake._args = []
@@ -149,10 +149,19 @@ describe('Unit: lifecycle.js', function () {
       })
     })
 
-    it('should should populate child process', function () {
+    it('should populate child process', function () {
       const sevenFake = new Readable({ read () {} })
       sevenFake._bin = 'npm'
       sevenFake._args = []
+      const r = Seven.run(sevenFake)
+      expect(isChildProcess(r._childProcess)).to.eql(true)
+    })
+
+    it('should accept child process options', function () {
+      const sevenFake = new Readable({ read () {} })
+      sevenFake._bin = 'npm'
+      sevenFake._args = []
+      sevenFake._spawnOptions = { cmd: '.' }
       const r = Seven.run(sevenFake)
       expect(isChildProcess(r._childProcess)).to.eql(true)
     })

@@ -160,4 +160,18 @@ describe('Functional: add()', function () {
       done()
     })
   })
+
+  it('should accept $spawnOptions', function (done) {
+    const archive = `${tmpDir}/size.7z`
+    const source = `${mockDir}/DirHex/`
+    const seven = add(archive, source, {
+      $spawnOptions: { cwd: '.' }
+    })
+    seven.on('end', function () {
+      const size = statSync(archive).size
+      expect(size).to.greaterThan(350)
+      expect(existsSync(archive)).to.equal(true)
+      done()
+    })
+  })
 })
