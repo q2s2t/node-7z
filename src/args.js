@@ -12,9 +12,9 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const flattenDeep = require('lodash/flattenDeep')
-const negate = require('lodash/negate')
-const isEmpty = require('lodash/isEmpty')
+const flattenDeep = require('lodash.flattenDeep')
+const negate = require('lodash.negate')
+const isEmpty = require('lodash.isempty')
 const { COMMAND_LETTERS } = require('./references')
 
 // Transform user input into a args for child procress spawn

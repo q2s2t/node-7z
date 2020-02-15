@@ -27,7 +27,7 @@ Maintenance:
     ✔ Upgrade codebase to ES6 @done(18-09-11 22:58)
     ✔ Spaces in achive name, file name or in switches @done(18-08-23 12:36)
     ✘ Keep a Promise and callback style interface on top (do not recommand using it) @cancelled(18-12-03 22:23)
-    ☐ Check all issues from GitHub and test them
+    ✔ Check all issues from GitHub and test them @done(20-02-15 13:30)
     ✔ fix: dual instance (see test-debug) @done(18-11-13 20:05)
     ✔ Refactor in dependecy injection style @started(18-11-13 20:05) @done(18-12-02 21:37) @lasted(2w5d1h32m17s)
 Features:
@@ -59,6 +59,6 @@ Documentation:
     ✔ use `$cherryPick` as name for clarity @done(18-12-04 22:51)
     ✔ list and rename doesn't output progress percentage (upstream behaviour) @done(18-12-04 22:51)
     ✔ Only support recent versions of 7z @done(18-12-04 22:51)
-    ☐ $legacy support
+    ✘ $legacy support @cancelled(20-02-15 13:30)
     ✘ `--` switch when file name starts with `-` @cancelled(18-12-04 22:51)
     ✘ `-an` (Disable parsing of archive_name) switch @cancelled(18-12-04 22:51)

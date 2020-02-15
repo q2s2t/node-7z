@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const defaultTo = require('lodash/defaultTo')
+const defaultTo = require('lodash.defaultto')
 const { BIN_DEFAULT } = require('./references')
 
 // Transform user input into a args for child procress spawn

@@ -38,7 +38,11 @@
   "dependencies": {
     "cross-spawn": "^7.0.1",
     "debug": "^4.1.1",
-    "lodash": "^4.17.15",
+    "lodash.defaultsdeep": "^4.6.1",
+    "lodash.defaultto": "^4.14.0",
+    "lodash.flattendeep": "^4.4.0",
+    "lodash.isempty": "^4.4.0",
+    "lodash.negate": "^3.0.2",
     "normalize-path": "^3.0.0"
   },
   "optionalDependencies": {},

@@ -12,9 +12,9 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const negate = require('lodash/negate')
-const isEmpty = require('lodash/isEmpty')
-const defaultsDeep = require('lodash/defaultsDeep')
+const negate = require('lodash.negate')
+const isEmpty = require('lodash.isEmpty')
+const defaultsDeep = require('lodash.defaultsdeep')
 const { FLAGS, OPTIONS_DEFAULT } = require('./references')
 
 // Build arguments ready to be passed to `childProcess.spawn()` from the
