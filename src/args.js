@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const flattenDeep = require('lodash.flattenDeep')
+const flattenDeep = require('lodash.flattendeep')
 const negate = require('lodash.negate')
 const isEmpty = require('lodash.isempty')
 const { COMMAND_LETTERS } = require('./references')
