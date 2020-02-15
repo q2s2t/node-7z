@@ -1,3 +1,9 @@
+## 2.1.1 (2020-02-15)
+
+* fix: Cannot find module 'lodash.flattenDeep' ([558d159](https://github.com/quentinrossetti/node-7z/commit/558d159))
+* fix: Cannot find module 'lodash.isEmpty' ([1a49fb1](https://github.com/quentinrossetti/node-7z/commit/1a49fb1))
+* dist: Update package-lock.json for devs ([8752906](https://github.com/quentinrossetti/node-7z/commit/8752906))
+
 ## 2.1.0 (2020-02-15)
 
 * dist: Reduce lodash dependencies footprint ([b727dc6](https://github.com/quentinrossetti/node-7z/commit/b727dc6))
