@@ -1,3 +1,9 @@
+## 2.1.0 (2020-02-15)
+
+* dist: Reduce lodash dependencies footprint ([b727dc6](https://github.com/quentinrossetti/node-7z/commit/b727dc6))
+* feat: Add $spawnOptions ([0d04ec2](https://github.com/quentinrossetti/node-7z/commit/0d04ec2))
+* chore: Fix alternate $bin on OSX ([e95b95d](https://github.com/quentinrossetti/node-7z/commit/e95b95d))
+
 ## 2.0.5 (2019-12-24) 🎄
 
 * chore: Enforce usage of Node.js >= v10 ([9cbe75d](https://github.com/quentinrossetti/node-7z/commit/9cbe75d))
