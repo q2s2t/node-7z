@@ -47,7 +47,7 @@ jobs:
             npm run test-coverage
 
       - store_artifacts:
-          path: coverage
+          path: coverage/lcov.info
 
       - run:
           name: Send coverage to Code Climate
