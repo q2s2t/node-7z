@@ -36,7 +36,7 @@
     "node": ">=10"
   },
   "dependencies": {
-    "cross-spawn": "^7.0.1",
+    "cross-spawn": "^7.0.2",
     "debug": "^4.1.1",
     "lodash.defaultsdeep": "^4.6.1",
     "lodash.defaultto": "^4.14.0",
@@ -48,12 +48,17 @@
   "optionalDependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint-config-standard": "^14.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-config-standard": "^14.1.1",
     "esm": "^3.2.25",
     "fs-readdir-recursive": "^1.1.0",
     "is-child-process": "^1.0.2",
-    "mocha": "^6.2.2",
+    "mocha": "^6.2.3",
     "nyc": "^14.1.1",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.2"
   }
 }
