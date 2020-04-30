@@ -25,7 +25,6 @@ describe('Functional: delete()', function () {
     const seven = del(archive, target, { $bin: bin })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
-      expect(err.errno).to.equal('ENOENT')
       expect(err.code).to.equal('ENOENT')
       expect(err.syscall).to.equal(`spawn ${bin}`)
       expect(err.path).to.equal(bin)

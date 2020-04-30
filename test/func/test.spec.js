@@ -26,7 +26,6 @@ describe('Functional: test()', function () {
     const seven = test(archive, { $bin: bin, $cherryPick: target })
     seven.on('error', function (err) {
       expect(err).to.be.an.instanceof(Error)
-      expect(err.errno).to.equal('ENOENT')
       expect(err.code).to.equal('ENOENT')
       expect(err.syscall).to.equal(`spawn ${bin}`)
       expect(err.path).to.equal(bin)
