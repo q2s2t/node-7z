@@ -1,6 +1,6 @@
 {
-  "name": "node-7z",
-  "version": "2.1.1",
+  "name": "@smithos/node-7z",
+  "version": "2.1.2",
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "./src/main.js",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/quentinrossetti/node-7z.git"
+    "url": "https://github.com/ccsrvs/node-7z.git"
   },
   "keywords": [
     "node",
@@ -29,9 +29,9 @@
   "contributors": [],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/quentinrossetti/node-7zip/issues"
+    "url": "https://github.com/ccsrvs/node-7zip/issues"
   },
-  "homepage": "https://github.com/quentinrossetti/node-7zip.git",
+  "homepage": "https://github.com/ccsrvs/node-7zip.git",
   "engines": {
     "node": ">=10"
   },
