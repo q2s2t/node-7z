@@ -19,7 +19,7 @@ const BODY_HASH = new RegExp('^(?<hash>\\S+)? +(?<size>\\d*) +(?<file>.+)$')
 const END_OF_STAGE_HYPHEN = new RegExp('^(-+ +)+-+$')
 const INFOS = new RegExp('^(?<property>.+?)(?<separator>( = )|(: +))(?<value>.+)$')
 const INFOS_SPLIT = new RegExp(', +# ')
-const ERROR = new RegExp('(?<level>WARNING|ERROR): (?<message>.*)(\r\n)?(\n)?', 'i')
+const ERROR = new RegExp('(?<level>WARNING|ERROR):[\n]+(?<message>\\w.*)(\r\n|\n)?', 'i')
 
 module.exports = {
   LINE_SPLIT,
