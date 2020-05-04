@@ -14,6 +14,7 @@
 
 const debug = require('debug')('node-7z')
 const { STAGE_BODY } = require('./references')
+const { ERROR } = require('./regexp')
 
 const onErrorFactory = ({ Err }) => (stream, err) => {
   Err.assign(stream, err)
@@ -21,10 +22,17 @@ const onErrorFactory = ({ Err }) => (stream, err) => {
   return stream
 }
 
-const onStderrFactory = ({ Err }) => (stream, buffer) => {
-  const err = Err.fromBuffer(buffer)
-  Err.assign(stream, err)
-  debug('error: from stderr: %O', err)
+let errorChunk = [];
+const onStderrFactory = ({Err}) => (stream, buffer) => {
+  errorChunk.push(buffer);
+  const stderr = Buffer.concat(errorChunk).toString();
+  const match = stderr.match(ERROR);
+  if (match) {
+    const err = Err.fromBuffer(buffer)
+    Err.assign(stream, err)
+    debug('error: from stderr: %O', err);
+    errorChunk = [];
+  }
   return stream
 }
 
