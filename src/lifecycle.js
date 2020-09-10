@@ -13,7 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 const debug = require('debug')('node-7z')
-const spawn = require('cross-spawn')
+const spawn = require('child_process').execFile
 const { Readable } = require('stream')
 const { STAGE_HEADERS } = require('./references')
 
@@ -68,8 +68,7 @@ const listenFactory = ({
 }
 
 const run = stream => {
-  let spawnOptions = Object.assign({ detached: true }, stream._spawnOptions)
-  stream._childProcess = spawn(stream._bin, stream._args, spawnOptions)
+  stream._childProcess = spawn(stream._bin, stream._args, stream._spawnOptions)
   return stream
 }
 
