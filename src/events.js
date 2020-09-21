@@ -25,7 +25,7 @@ const onErrorFactory = ({ Err }) => (stream, err) => {
 let errorChunk = [];
 const onStderrFactory = ({Err}) => (stream, buffer) => {
   errorChunk.push(buffer);
-  const stderr = Buffer.concat(errorChunk).toString();
+  const stderr = errorChunk.join('');
   const match = stderr.match(ERROR);
   if (match) {
     const err = Err.fromBuffer(buffer)
