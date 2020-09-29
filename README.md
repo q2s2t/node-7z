@@ -62,7 +62,7 @@ You should have the a 7-Zip executable (v16.02 or greater) available in your sys
 > By default the module calls the `7z` binary, it should be available in your
 > PATH.
 
-An alernative is to add the `7zip-bin` module to your project. This module
+An alternative is to add the `7zip-bin` module to your project. This module
 contains an up-to-date version of 7-Zip for all available plaforms. Then you
 can do:
 
@@ -84,7 +84,7 @@ const seven = extractFull('./archive.7z', './output/dir/', {
 ### Commands
 
 #### Add
-Adds files to archive.
+Adds files to an archive.
 
 | Arguments | Type               | Description |
 |-----------|--------------------|-------------|
@@ -100,7 +100,7 @@ const myStream = Seven.add('Files.7z', '*.txt', {
 ```
 
 #### Delete
-Deletes files from archive.
+Deletes files from an archive.
 
 | Arguments | Type               | Description |
 |-----------|--------------------|-------------|
@@ -148,7 +148,7 @@ const myStream = Seven.extractFull('archive.zip', 'c:/soft', {
 ```
 
 #### Hash
-Calculate hash values for files.
+Calculates hash values for files.
 
 | Arguments | Type               | Description |
 |-----------|--------------------|-------------|
@@ -163,7 +163,7 @@ const myStream = Seven.hash('a.iso', {
 ```
 
 #### List
-Lists contents of archive.
+Lists contents of an archive.
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
@@ -178,7 +178,7 @@ const myStream = Seven.list('archive.zip', {
 ```
 
 #### Rename
-Renames files in archive.
+Renames files in an archive.
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
@@ -211,7 +211,7 @@ const myStream = Seven.list('archive.zip', {
 ```
 
 #### Update
-Update older files in the archive and add files that are not already in the archive.
+Updates older files in the archive and adds files that are not already in the archive.
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
@@ -335,7 +335,7 @@ mySevenStream.on('error', function (err) {
 
 ### Compression method
 
-Using the CLI, compression is made like that:
+Using the CLI, compression is done like this:
 
 ```sh
 # adds *.exe and *.dll files to solid archive archive.7z using LZMA method
