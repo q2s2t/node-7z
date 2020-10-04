@@ -48,17 +48,11 @@
   "optionalDependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "eslint-config-standard": "^14.1.1",
     "esm": "^3.2.25",
     "fs-readdir-recursive": "^1.1.0",
     "is-child-process": "^1.0.2",
     "mocha": "^6.2.3",
     "nyc": "^14.1.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
   }
 }
