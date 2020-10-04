@@ -199,71 +199,71 @@ describe('Unit: parser.js', function () {
     it('should return file on add', function () {
       const r = matchBodySymbol({}, '+ test/file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('+')
-      expect(r['file']).to.equal('test/file')
+      expect(r.symbol).to.equal('+')
+      expect(r.file).to.equal('test/file')
     })
 
     it('should return file on update', function () {
       const r = matchBodySymbol({}, 'U test/file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('U')
-      expect(r['file']).to.equal('test/file')
+      expect(r.symbol).to.equal('U')
+      expect(r.file).to.equal('test/file')
     })
 
     it('should return file on test', function () {
       const r = matchBodySymbol({}, 'T test/file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('T')
-      expect(r['file']).to.equal('test/file')
+      expect(r.symbol).to.equal('T')
+      expect(r.file).to.equal('test/file')
     })
 
     it('should return file on remaining', function () {
       const r = matchBodySymbol({}, 'R test/file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('R')
-      expect(r['file']).to.equal('test/file')
+      expect(r.symbol).to.equal('R')
+      expect(r.file).to.equal('test/file')
     })
 
     it('should return file on delete', function () {
       const r = matchBodySymbol({}, '. test/file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('.')
-      expect(r['file']).to.equal('test/file')
+      expect(r.symbol).to.equal('.')
+      expect(r.file).to.equal('test/file')
     })
 
     it('should return file on extracted', function () {
       const r = matchBodySymbol({}, '- test/file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('-')
-      expect(r['file']).to.equal('test/file')
+      expect(r.symbol).to.equal('-')
+      expect(r.file).to.equal('test/file')
     })
 
     it('should return file on rename', function () {
       const r = matchBodySymbol({}, '= test/file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('=')
-      expect(r['file']).to.equal('test/file')
+      expect(r.symbol).to.equal('=')
+      expect(r.file).to.equal('test/file')
     })
 
     it('should return file on Windows drive', function () {
       const r = matchBodySymbol({}, '+ C:\\test\\file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('+')
-      expect(r['file']).to.equal('C:/test/file')
+      expect(r.symbol).to.equal('+')
+      expect(r.file).to.equal('C:/test/file')
     })
 
     it('should return file on Windows remote', function () {
       const r = matchBodySymbol({}, '+ \\test\\file')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('+')
-      expect(r['file']).to.equal('/test/file')
+      expect(r.symbol).to.equal('+')
+      expect(r.file).to.equal('/test/file')
     })
 
     it('should return file with emoji☕️', function () {
       const r = matchBodySymbol({}, 'T test/f☕️le')
       expect(r).to.be.an('object')
-      expect(r['symbol']).to.equal('T')
-      expect(r['file']).to.equal('test/f☕️le')
+      expect(r.symbol).to.equal('T')
+      expect(r.file).to.equal('test/f☕️le')
     })
   })
 
@@ -281,48 +281,48 @@ describe('Unit: parser.js', function () {
     it('should hash on file', function () {
       const r = matchBodyHash({}, '7E9C36FF6828353A             9  DirExt/sub1/sub1.txt')
       expect(r).to.be.an('object')
-      expect(r['hash']).to.equal('7E9C36FF6828353A')
-      expect(r['size']).to.equal(9)
-      expect(r['file']).to.equal('DirExt/sub1/sub1.txt')
+      expect(r.hash).to.equal('7E9C36FF6828353A')
+      expect(r.size).to.equal(9)
+      expect(r.file).to.equal('DirExt/sub1/sub1.txt')
     })
 
     it('should return file on Windows drive', function () {
       const r = matchBodyHash({}, '7E9C36FF6828353A             9   C:\\test\\file')
       expect(r).to.be.an('object')
-      expect(r['hash']).to.equal('7E9C36FF6828353A')
-      expect(r['size']).to.equal(9)
-      expect(r['file']).to.equal('C:/test/file')
+      expect(r.hash).to.equal('7E9C36FF6828353A')
+      expect(r.size).to.equal(9)
+      expect(r.file).to.equal('C:/test/file')
     })
 
     it('should return file on Windows remote', function () {
       const r = matchBodyHash({}, '7E9C36FF6828353A             9   \\test\\file')
       expect(r).to.be.an('object')
-      expect(r['file']).to.equal('/test/file')
-      expect(r['hash']).to.equal('7E9C36FF6828353A')
-      expect(r['size']).to.equal(9)
+      expect(r.file).to.equal('/test/file')
+      expect(r.hash).to.equal('7E9C36FF6828353A')
+      expect(r.size).to.equal(9)
     })
 
     it('should return file with emoji☕️', function () {
       const r = matchBodyHash({}, '7E9C36FF6828353A             9   test/f☕️le')
       expect(r).to.be.an('object')
-      expect(r['file']).to.equal('test/f☕️le')
-      expect(r['hash']).to.equal('7E9C36FF6828353A')
-      expect(r['size']).to.equal(9)
+      expect(r.file).to.equal('test/f☕️le')
+      expect(r.hash).to.equal('7E9C36FF6828353A')
+      expect(r.size).to.equal(9)
     })
 
     it('should match on directory', function () {
       const r = matchBodyHash({}, '               DirExt/sub1')
       expect(r).to.be.an('object')
-      expect(r['file']).to.equal('DirExt/sub1')
+      expect(r.file).to.equal('DirExt/sub1')
     })
 
     it('should hash on non-sized file', function () {
       const r = matchBodyHash({}, '               DirExt/sub1/sub1.txt')
       expect(r).to.be.an('object')
-      expect(r['hash']).to.equal(undefined)
+      expect(r.hash).to.equal(undefined)
       /* eslint-disable-next-line */
       expect(r['size']).to.be.NaN
-      expect(r['file']).to.equal('DirExt/sub1/sub1.txt')
+      expect(r.file).to.equal('DirExt/sub1/sub1.txt')
     })
   })
 
@@ -350,7 +350,8 @@ describe('Unit: parser.js', function () {
         attributes: '....A',
         size: 9,
         sizeCompressed: 24,
-        file: 'DirHex/42550418a4ef9' })
+        file: 'DirHex/42550418a4ef9'
+      })
     })
 
     it('should work with line not much', function () {
@@ -361,7 +362,8 @@ describe('Unit: parser.js', function () {
         attributes: '....A',
         size: undefined,
         sizeCompressed: undefined,
-        file: 'DirHex/42550418a4ef9' })
+        file: 'DirHex/42550418a4ef9'
+      })
     })
   })
 
@@ -379,7 +381,7 @@ describe('Unit: parser.js', function () {
     })
 
     it('should work when progress switch activated', function () {
-      let stream = Object.assign({ _isProgressFlag: true }, baseStream)
+      const stream = Object.assign({ _isProgressFlag: true }, baseStream)
       const first = matchEndOfBodySymbol(stream, '   ')
       expect(first).to.be.equal(null)
       const second = matchEndOfBodySymbol(stream, '')

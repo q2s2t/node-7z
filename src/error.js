@@ -27,7 +27,7 @@ const assign = (stream, err) => {
 const fromBuffer = chunk => {
   const stderr = chunk.toString()
   const match = stderr.match(ERROR)
-  let err = new Error('unknown error')
+  const err = new Error('unknown error')
   err.stderr = stderr
   if (match) {
     Object.assign(err, match.groups)

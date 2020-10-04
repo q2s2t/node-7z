@@ -79,7 +79,7 @@ describe('Functional: list()', function () {
           return rest
         })
       const dates = data.map(d => d.datetime)
-      for (let d of dates) {
+      for (const d of dates) {
         expect(d).to.be.a('date')
       }
       expect(withoutDatetime).to.deep.contain(expectedData[0])

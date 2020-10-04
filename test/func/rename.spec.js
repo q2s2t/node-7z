@@ -19,8 +19,8 @@ describe('Functional: rename()', function () {
   })
 
   it('should emit error on spawn error', function (done) {
-    const archive = ``
-    const target = ``
+    const archive = ''
+    const target = ''
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
     const seven = rename(archive, target, { $bin: bin })
     seven.on('error', function (err) {

@@ -69,7 +69,7 @@ describe('Unit: error.js', function () {
     })
 
     it('should make error on Windows', function () {
-      const bufferBase = `\r\nERROR: The system cannot find the file specified.\r\n\\i\\hope\\this\\is\\not\\where\\your\\archive\\is\r\n\r\n`
+      const bufferBase = '\r\nERROR: The system cannot find the file specified.\r\n\\i\\hope\\this\\is\\not\\where\\your\\archive\\is\r\n\r\n'
       const buffer = Buffer.from(bufferBase)
       const err = error.fromBuffer(buffer)
       expect(err).to.be.an.instanceOf(Error)

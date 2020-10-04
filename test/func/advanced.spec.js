@@ -48,7 +48,7 @@ describe('Functional: Advanced usage', function () {
     const archive = `${tmpDir}/advanced-stdin.7z`
     const stdin = require('fs').createReadStream(source)
     const seven = Seven.add(archive, '', {
-      fromStdin: 'public-name.jpg',
+      fromStdin: 'public-name.jpg'
     })
     stdin.pipe(seven._childProcess.stdin)
     seven.on('end', function () {

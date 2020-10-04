@@ -7,7 +7,7 @@ const tmpDir = './test/_tmp'
 
 before(function (done) {
   rimraf(`${tmpDir}/*`)
-  let bin = `${mockDir}/Binaries/7z-${process.platform}`
+  const bin = `${mockDir}/Binaries/7z-${process.platform}`
   let dest = `${tmpDir}/Seven Zip`
   if (process.platform === 'win32') {
     dest = dest + '.exe'

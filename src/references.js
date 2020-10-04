@@ -84,6 +84,7 @@ const COMMAND_LETTERS = {
   update: 'u'
 }
 
+/* eslint-disable */
 // =TU+R.-
 const SYMBOL_OPERATIONS = {
   '=': 'renamed',
@@ -93,6 +94,7 @@ const SYMBOL_OPERATIONS = {
   '.': 'deleted',
   '-': 'extracted'
 }
+/* eslint-enable */
 
 module.exports = {
   FLAGS,

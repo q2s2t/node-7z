@@ -21,8 +21,8 @@ describe('Functional: extractFull()', function () {
   })
 
   it('should emit error on spawn error', function (done) {
-    const archive = ``
-    const output = ``
+    const archive = ''
+    const output = ''
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
     const seven = extractFull(archive, output, { $bin: bin })
     seven.on('error', function (err) {

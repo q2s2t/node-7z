@@ -68,7 +68,7 @@ const listenFactory = ({
 }
 
 const run = stream => {
-  let spawnOptions = Object.assign({ detached: true }, stream._spawnOptions)
+  const spawnOptions = Object.assign({ detached: true }, stream._spawnOptions)
   stream._childProcess = spawn(stream._bin, stream._args, spawnOptions)
   return stream
 }

@@ -19,8 +19,8 @@ describe('Functional: delete()', function () {
   })
 
   it('should emit error on spawn error', function (done) {
-    const archive = ``
-    const target = ``
+    const archive = ''
+    const target = ''
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
     const seven = del(archive, target, { $bin: bin })
     seven.on('error', function (err) {
@@ -35,7 +35,7 @@ describe('Functional: delete()', function () {
   it('should reduce archive size by deleting content', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/del-md.7z`
-    const target = `DirExt/*.md`
+    const target = 'DirExt/*.md'
     copyFileSync(archiveBase, archive)
     const sizeBase = statSync(archiveBase).size
     const seven = del(archive, target, { recursive: true })
@@ -50,7 +50,7 @@ describe('Functional: delete()', function () {
   it('should accept multiple sources as a flat array', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/del-multiple.7z`
-    const target = [`DirExt/*.md`, `DirExt/*.txt`]
+    const target = ['DirExt/*.md', 'DirExt/*.txt']
     copyFileSync(archiveBase, archive)
     const sizeBase = statSync(archiveBase).size
     const seven = del(archive, target, { recursive: true })
@@ -65,7 +65,7 @@ describe('Functional: delete()', function () {
   it('should emit progress', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/progress-del.7z`
-    const target = `DirExt/*.md`
+    const target = 'DirExt/*.md'
     copyFileSync(archiveBase, archive)
     const seven = del(archive, target, { $progress: true })
     let once = false
@@ -82,7 +82,7 @@ describe('Functional: delete()', function () {
   it('should emit data', function (done) {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/progress-file-del.7z`
-    const target = `DirExt/*.md`
+    const target = 'DirExt/*.md'
     copyFileSync(archiveBase, archive)
     const seven = del(archive, target, { recursive: true })
     let counter = 0

@@ -32,7 +32,7 @@ function matchInfos (stream, line) {
     return null
   }
   const infos = new Map()
-  for (let info of infosLine) {
+  for (const info of infosLine) {
     infos.set(info.groups.property, info.groups.value)
   }
   return infos

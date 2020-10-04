@@ -34,7 +34,7 @@ const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
   // Maybe functions check if a condition is true and run the corresponding
   // actions. They can mutate the stream, emit events, etc. The structure bellow
   // only does flow control.
-  for (let line of lines) {
+  for (const line of lines) {
     debug('stdout: %s', line)
 
     // Infos about the opertation are given by 7z on the stdout. They can be:

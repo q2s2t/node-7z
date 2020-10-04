@@ -14,8 +14,7 @@ describe('Unit: events.js', function () {
           stream.testprop = err.testprop
         }
       }
-      const onError = Events.onErrorFactory({
-        Err: ErrFake })
+      const onError = Events.onErrorFactory({ Err: ErrFake })
       onError(sevenFake, errorFake)
       expect(sevenFake.testprop).to.eql('42')
     })
@@ -33,8 +32,7 @@ describe('Unit: events.js', function () {
           return buffer.toString()
         }
       }
-      const onError = Events.onStderrFactory({
-        Err: ErrFake })
+      const onError = Events.onStderrFactory({ Err: ErrFake })
       onError(sevenFake, bufferFake)
       expect(sevenFake.testprop).to.eql('42')
     })

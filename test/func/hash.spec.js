@@ -56,7 +56,7 @@ describe('Functional: hash()', function () {
       `${mockDir}/DirExt/sub1/`,
       `${mockDir}/DirExt/sub2/`
     ], { recursive: true })
-    let hashes = []
+    const hashes = []
     seven.on('data', (d) => hashes.push(d))
     seven.on('end', function () {
       expect(hashes).to.deep.include({ hash: undefined, size: NaN, file: 'sub1' })
@@ -106,7 +106,7 @@ describe('Functional: hash()', function () {
       recursive: true,
       $bin: `${tmpDir}/Seven Zip`
     })
-    let hashes = []
+    const hashes = []
     seven.on('data', (d) => hashes.push(d))
     seven.on('end', function () {
       expect(hashes).to.deep.include({ hash: undefined, size: NaN, file: 'sub1' })

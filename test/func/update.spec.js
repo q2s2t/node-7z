@@ -19,8 +19,8 @@ describe('Functional: update()', function () {
   })
 
   it('should emit error on spawn error', function (done) {
-    const archive = ``
-    const source = ``
+    const archive = ''
+    const source = ''
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
     const seven = update(archive, source, { $bin: bin })
     seven.on('error', function (err) {
@@ -91,7 +91,7 @@ describe('Functional: update()', function () {
     const source = `${mockDir}/DirExtUpdate/*.txt`
     copyFileSync(archiveBase, archive)
     const seven = update(archive, source, { recursive: true })
-    let dataAgg = []
+    const dataAgg = []
     seven.on('data', d => dataAgg.push(d))
     seven.on('end', function () {
       expect(dataAgg).to.deep.include({ symbol: 'R', file: '#0', status: 'skipped' })
@@ -112,7 +112,7 @@ describe('Functional: update()', function () {
     ]
     copyFileSync(archiveBase, archive)
     const seven = update(archive, source, { recursive: true })
-    let dataAgg = []
+    const dataAgg = []
     seven.on('data', d => dataAgg.push(d))
     seven.on('end', function () {
       expect(dataAgg).to.deep.include({ symbol: 'R', file: '#0', status: 'skipped' })

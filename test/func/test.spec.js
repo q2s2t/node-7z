@@ -20,8 +20,8 @@ describe('Functional: test()', function () {
   })
 
   it('should emit error on spawn error', function (done) {
-    const archive = ``
-    const target = ``
+    const archive = ''
+    const target = ''
     const bin = '/i/hope/this/is/not/where/your/7zip/bin/is'
     const seven = test(archive, { $bin: bin, $cherryPick: target })
     seven.on('error', function (err) {
@@ -85,7 +85,7 @@ describe('Functional: test()', function () {
     const archiveBase = `${mockDir}/DirNew/ExtArchive.7z`
     const archive = `${tmpDir}/test-single.7z`
     copyFileSync(archiveBase, archive)
-    const target = `*.txt`
+    const target = '*.txt'
     const seven = test(archive, { recursive: true, $cherryPick: target })
     let counter = 0
     seven.on('data', function (data) {
@@ -110,8 +110,8 @@ describe('Functional: test()', function () {
     const archive = `${tmpDir}/test-multiple.7z`
     copyFileSync(archiveBase, archive)
     const target = [
-      `*.txt`,
-      `*.md`
+      '*.txt',
+      '*.md'
     ]
     const seven = test(archive, { recursive: true, $cherryPick: target })
     let counter = 0

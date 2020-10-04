@@ -24,7 +24,7 @@ const fromOptions = options => {
   opts = populateOutputStreams(opts)
   opts = populateOutputDir(opts)
   const entries = Object.entries(opts)
-  let args = entries
+  const args = entries
     .map(fromPair)
     .filter(isReferenced)
     .map(populateStore)
@@ -62,7 +62,7 @@ const handle = flag => {
       return (flag.value === true) ? `-${flag.cli}` : ''
     },
     boolContext: flag => {
-      let suffix = (flag.value === true) ? '' : '-'
+      const suffix = (flag.value === true) ? '' : '-'
       return `-${flag.cli}${suffix}`
     },
     string: flag => {
