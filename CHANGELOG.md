@@ -1,3 +1,11 @@
+## 2.1.2 (2020-10-11)
+
+* style: Implement JavaScript Standard Style ([dff09b8](https://github.com/quentinrossetti/node-7z/commit/dff09b8))
+* fix: JSON typo ([02df853](https://github.com/quentinrossetti/node-7z/commit/02df853))
+* security: npm audit fix ([0790b46](https://github.com/quentinrossetti/node-7z/commit/0790b46))
+* security: npm audit fix ([7758a64](https://github.com/quentinrossetti/node-7z/commit/7758a64))
+* chore: Documentation cleanup ([0913758](https://github.com/quentinrossetti/node-7z/commit/0913758))
+
 ## 2.1.1 (2020-02-15)
 
 * fix: Cannot find module 'lodash.flattenDeep' ([558d159](https://github.com/quentinrossetti/node-7z/commit/558d159))
