@@ -1,6 +1,6 @@
 {
   "name": "@smithos/node-7z",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
   "main": "./src/main.js",
   "scripts": {

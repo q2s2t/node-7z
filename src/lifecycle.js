@@ -13,7 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 const debug = require('debug')('node-7z')
-const spawn = require('child_process').execFile
+const spawn = require('cross-spawn')
 const { Readable } = require('stream')
 const { STAGE_HEADERS } = require('./references')
 
