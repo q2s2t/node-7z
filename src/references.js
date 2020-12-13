@@ -51,7 +51,7 @@ const FLAGS = [
   { type: 'string', api: 'workingDir', cli: 'w' }, // Set Working directory
   { type: 'string', api: 'multiBlockSize', cli: 'ms' }, // Creates multi-block xz archives by default. Block size can be specified with -ms[Size]{m|g} switch
   { type: 'stringArray', api: 'excludeArchive', cli: 'ax' }, // Exclude archive filenames
-  { type: 'stringArray', api: 'exlude', cli: 'x' }, // Exclude filenames
+  { type: 'stringArray', api: 'exclude', cli: 'x' }, // Exclude filenames
   { type: 'stringArray', api: 'include', cli: 'i' }, // Include filenames
   { type: 'stringArray', api: 'includeArchive', cli: 'ai' }, // Include archive filenames
   { type: 'stringArray', api: 'method', cli: 'm' }, // Set Compression Method

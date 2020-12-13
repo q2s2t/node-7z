@@ -15,7 +15,7 @@
 import Seven from 'node-7z'
 
 // myStream is an Readable stream
-const myStream = Seven.extractFull('./archive.7z', './output/dir/', { 
+const myStream = Seven.extractFull('./archive.7z', './output/dir/', {
   $progress: true
 })
 
@@ -88,7 +88,7 @@ Adds files to an archive.
 
 | Arguments | Type               | Description |
 |-----------|--------------------|-------------|
-| archive   | `string`           | Archive to create | 
+| archive   | `string`           | Archive to create |
 | source    | `string\|string[]` | Source files to add to the archive. Multiple sources can be given using an `Array` |
 | [options] | `Object`           | [Options object](#options). Can be omitted  |
 
@@ -104,7 +104,7 @@ Deletes files from an archive.
 
 | Arguments | Type               | Description |
 |-----------|--------------------|-------------|
-| archive   | `string`           | Archive to target | 
+| archive   | `string`           | Archive to target |
 | target    | `string\|string[]` | Target files to remove from the archive. Multiple targets can be given using an `Array` |
 | [options] | `Object`           | [Options object](#options). Can be omitted  |
 
@@ -118,7 +118,7 @@ Extracts files from an archive to the current directory or to the output directo
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
-| archive   | `string` | Archive to extract files from | 
+| archive   | `string` | Archive to extract files from |
 | output    | `string` | Output directory |
 | [options] | `Object` | [Options object](#options). Can be omitted  |
 
@@ -135,7 +135,7 @@ Extracts files from an archive with their full paths in the current directory, o
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
-| archive   | `string` | Archive to extract files from | 
+| archive   | `string` | Archive to extract files from |
 | output    | `string` | Output directory |
 | [options] | `Object` | [Options object](#options). Can be omitted  |
 
@@ -182,7 +182,7 @@ Renames files in an archive.
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
-| archive   | `string`          | Archive to target | 
+| archive   | `string`          | Archive to target |
 | target    | `Array[string[]]` | Pair of target/new names files to remove rename. Multiple targets can be given using an `Array` |
 | [options] | `Object`          | [Options object](#options). Can be omitted  |
 
@@ -215,7 +215,7 @@ Updates older files in the archive and adds files that are not already in the ar
 
 | Arguments | Type              | Description |
 |-----------|-------------------|-------------|
-| archive   | `string`          | Archive to create | 
+| archive   | `string`          | Archive to create |
 | source    | `string\|string[]` | Source files to update from the file-system to the archive. Multiple sources can be given using an `Array` |
 | [options] | `Object`          | [Options object](#options). Can be omitted  |
 
@@ -230,51 +230,51 @@ const myStream = Seven.add('archive.zip', '*.doc')
 
 In the 7-Zip world, command flags are called switches. In order to use them you can pass their name and value in the [Options object](#options)
 
-| Name                     | Type       | Description                                                           | Switches | 
-|--------------------------|------------|-----------------------------------------------------------------------|----------| 
-| `alternateStreamExtract` | `boolean`  | "Extract file as alternate stream, if there is ':' character in name" | `-snc`   | 
-| `alternateStreamReplace` | `boolean`  | Replace ':' character to '_' character in paths of alternate streams  | `-snr`   | 
-| `deleteFilesAfter`       | `boolean`  | Delete files after compression                                        | `-sdel`  | 
-| `fullyQualifiedPaths`    | `boolean`  | Usefully qualified file paths                                         | `-spf`   | 
-| `hardlinks`              | `boolean`  | Store hard links as links (WIM and TAR formats only)                  | `-snh`   | 
-| `largePages`             | `boolean`  | Set Large Pages mode                                                  | `-spl`   | 
-| `latestTimeStamp`        | `boolean`  | Set archive timestamp from the most recently modified file            | `-stl`   | 
-| `noArchiveOnFail`        | `boolean`  | Stop archive creating, if 7-Zip can't open some input file.           | `-sse`   | 
-| `noRootDuplication`      | `boolean`  | Eliminate duplication of root folder for extract command              | `-spe`   | 
-| `noWildcards`            | `boolean`  | Disable wildcard matching for file names                              | `-spd`   | 
+| Name                     | Type       | Description                                                           | Switches |
+|--------------------------|------------|-----------------------------------------------------------------------|----------|
+| `alternateStreamExtract` | `boolean`  | "Extract file as alternate stream, if there is ':' character in name" | `-snc`   |
+| `alternateStreamReplace` | `boolean`  | Replace ':' character to '_' character in paths of alternate streams  | `-snr`   |
+| `deleteFilesAfter`       | `boolean`  | Delete files after compression                                        | `-sdel`  |
+| `fullyQualifiedPaths`    | `boolean`  | Usefully qualified file paths                                         | `-spf`   |
+| `hardlinks`              | `boolean`  | Store hard links as links (WIM and TAR formats only)                  | `-snh`   |
+| `largePages`             | `boolean`  | Set Large Pages mode                                                  | `-spl`   |
+| `latestTimeStamp`        | `boolean`  | Set archive timestamp from the most recently modified file            | `-stl`   |
+| `noArchiveOnFail`        | `boolean`  | Stop archive creating, if 7-Zip can't open some input file.           | `-sse`   |
+| `noRootDuplication`      | `boolean`  | Eliminate duplication of root folder for extract command              | `-spe`   |
+| `noWildcards`            | `boolean`  | Disable wildcard matching for file names                              | `-spd`   |
 | `ntSecurity`             | `boolean`  | Store NT security                                                     | `-sni`   |
 | `sortByType`             | `boolean`  | Sort files by type while adding to solid 7z archive                   | `-mqs`   |
-| `openFiles`              | `boolean`  | Compress files open for writing                                       | `-ssw`   | 
-| `recursive`              | `boolean`  | Recurse subdirectories. For `-r0` usage see `raw`                     | `-r`     | 
-| `symlinks`               | `boolean`  | Store symbolic links as links (WIM and TAR formats only)              | `-snl`   | 
-| `techInfo`               | `boolean`  | Show technical information                                            | `-slt`   | 
-| `timeStats`              | `boolean`  | Show execution time statistics                                        | `-bt`    | 
-| `toStdout`               | `boolean`  | Write data to stdout                                                  | `-so`    | 
-| `yes`                    | `boolean`  | Assume Yes on all queries                                             | `-y`     | 
-| `alternateStreamStore`   | `boolean`  | Store NTFS alternate Streams                                          | `-sns`   | 
-| `caseSensitive`          | `boolean`  | Set Sensitive Case mode                                               | `-ssc`   | 
-| `archiveNameMode`        | `string`   | Set Archive name mode                                                 | `-sa`    | 
-| `archiveType`            | `string`   | Type of archive                                                       | `-t`     | 
-| `cpuAffinity`            | `string`   | Set CPU thread affinity mask (hexadecimal number).                    | `-stm`   | 
-| `excludeArchiveType`     | `string`   | Exclude archive type                                                  | `-stx`   | 
-| `fromStdin`              | `string`   | Read data from StdIn                                                  | `-si`    | 
-| `hashMethod`             | `string`   | Set hash function                                                     | `-scrc`  | 
-| `listFileCharset`        | `string`   | Set charset for list files                                            | `-scs`   | 
-| `logLevel`               | `string`   | Set output log level                                                  | `-bb`    | 
-| `multiBlockSize`         | `string`   | Creates multi-block xz archives of `[Size]m|g` block size             | `-ms`    | 
-| `outputDir`              | `string`   | Set Output directory                                                  | `-o`     | 
-| `overwrite`              | `string`   | Overwrite mode                                                        | `-ao`    | 
-| `password`               | `string`   | Set Password                                                          | `-p`     | 
-| `sfx`                    | `string`   | Create SFX archive                                                    | `-sfx`   | 
-| `updateOptions`          | `string`   | Update options                                                        | `-u`     | 
-| `workingDir`             | `string`   | Set Working directory                                                 | `-w`     | 
-| `excludeArchive`         | `string[]` | Exclude archive filenames                                             | `-ax`    | 
-| `exlude`                 | `string[]` | Exclude filenames                                                     | `-x`     | 
-| `include`                | `string[]` | Include filenames                                                     | `-i`     | 
-| `includeArchive`         | `string[]` | Include archive filenames                                             | `-ai`    | 
-| `method`                 | `string[]` | Set Compression Method                                                | `-m`     | 
-| `outputStreams`          | `string[]` | Set output stream for output/error/progress                           | `-bs`    | 
-| `volumes`                | `string[]` | Create Volumes                                                        | `-v`     | 
+| `openFiles`              | `boolean`  | Compress files open for writing                                       | `-ssw`   |
+| `recursive`              | `boolean`  | Recurse subdirectories. For `-r0` usage see `raw`                     | `-r`     |
+| `symlinks`               | `boolean`  | Store symbolic links as links (WIM and TAR formats only)              | `-snl`   |
+| `techInfo`               | `boolean`  | Show technical information                                            | `-slt`   |
+| `timeStats`              | `boolean`  | Show execution time statistics                                        | `-bt`    |
+| `toStdout`               | `boolean`  | Write data to stdout                                                  | `-so`    |
+| `yes`                    | `boolean`  | Assume Yes on all queries                                             | `-y`     |
+| `alternateStreamStore`   | `boolean`  | Store NTFS alternate Streams                                          | `-sns`   |
+| `caseSensitive`          | `boolean`  | Set Sensitive Case mode                                               | `-ssc`   |
+| `archiveNameMode`        | `string`   | Set Archive name mode                                                 | `-sa`    |
+| `archiveType`            | `string`   | Type of archive                                                       | `-t`     |
+| `cpuAffinity`            | `string`   | Set CPU thread affinity mask (hexadecimal number).                    | `-stm`   |
+| `excludeArchiveType`     | `string`   | Exclude archive type                                                  | `-stx`   |
+| `fromStdin`              | `string`   | Read data from StdIn                                                  | `-si`    |
+| `hashMethod`             | `string`   | Set hash function                                                     | `-scrc`  |
+| `listFileCharset`        | `string`   | Set charset for list files                                            | `-scs`   |
+| `logLevel`               | `string`   | Set output log level                                                  | `-bb`    |
+| `multiBlockSize`         | `string`   | Creates multi-block xz archives of `[Size]m|g` block size             | `-ms`    |
+| `outputDir`              | `string`   | Set Output directory                                                  | `-o`     |
+| `overwrite`              | `string`   | Overwrite mode                                                        | `-ao`    |
+| `password`               | `string`   | Set Password                                                          | `-p`     |
+| `sfx`                    | `string`   | Create SFX archive                                                    | `-sfx`   |
+| `updateOptions`          | `string`   | Update options                                                        | `-u`     |
+| `workingDir`             | `string`   | Set Working directory                                                 | `-w`     |
+| `excludeArchive`         | `string[]` | Exclude archive filenames                                             | `-ax`    |
+| `exclude`                | `string[]` | Exclude filenames                                                     | `-x`     |
+| `include`                | `string[]` | Include filenames                                                     | `-i`     |
+| `includeArchive`         | `string[]` | Include archive filenames                                             | `-ai`    |
+| `method`                 | `string[]` | Set Compression Method                                                | `-m`     |
+| `outputStreams`          | `string[]` | Set output stream for output/error/progress                           | `-bs`    |
+| `volumes`                | `string[]` | Create Volumes                                                        | `-v`     |
 
 #### Special options
 
@@ -380,7 +380,7 @@ The default log level (`-bb` switch) is set to:
 
 > 3 :show information about additional operations (Analyze, Replicate) for "Add" / "Update" operations.
 
-It's a base feature of `node-7z` and is required for the module to work as 
+It's a base feature of `node-7z` and is required for the module to work as
 expected. A diffrent value should not be used.
 
 ### Security
