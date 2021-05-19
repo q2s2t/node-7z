@@ -14,7 +14,7 @@
 ```js
 import Seven from 'node-7z'
 
-// myStream is an Readable stream
+// myStream is a Readable stream
 const myStream = Seven.extractFull('./archive.7z', './output/dir/', {
   $progress: true
 })
@@ -57,7 +57,7 @@ You should have the a 7-Zip executable (v16.02 or greater) available in your sys
 
 > - On Debian and Ubuntu install the p7zip-full package.
 > - On Mac OSX use Homebrew `brew install p7zip`
-> - On Windows get 7-Zip frome [7-Zip download page](https://www.7-zip.org/download.html).
+> - On Windows get 7-Zip from [7-Zip download page](https://www.7-zip.org/download.html).
 >
 > By default the module calls the `7z` binary, it should be available in your
 > PATH.
