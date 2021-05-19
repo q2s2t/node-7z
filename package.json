@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "cross-spawn": "^7.0.2",
-    "debug": "^4.3.1",
+    "debug": "^4.3.2",
     "lodash.defaultsdeep": "^4.6.1",
     "lodash.defaultto": "^4.14.0",
     "lodash.flattendeep": "^4.4.0",
