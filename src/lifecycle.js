@@ -13,7 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 const debug = require('debug')('node-7z')
-const spawn = require('cross-spawn')
+const spawn = require('child_process').spawn
 const { Readable } = require('stream')
 const { STAGE_HEADERS } = require('./references')
 
@@ -42,7 +42,6 @@ const createFactory = ({
     .concat(Flags.fromOptions(options))
   seven._isProgressFlag = seven._args.includes('-bsp1')
   seven._stage = STAGE_HEADERS
-  seven._spawnOptions = options.$spawnOptions
   seven._matchBodyData = Parser.fetch(options._command, 'bodyData')
   seven._matchEndOfHeaders = Parser.fetch(options._command, 'endOfHeaders')
   seven._matchEndOfBody = Parser.fetch(options._command, 'endOfBody')
@@ -68,7 +67,10 @@ const listenFactory = ({
 }
 
 const run = stream => {
-  const spawnOptions = Object.assign({ detached: true }, stream._spawnOptions)
+  const spawnOptions = Object.assign({
+    detached: true,
+    windowsHide: true
+  }, stream._spawnOptions)
   stream._childProcess = spawn(stream._bin, stream._args, spawnOptions)
   return stream
 }

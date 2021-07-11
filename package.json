@@ -36,7 +36,6 @@
     "node": ">=10"
   },
   "dependencies": {
-    "cross-spawn": "^7.0.2",
     "debug": "^4.3.2",
     "lodash.defaultsdeep": "^4.6.1",
     "lodash.defaultto": "^4.14.0",
@@ -47,7 +46,7 @@
   },
   "optionalDependencies": {},
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^4.3.4",
     "esm": "^3.2.25",
     "fs-readdir-recursive": "^1.1.0",
     "is-child-process": "^1.0.2",

@@ -148,23 +148,6 @@ describe('Unit: lifecycle.js', function () {
       })
     })
 
-    it('should populate child process', function () {
-      const sevenFake = new Readable({ read () {} })
-      sevenFake._bin = 'npm'
-      sevenFake._args = []
-      const r = Seven.run(sevenFake)
-      expect(isChildProcess(r._childProcess)).to.eql(true)
-    })
-
-    it('should accept child process options', function () {
-      const sevenFake = new Readable({ read () {} })
-      sevenFake._bin = 'npm'
-      sevenFake._args = []
-      sevenFake._spawnOptions = { cmd: '.' }
-      const r = Seven.run(sevenFake)
-      expect(isChildProcess(r._childProcess)).to.eql(true)
-    })
-
     it('should be chainable', function () {
       const sevenFake = sevenFakeFactory()
       sevenFake._bin = 'not_a_program'
