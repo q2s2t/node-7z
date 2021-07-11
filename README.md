@@ -261,7 +261,7 @@ In the 7-Zip world, command flags are called switches. In order to use them you 
 | `hashMethod`             | `string`   | Set hash function                                                     | `-scrc`  |
 | `listFileCharset`        | `string`   | Set charset for list files                                            | `-scs`   |
 | `logLevel`               | `string`   | Set output log level                                                  | `-bb`    |
-| `multiBlockSize`         | `string`   | Creates multi-block xz archives of `[Size]m|g` block size             | `-ms`    |
+| `multiBlockSize`         | `string`   | Creates multi-block xz archives of `[Size]m\|g` block size             | `-ms`    |
 | `outputDir`              | `string`   | Set Output directory                                                  | `-o`     |
 | `overwrite`              | `string`   | Overwrite mode                                                        | `-ao`    |
 | `password`               | `string`   | Set Password                                                          | `-p`     |
