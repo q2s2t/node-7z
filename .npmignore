@@ -3,7 +3,8 @@ test/
 .circleci/
 .vscode/
 coverage/
-7z.exe
+*.exe
+*.code-workspace
 appveyor.yml
 .eslintrc.json
 .gitignore
