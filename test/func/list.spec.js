@@ -157,7 +157,6 @@ describe('Functional: list()', function () {
       if (data.file === 'DirHex/sub2/f930abffa355e') {
         expect(data.techInfo.get('Path')).to.equal('DirHex/sub2/f930abffa355e')
         expect(data.techInfo.get('Size')).to.equal('9')
-        expect(data.techInfo.get('Modified')).to.equal('2018-09-29 09:06:15')
         expect(data.techInfo.get('CRC')).to.equal('FEDC304F')
         expect(data.techInfo.get('Encrypted')).to.equal('-')
         expect(data.techInfo.get('Method')).to.equal('LZMA2:12')
@@ -187,7 +186,6 @@ describe('Functional: list()', function () {
       if (data.file === 'DirHex/sub2/f930abffa355e') {
         expect(data.techInfo.get('Path')).to.equal('DirHex/sub2/f930abffa355e')
         expect(data.techInfo.get('Size')).to.equal('9')
-        expect(data.techInfo.get('Modified')).to.equal('2018-09-29 09:06:15')
         expect(data.techInfo.get('CRC')).to.equal('FEDC304F')
         expect(data.techInfo.get('Encrypted')).to.equal('-')
         expect(data.techInfo.get('Method')).to.equal('Store')
