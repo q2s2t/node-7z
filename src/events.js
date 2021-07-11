@@ -49,7 +49,7 @@ const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
       continue // at next line
     }
 
-    // End of HEADERS can be easy to detect with list and hash commands that
+    // End of HEADERS can be easy to detected with list and hash commands that
     // outputs a `---- -- ----` line, but in symbol commands the end of HEADERS
     // can only be detected when the line match a BODY data: In such cases the
     // loop has to continue in order to properly porcess the BODY data.

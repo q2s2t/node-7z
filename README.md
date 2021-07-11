@@ -304,6 +304,16 @@ mySevenStream.on('data', function (data) {
   //   status: 'renamed|tested|updated|skipped|deleted|extracted',
   //   attributes: '....A', size: 9, sizeCompressed: 3, (only list command)
   //   hash: 'FEDC304F', size: 9 (only hash command)
+  //   techInfo: Map(8) { (only list command with `techInfo` switch)
+  //      'Path' => 'DirHex/sub2/e825776890f2b',
+  //      'Size' => '9',
+  //      'Modified' => '2018-09-29 09:06:15',
+  //      'Attributes' => 'A_ -rw-r--r--',
+  //      'CRC' => 'FEDC304F',
+  //      'Encrypted' => '-',
+  //      'Method' => 'LZMA2:12',
+  //      'Block' => '0'
+  //   }
   // }
 })
 ```

@@ -17,7 +17,9 @@ const BODY_PROGRESS = new RegExp('^ *(?<percent>\\d+)% ?(?<fileCount>\\d+)? ?(?<
 const BODY_SYMBOL_FILE = new RegExp('^(?<symbol>[=TU+R.-]) (?<file>.+)$')
 const BODY_HASH = new RegExp('^(?<hash>\\S+)? +(?<size>\\d*) +(?<file>.+)$')
 const END_OF_STAGE_HYPHEN = new RegExp('^(-+ +)+-+$')
+const END_OF_TECH_INFOS_HEADERS = new RegExp('^----------$')
 const INFOS = new RegExp('^(?<property>.+?)(?<separator>( = )|(: +))(?<value>.+)$')
+const INFOS_PATH = new RegExp('^Path = (?<path>.+)$')
 const INFOS_SPLIT = new RegExp(', +# ')
 const ERROR = new RegExp('(?<level>WARNING|ERROR): (?<message>.*)(\r\n)?(\n)?', 'i')
 
@@ -27,7 +29,9 @@ module.exports = {
   BODY_SYMBOL_FILE,
   BODY_HASH,
   END_OF_STAGE_HYPHEN,
+  END_OF_TECH_INFOS_HEADERS,
   INFOS,
+  INFOS_PATH,
   INFOS_SPLIT,
   ERROR
 }

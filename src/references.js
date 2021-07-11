@@ -79,6 +79,7 @@ const COMMAND_LETTERS = {
   extractFull: 'x',
   hash: 'h',
   list: 'l',
+  listTechInfo: 'l',
   rename: 'rn',
   test: 't',
   update: 'u'

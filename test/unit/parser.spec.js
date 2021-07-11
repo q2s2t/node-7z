@@ -3,9 +3,11 @@ import { expect } from 'chai'
 import {
   fetch,
   matchProgress,
+  matchEndOfHeadersHyphen,
+  matchEndOfHeadersTechInfo,
   matchBodySymbol,
   matchBodyHash,
-  matchEndOfHeadersHyphen,
+  matchBodyTechInfo,
   matchInfos,
   matchEndOfHeadersSymbol,
   matchEndOfBodySymbol,
@@ -147,6 +149,25 @@ describe('Unit: parser.js', function () {
       const stream = {}
       matchEndOfHeadersHyphen(stream, '------------------- ----- ------------ ------------  ------------------------')
       expect(stream._columnsPositions).to.be.deep.equal([19, 25, 38, 51, 52])
+    })
+  })
+
+  describe('matchEndOfHeadersTechInfo()', function () {
+    it('should return null on non match', function () {
+      const r = matchEndOfHeadersTechInfo({}, 'Colon info: type colon info')
+      expect(r).to.equal(null)
+    })
+
+    it('should return null on pseudo-empty line', function () {
+      const r = matchEndOfHeadersTechInfo({}, '    ')
+      expect(r).to.be.equal(null)
+    })
+
+    it('should be truthly on match of hyphens', function () {
+      const r = matchEndOfHeadersTechInfo({}, '----------')
+      let pass = false
+      if (r) pass = true
+      expect(pass).to.be.equal(true)
     })
   })
 
@@ -364,6 +385,57 @@ describe('Unit: parser.js', function () {
         sizeCompressed: undefined,
         file: 'DirHex/42550418a4ef9'
       })
+    })
+  })
+
+  describe('matchBodyTechInfo()', function () {
+    it('should return null on non match', function () {
+      const r = matchBodyTechInfo({}, '----')
+      expect(r).to.be.equal(null)
+    })
+
+    it('should return null on pseudo empty line', function () {
+      const r = matchBodyTechInfo({}, '   ')
+      expect(r).to.be.equal(null)
+    })
+
+    it('should create a new map on Path info', function () {
+      let stream = {}
+      matchBodyTechInfo(stream, 'Path = DirImages/LICENSE')
+      expect(stream._lastTechInfo).to.be.an.instanceof(Map)
+    })
+
+    it('should add info to the Map', function () {
+      let techInfo = new Map()
+      let stream = { _lastTechInfo: techInfo }
+      stream._lastTechInfo.set('Path', 'DirImages/LICENSE')
+      matchBodyTechInfo(stream, 'CRC = F303F60C')
+      expect(stream._lastTechInfo.get('CRC')).to.equal('F303F60C')
+    })
+
+    it('should return techInfo on empty line', function () {
+      let techInfo = new Map()
+      let stream = { _lastTechInfo: techInfo }
+      matchBodyTechInfo(stream, 'Path = DirImages/LICENSE')
+      matchBodyTechInfo(stream, 'CRC = F303F60C')
+      const r = matchBodyTechInfo(stream, '')
+      expect(r.file).to.equal('DirImages/LICENSE')
+      expect(r.techInfo.get('Path')).to.equal('DirImages/LICENSE')
+      expect(r.techInfo.get('CRC')).to.equal('F303F60C')
+    })
+
+    it('should return file on Windows drive', function () {
+      let techInfo = new Map()
+      let stream = { _lastTechInfo: techInfo }
+      matchBodyTechInfo(stream, 'Path = C:\\test\\file')
+      expect(stream._lastTechInfo.get('Path')).to.equal('C:/test/file')
+    })
+
+    it('should return file on Windows remote', function () {
+      let techInfo = new Map()
+      let stream = { _lastTechInfo: techInfo }
+      matchBodyTechInfo(stream, 'Path = \\test\\file')
+      expect(stream._lastTechInfo.get('Path')).to.equal('/test/file')
     })
   })
 

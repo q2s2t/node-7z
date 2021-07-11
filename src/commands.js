@@ -30,6 +30,9 @@ const extractFactory = ({ main, command }) => (archive, output, options = {}) =>
 const simplexFactory = ({ main, command }) => (target, options = {}) => {
   const { ..._options } = options
   _options._command = command
+  if (options.techInfo) {
+    _options._command = 'listTechInfo'
+  }
   _options._target = [target, options.$cherryPick]
   return main(_options)
 }

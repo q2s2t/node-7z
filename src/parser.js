@@ -13,7 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 const normalizePath = require('normalize-path')
-const { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, END_OF_STAGE_HYPHEN } = require('./regexp')
+const { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, INFOS_PATH, END_OF_STAGE_HYPHEN, END_OF_TECH_INFOS_HEADERS } = require('./regexp')
 const { SYMBOL_OPERATIONS } = require('./references')
 
 // Infos about the opertation are given by 7z on the stdout. They can be:
@@ -58,9 +58,16 @@ function matchEndOfHeadersHyphen (stream, line) {
       .map(getSpacesPosition)
       .filter(Number.isInteger)
     return line
-  } else {
-    return null
   }
+  return null
+}
+
+function matchEndOfHeadersTechInfo (stream, line) {
+  const isEnd = END_OF_TECH_INFOS_HEADERS.test(line)
+  if (isEnd) {
+    return line
+  }
+  return null
 }
 
 // Progress as a percentage is only displayed to stdout when the `-bsp1` switch
@@ -146,6 +153,46 @@ function matchBodyHash (stream, line) {
   return null
 }
 
+// List command with -slt switch. This commands outputs multiples lines per
+// file. E.g.:
+// Path = DirImages/LICENSE
+// Size = 37
+// Packed Size = 18292718
+// Modified = 2018-10-02 21:45:49
+// Attributes = A_ -rw-r--r--
+// CRC = F303F60C
+// Encrypted = -
+// Method = LZMA2:24
+// Block = 0
+// *Path* is the first and *Block* is the last so we use that to mark the end 
+// of data. The end of the output is marked by 2 empty lines
+function matchBodyTechInfo (stream, line) {
+  if (!stream._lastLines) {
+    stream._lastLines = ['', '']
+  }
+  stream._lastLines[1] = stream._lastLines[0]
+  stream._lastLines[0] = line
+
+  if (isEmpty(line)) {
+    if (isEmpty(stream._lastLines[1])) {
+      return null
+    }
+    return {
+      file: stream._lastTechInfo.get('Path'),
+      techInfo: stream._lastTechInfo
+    }
+  }
+  const match = line.match(INFOS)
+  if (match) {
+    if (match.groups.property === 'Path') {
+      stream._lastTechInfo = new Map()
+      match.groups.value = normalizePath(match.groups.value)
+    }
+    stream._lastTechInfo.set(match.groups.property, match.groups.value)
+  }
+  return null
+}
+
 // This function determines if the end of the body section has been reached,
 // an empty line is emited by 7z at the end of the body, so this function
 // use this as an indicator.
@@ -218,6 +265,12 @@ const fetch = (command, parser) => {
       endOfBody: matchEndOfHeadersHyphen,
       dataType: 'table'
     },
+    listTechInfo: {
+      bodyData: matchBodyTechInfo,
+      endOfHeaders: matchEndOfHeadersTechInfo,
+      endOfBody: matchEndOfHeadersHyphen,
+      dataType: 'showTechInfo'
+    },
     rename: {
       bodyData: matchBodySymbol,
       endOfHeaders: matchEndOfHeadersSymbol,
@@ -244,10 +297,12 @@ module.exports = {
   matchInfos,
   matchEndOfHeadersSymbol,
   matchEndOfHeadersHyphen,
+  matchEndOfHeadersTechInfo,
   matchProgress,
   matchBodySymbol,
   matchBodyList,
   matchBodyHash,
+  matchBodyTechInfo,
   matchEndOfBodySymbol,
   fetch
 }

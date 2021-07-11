@@ -141,4 +141,64 @@ describe('Functional: list()', function () {
       done()
     })
   })
+
+  it('should list technical data', function (done) {
+    const archiveBase = `${mockDir}/DirNew/NewArchive.7z`
+    const archive = `${tmpDir}/list-slt.7z`
+    copyFileSync(archiveBase, archive)
+    let technical_data = []
+    let integrity_test = false
+    const seven = list(archive, 
+      { techInfo: true }
+    )
+    seven.on('data', function (data) {
+      technical_data.push(data)
+      expect(data.file).to.be.a('string')
+      if (data.file === 'DirHex/sub2/f930abffa355e') {
+        expect(data.techInfo.get('Path')).to.equal('DirHex/sub2/f930abffa355e')
+        expect(data.techInfo.get('Size')).to.equal('9')
+        expect(data.techInfo.get('Modified')).to.equal('2018-09-29 09:06:15')
+        expect(data.techInfo.get('CRC')).to.equal('FEDC304F')
+        expect(data.techInfo.get('Encrypted')).to.equal('-')
+        expect(data.techInfo.get('Method')).to.equal('LZMA2:12')
+        expect(data.techInfo.get('Block')).to.equal('0')
+        integrity_test = true
+      }
+    }).on('end', function () {
+      expect(seven.info.get('Blocks')).to.equal('1')
+      expect(technical_data.length).to.equal(30)
+      expect(integrity_test).to.equal(true)
+      done()
+    })
+  })
+
+  it('should list technical data of zip archives', function (done) {
+    const archiveBase = `${mockDir}/DirNew/NewArchive.zip`
+    const archive = `${tmpDir}/list-slt.zip`
+    copyFileSync(archiveBase, archive)
+    let technical_data = []
+    let integrity_test = false
+    const seven = list(archive, 
+      { techInfo: true }
+    )
+    seven.on('data', function (data) {
+      technical_data.push(data)
+      expect(data.file).to.be.a('string')
+      if (data.file === 'DirHex/sub2/f930abffa355e') {
+        expect(data.techInfo.get('Path')).to.equal('DirHex/sub2/f930abffa355e')
+        expect(data.techInfo.get('Size')).to.equal('9')
+        expect(data.techInfo.get('Modified')).to.equal('2018-09-29 09:06:15')
+        expect(data.techInfo.get('CRC')).to.equal('FEDC304F')
+        expect(data.techInfo.get('Encrypted')).to.equal('-')
+        expect(data.techInfo.get('Method')).to.equal('Store')
+        expect(data.techInfo.get('Offset')).to.equal('1698')
+        integrity_test = true
+      }
+    }).on('end', function () {
+      expect(seven.info.get('Type')).to.equal('zip')
+      expect(technical_data.length).to.equal(30)
+      expect(integrity_test).to.equal(true)
+      done()
+    })
+  })
 })

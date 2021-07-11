@@ -61,5 +61,15 @@ describe('Unit: commands.js', function () {
       expect(res._command).to.eql('azerty')
       expect(res._target).to.deep.eql(['archive', 'cherry'])
     })
+
+    it('changes command to listTechInfo when specified', function () {
+      const simplex = Commands.simplexFactory({
+        main: identityFunction,
+        command: 'azerty'
+      })
+      const res = simplex('archive', { techInfo: true })
+      expect(res._command).to.eql('listTechInfo')
+    })
+
   })
 })
