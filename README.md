@@ -55,7 +55,7 @@ npm install --save node-7z
 
 You should have the a 7-Zip executable (v16.02 or greater) available in your system.
 
-> - On Debian and Ubuntu install the p7zip-full package.
+> - On Debian and Ubuntu install the p7zip-full package or use 7-Zip 21.02 alpha or higher
 > - On Mac OSX use Homebrew `brew install p7zip`
 > - On Windows get 7-Zip from [7-Zip download page](https://www.7-zip.org/download.html).
 >
@@ -261,7 +261,7 @@ In the 7-Zip world, command flags are called switches. In order to use them you 
 | `hashMethod`             | `string`   | Set hash function                                                     | `-scrc`  |
 | `listFileCharset`        | `string`   | Set charset for list files                                            | `-scs`   |
 | `logLevel`               | `string`   | Set output log level                                                  | `-bb`    |
-| `multiBlockSize`         | `string`   | Creates multi-block xz archives of `[Size]m\|g` block size             | `-ms`    |
+| `multiBlockSize`         | `string`   | Creates multi-block xz archives of `[Size]m\|g` block size            | `-ms`    |
 | `outputDir`              | `string`   | Set Output directory                                                  | `-o`     |
 | `overwrite`              | `string`   | Overwrite mode                                                        | `-ao`    |
 | `password`               | `string`   | Set Password                                                          | `-p`     |
