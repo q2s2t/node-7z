@@ -1,3 +1,24 @@
+## 3.0.0 (2021-07-11)
+
+#### BREAKING CHANGE
+* Drop cross-spawn in favor of Node.js spawn
+
+* feat: Do not build string switch with falsy values #102 ([b7f799c](https://github.com/quentinrossetti/node-7z/commit/b7f799c)), closes [#102](https://github.com/quentinrossetti/node-7z/issues/102)
+* feat: Hides cmd on Windows #89 ([e955111](https://github.com/quentinrossetti/node-7z/commit/e955111)), closes [#89](https://github.com/quentinrossetti/node-7z/issues/89)
+* ci: Ignore a test du to mismatch 7z versions ([48a74d6](https://github.com/quentinrossetti/node-7z/commit/48a74d6))
+* test: Don't test dates because AppVeyor changes them ([f05d6e2](https://github.com/quentinrossetti/node-7z/commit/f05d6e2))
+* test: Mark as executable (NTFS removed it) ([6e35dfe](https://github.com/quentinrossetti/node-7z/commit/6e35dfe))
+* test: Remove redundant error code checking ([80f22f5](https://github.com/quentinrossetti/node-7z/commit/80f22f5))
+* dist: VSCode workspace ([e91e7d4](https://github.com/quentinrossetti/node-7z/commit/e91e7d4))
+* chore: Ignore .exe used for local testing ([1305071](https://github.com/quentinrossetti/node-7z/commit/1305071))
+* chore(deps): bump glob-parent from 5.1.1 to 5.1.2 ([59f83ee](https://github.com/quentinrossetti/node-7z/commit/59f83ee))
+* chore(deps): bump hosted-git-info from 2.8.8 to 2.8.9 ([f9746d0](https://github.com/quentinrossetti/node-7z/commit/f9746d0))
+* chore(deps): bump lodash from 4.17.20 to 4.17.21 ([0bf9517](https://github.com/quentinrossetti/node-7z/commit/0bf9517))
+* chore(deps): bump y18n from 4.0.0 to 4.0.1 ([f30d5b4](https://github.com/quentinrossetti/node-7z/commit/f30d5b4))
+* doc: Fix options table parsing ([9e6ded4](https://github.com/quentinrossetti/node-7z/commit/9e6ded4))
+* doc: Fix typos ([801a79b](https://github.com/quentinrossetti/node-7z/commit/801a79b))
+* Fixed typo ([a16d499](https://github.com/quentinrossetti/node-7z/commit/a16d499))
+
 ## 2.1.2 (2020-10-11)
 
 * style: Implement JavaScript Standard Style ([dff09b8](https://github.com/quentinrossetti/node-7z/commit/dff09b8))
