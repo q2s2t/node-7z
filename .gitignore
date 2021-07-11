@@ -18,6 +18,9 @@ coverage
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
 7z.exe
+7z-18.05-x64-win.exe
+7za-21.02-x64_win.exe
+7za-21.02-x86_win.exe
 
 # Dummy files for local testing
 dummy.*
