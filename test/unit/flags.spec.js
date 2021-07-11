@@ -130,5 +130,13 @@ describe('Unit: flags.js', function () {
       rawFake.map(arg => expect(r).to.include(arg))
       expect(r).to.include('-bsp1')
     })
+
+    it('should not add string values if only key is pecidied', function () {
+      const r = fromOptions({
+        password: false,
+      })
+      expect(r).not.to.includes('-p')
+    })
+
   })
 })

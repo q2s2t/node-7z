@@ -66,7 +66,11 @@ const handle = flag => {
       return `-${flag.cli}${suffix}`
     },
     string: flag => {
-      return `-${flag.cli}${flag.value}`
+      if (flag.value) {
+        return `-${flag.cli}${flag.value}`
+      } else {
+        return ''
+      }
     },
     stringArray: flag => {
       const values = flag.value
