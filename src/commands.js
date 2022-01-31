@@ -12,14 +12,14 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const standardFactory = ({ main, command }) => (archive, source, options = {}) => {
+export const standardFactory = ({ main, command }) => (archive, source, options = {}) => {
   const { ..._options } = options
   _options._command = command
   _options._target = [archive, source]
   return main(_options)
 }
 
-const extractFactory = ({ main, command }) => (archive, output, options = {}) => {
+export const extractFactory = ({ main, command }) => (archive, output, options = {}) => {
   const { ..._options } = options
   _options._command = command
   _options._target = [archive, options.$cherryPick]
@@ -27,7 +27,7 @@ const extractFactory = ({ main, command }) => (archive, output, options = {}) =>
   return main(_options)
 }
 
-const simplexFactory = ({ main, command }) => (target, options = {}) => {
+export const simplexFactory = ({ main, command }) => (target, options = {}) => {
   const { ..._options } = options
   _options._command = command
   if (options.techInfo) {
@@ -37,4 +37,4 @@ const simplexFactory = ({ main, command }) => (target, options = {}) => {
   return main(_options)
 }
 
-module.exports = { standardFactory, extractFactory, simplexFactory }
+export default { standardFactory, extractFactory, simplexFactory }

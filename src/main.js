@@ -12,25 +12,25 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const Lifecycle = require('./lifecycle')
-const Bin = require('./bin')
-const Args = require('./args')
-const Flags = require('./flags')
-const Parser = require('./parser')
-const Events = require('./events')
-const Err = require('./error')
-const Lines = require('../src/lines')
-const Maybe = require('../src/maybe')
-const Commands = require('./commands')
+import Lifecycle from './lifecycle.js'
+import Bin from './bin.js'
+import Args from './args.js'
+import Flags from './flags.js'
+import Parser from './parser.js'
+import { onErrorFactory, onStderrFactory, onStdoutFactory, onEndFactory } from './events.js'
+import Err from './error.js'
+import Lines from './lines.js'
+import Maybe from './maybe.js'
+import Commands from './commands.js'
 
 // Expose the listen function to the API so a user can listen to a sdtio stream
 // non emitted by the current (ie. in the run() function).
 const listenFactory = ({ Lifecycle, Err, Lines, Maybe }) => seven => {
   Lifecycle.listenFactory({
-    errorHandler: Events.onErrorFactory({ Err }),
-    stderrHandler: Events.onStderrFactory({ Err }),
-    stdoutHandler: Events.onStdoutFactory({ Lines, Maybe }),
-    endHandler: Events.onEndFactory()
+    errorHandler: onErrorFactory({ Err }),
+    stderrHandler: onStderrFactory({ Err }),
+    stdoutHandler: onStdoutFactory({ Lines, Maybe }),
+    endHandler: onEndFactory()
   })(seven)
   return seven
 }
@@ -62,7 +62,7 @@ const mainFactory = ({
 const main = mainFactory({ Lifecycle, Bin, Args, Flags, Parser, listen })
 
 // Public API
-module.exports = {
+export default {
   add: Commands.standardFactory({ main, command: 'add' }),
   delete: Commands.standardFactory({ main, command: 'delete' }),
   extract: Commands.extractFactory({ main, command: 'extract' }),

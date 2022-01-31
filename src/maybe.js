@@ -12,10 +12,11 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const debug = require('debug')('node-7z')
-const { STAGE_HEADERS, STAGE_BODY, STAGE_FOOTERS } = require('./references')
+import libdebug from 'debug'
+const debug = libdebug('node-7z')
+import { STAGE_HEADERS, STAGE_BODY, STAGE_FOOTERS } from './references.js'
 
-const info = (stream, line) => {
+export const info = (stream, line) => {
   const stageWithInfo = (stream._stage === STAGE_HEADERS || stream._stage === STAGE_FOOTERS)
   if (!stageWithInfo) {
     return false
@@ -30,7 +31,7 @@ const info = (stream, line) => {
   }
 }
 
-const progress = (stream, line) => {
+export const progress = (stream, line) => {
   const progress = stream._matchProgress(stream, line)
   if (!progress) {
     return false
@@ -41,7 +42,7 @@ const progress = (stream, line) => {
   }
 }
 
-const endOfHeaders = (stream, line) => {
+export const endOfHeaders = (stream, line) => {
   if (stream._stage !== STAGE_HEADERS) {
     return false
   } else {
@@ -56,7 +57,7 @@ const endOfHeaders = (stream, line) => {
   }
 }
 
-const endOfBody = (stream, line) => {
+export const endOfBody = (stream, line) => {
   const match = stream._matchEndOfBody(stream, line)
   if (!match) {
     return false
@@ -67,7 +68,7 @@ const endOfBody = (stream, line) => {
   }
 }
 
-const bodyData = (stream, line) => {
+export const bodyData = (stream, line) => {
   const match = stream._matchBodyData(stream, line)
   if (!match) {
     return false
@@ -79,4 +80,4 @@ const bodyData = (stream, line) => {
   }
 }
 
-module.exports = { info, progress, endOfHeaders, endOfBody, bodyData }
+export default { info, progress, endOfHeaders, endOfBody, bodyData }

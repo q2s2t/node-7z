@@ -12,12 +12,13 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const debug = require('debug')('node-7z')
-const spawn = require('child_process').spawn
-const { Readable } = require('stream')
-const { STAGE_HEADERS } = require('./references')
+import libdebug from 'debug'
+const debug = libdebug('node-7z')
+import { spawn } from 'child_process'
+import { Readable } from 'stream'
+import { STAGE_HEADERS } from './references.js'
 
-const createFactory = ({
+export const createFactory = ({
   Bin,
   Args,
   Flags,
@@ -53,7 +54,7 @@ const createFactory = ({
   return seven
 }
 
-const listenFactory = ({
+export const listenFactory = ({
   errorHandler,
   stdoutHandler,
   stderrHandler,
@@ -66,7 +67,7 @@ const listenFactory = ({
   return stream
 }
 
-const run = stream => {
+export const run = stream => {
   const spawnOptions = Object.assign({
     detached: true,
     windowsHide: true
@@ -75,4 +76,4 @@ const run = stream => {
   return stream
 }
 
-module.exports = { createFactory, listenFactory, run }
+export default { createFactory, listenFactory, run }

@@ -1,7 +1,7 @@
 /* global describe, it */
-const { expect } = require('chai')
-const { copyFileSync } = require('fs')
-const Seven = require('../../src/main')
+import { expect } from 'chai'
+import { copyFileSync } from 'fs'
+import Seven from '../../src/main.js'
 
 const test = Seven.test
 const mockDir = './test/_mock'

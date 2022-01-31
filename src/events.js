@@ -12,23 +12,24 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const debug = require('debug')('node-7z')
-const { STAGE_BODY } = require('./references')
+import libdebug from 'debug'
+const debug = libdebug('node-7z')
+import { STAGE_BODY } from './references.js'
 
-const onErrorFactory = ({ Err }) => (stream, err) => {
+export const onErrorFactory = ({ Err }) => (stream, err) => {
   Err.assign(stream, err)
   debug('error: from child process: %O', err)
   return stream
 }
 
-const onStderrFactory = ({ Err }) => (stream, buffer) => {
+export const onStderrFactory = ({ Err }) => (stream, buffer) => {
   const err = Err.fromBuffer(buffer)
   Err.assign(stream, err)
   debug('error: from stderr: %O', err)
   return stream
 }
 
-const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
+export const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
   const lines = Lines.fromBuffer(stream, chunk)
 
   // Maybe functions check if a condition is true and run the corresponding
@@ -85,7 +86,7 @@ const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
   return stream
 }
 
-const onEndFactory = () => (stream) => {
+export const onEndFactory = () => (stream) => {
   if (stream.err) {
     stream.emit('error', stream.err)
   }
@@ -93,4 +94,4 @@ const onEndFactory = () => (stream) => {
   return stream
 }
 
-module.exports = { onErrorFactory, onStderrFactory, onStdoutFactory, onEndFactory }
+export default { onErrorFactory, onStderrFactory, onStdoutFactory, onEndFactory }

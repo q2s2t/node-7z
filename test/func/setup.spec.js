@@ -1,12 +1,13 @@
 /* globals before, after */
-const { copyFileSync } = require('fs')
-const rimraf = require('rimraf').sync
+import { copyFileSync } from 'fs'
+import rimraf from 'rimraf'
+
 
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
 before(function (done) {
-  rimraf(`${tmpDir}/*`)
+  rimraf.sync(`${tmpDir}/*`)
   const bin = `${mockDir}/Binaries/7z-${process.platform}`
   let dest = `${tmpDir}/Seven Zip`
   if (process.platform === 'win32') {
@@ -18,6 +19,8 @@ before(function (done) {
 })
 
 after(function (done) {
-  rimraf(`${tmpDir}/*`)
+  rimraf.sync(`${tmpDir}/*`)
   done()
 })
+
+export default { before, after }

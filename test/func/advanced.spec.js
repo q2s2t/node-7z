@@ -1,7 +1,9 @@
 /* global describe, it */
-const { expect } = require('chai')
-const Seven = require('../../src/main')
+import { expect } from 'chai'
+import fs from 'fs'
+import Seven from '../../src/main.js'
 
+const add = Seven.add
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 
@@ -12,7 +14,7 @@ describe('Functional: Advanced usage', function () {
       `${mockDir}/DirExt/*.txt`,
       `${mockDir}/DirExt/*.md`
     ]
-    const seven = Seven.add(archive, `${mockDir}/DirExt/*.nop`, {
+    const seven = add(archive, `${mockDir}/DirExt/*.nop`, {
       recursive: true,
       $raw: sourceRaw,
       $defer: true
@@ -31,12 +33,12 @@ describe('Functional: Advanced usage', function () {
 
   it('should work with context boolean flags', function () {
     const archive = `${tmpDir}/advanced-raw.7z`
-    const sevenUnix = Seven.add(archive, 'nop', {
+    const sevenUnix = add(archive, 'nop', {
       caseSensitive: false,
       $defer: true
     })
     expect(sevenUnix._args).to.includes('-ssc-')
-    const sevenWindows = Seven.add(archive, 'nop', {
+    const sevenWindows = add(archive, 'nop', {
       caseSensitive: true,
       $defer: true
     })
@@ -46,8 +48,8 @@ describe('Functional: Advanced usage', function () {
   it('should be able to compress from stdin', function (done) {
     const source = `${mockDir}/DirImages/architectural-design-architecture-blueprint-239886.jpg`
     const archive = `${tmpDir}/advanced-stdin.7z`
-    const stdin = require('fs').createReadStream(source)
-    const seven = Seven.add(archive, '', {
+    const stdin = fs.createReadStream(source)
+    const seven = add(archive, '', {
       fromStdin: 'public-name.jpg'
     })
     stdin.pipe(seven._childProcess.stdin)

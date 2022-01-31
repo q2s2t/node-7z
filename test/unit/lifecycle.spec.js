@@ -1,9 +1,9 @@
 /* globals describe, it */
 import { expect } from 'chai'
 import { Readable } from 'stream'
-import isChildProcess from 'is-child-process'
-import * as Seven from '../../src/lifecycle.js'
+import Seven from '../../src/lifecycle.js'
 import { STAGE_HEADERS } from '../../src/references.js'
+
 const sevenFakeFactory = () => {
   const sevenFake = new Readable({ read () {} })
   sevenFake._childProcess = new Readable({ read () {} })

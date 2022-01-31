@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import * as maybe from '../../src/maybe.js'
+import maybe from '../../src/maybe.js'
 import { STAGE_HEADERS, STAGE_FOOTERS, STAGE_BODY } from '../../src/references.js'
 import { Readable } from 'stream'
 

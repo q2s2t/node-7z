@@ -1,8 +1,8 @@
 /* global describe, it */
-const { expect } = require('chai')
-const { copyFileSync, existsSync, statSync } = require('fs')
-const Seven = require('../../src/main')
-const normalize = require('normalize-path')
+import { expect } from 'chai'
+import { copyFileSync, existsSync, statSync } from 'fs'
+import Seven from '../../src/main.js'
+import normalize from 'normalize-path'
 
 const add = Seven.add
 const mockDir = './test/_mock'

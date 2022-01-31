@@ -12,12 +12,12 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const defaultTo = require('lodash.defaultto')
-const { BIN_DEFAULT } = require('./references')
+import defaultTo from 'lodash.defaultto'
+import { BIN_DEFAULT } from './references.js'
 
 // Transform user input into a args for child procress spawn
-const fromOptions = options => {
+export const fromOptions = options => {
   return defaultTo(options.$bin, BIN_DEFAULT)
 }
 
-module.exports = { fromOptions }
+export default { fromOptions }

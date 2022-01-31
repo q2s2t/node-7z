@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import * as Commands from '../../src/commands'
+import Commands from '../../src/commands.js'
 
 const identityFunction = opt => opt
 

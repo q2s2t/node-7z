@@ -12,26 +12,13 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const LINE_SPLIT = new RegExp('\n|\r\n|\x08+|\r +\r')
-const BODY_PROGRESS = new RegExp('^ *(?<percent>\\d+)% ?(?<fileCount>\\d+)? ?(?<file>.*)$')
-const BODY_SYMBOL_FILE = new RegExp('^(?<symbol>[=TU+R.-]) (?<file>.+)$')
-const BODY_HASH = new RegExp('^(?<hash>\\S+)? +(?<size>\\d*) +(?<file>.+)$')
-const END_OF_STAGE_HYPHEN = new RegExp('^(-+ +)+-+$')
-const END_OF_TECH_INFOS_HEADERS = new RegExp('^----------$')
-const INFOS = new RegExp('^(?<property>.+?)(?<separator>( = )|(: +))(?<value>.+)$')
-const INFOS_PATH = new RegExp('^Path = (?<path>.+)$')
-const INFOS_SPLIT = new RegExp(', +# ')
-const ERROR = new RegExp('(?<level>WARNING|ERROR): (?<message>.*)(\r\n)?(\n)?', 'i')
-
-module.exports = {
-  LINE_SPLIT,
-  BODY_PROGRESS,
-  BODY_SYMBOL_FILE,
-  BODY_HASH,
-  END_OF_STAGE_HYPHEN,
-  END_OF_TECH_INFOS_HEADERS,
-  INFOS,
-  INFOS_PATH,
-  INFOS_SPLIT,
-  ERROR
-}
+export const LINE_SPLIT = new RegExp('\n|\r\n|\x08+|\r +\r')
+export const BODY_PROGRESS = new RegExp('^ *(?<percent>\\d+)% ?(?<fileCount>\\d+)? ?(?<file>.*)$')
+export const BODY_SYMBOL_FILE = new RegExp('^(?<symbol>[=TU+R.-]) (?<file>.+)$')
+export const BODY_HASH = new RegExp('^(?<hash>\\S+)? +(?<size>\\d*) +(?<file>.+)$')
+export const END_OF_STAGE_HYPHEN = new RegExp('^(-+ +)+-+$')
+export const END_OF_TECH_INFOS_HEADERS = new RegExp('^----------$')
+export const INFOS = new RegExp('^(?<property>.+?)(?<separator>( = )|(: +))(?<value>.+)$')
+export const INFOS_PATH = new RegExp('^Path = (?<path>.+)$')
+export const INFOS_SPLIT = new RegExp(', +# ')
+export const ERROR = new RegExp('(?<level>WARNING|ERROR): (?<message>.*)(\r\n)?(\n)?', 'i')

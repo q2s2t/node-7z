@@ -1,9 +1,9 @@
 /* global describe, it */
-const { expect } = require('chai')
-const { copyFileSync } = require('fs')
-const readdirRecursiveSync = require('fs-readdir-recursive')
-const { normalize } = require('path')
-const Seven = require('../../src/main')
+import { expect } from 'chai'
+import { copyFileSync } from 'fs'
+import readdirRecursiveSync from 'fs-readdir-recursive'
+import { normalize } from 'path'
+import Seven from '../../src/main.js'
 
 const extractFull = Seven.extractFull
 const mockDir = './test/_mock'
