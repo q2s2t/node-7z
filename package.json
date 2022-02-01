@@ -7,11 +7,11 @@
   "scripts": {
     "test": "npx mocha --reporter=spec \"test/**/*.spec.js\" --timeout=0",
     "test-unit": "npx mocha --reporter=spec \"test/unit/*.spec.js\"",
-    "test-unit-coverage": "npx nyc --reporter=html npm run test-unit",
+    "test-unit-coverage": "npx c8 --reporter=html npm run test-unit",
     "test-func": "npx mocha --reporter=spec \"test/func/*.spec.js\" --timeout=0",
-    "test-func-coverage": "npx nyc --reporter=html npm run test-func",
+    "test-func-coverage": "npx c8 --reporter=html npm run test-func",
     "test-debug": "DEBUG=node-7z npm run test",
-    "test-coverage": "npx nyc --reporter=lcov npm run test"
+    "test-coverage": "npx c8 --reporter=lcov npm run test"
   },
   "repository": {
     "type": "git",
@@ -47,11 +47,11 @@
   },
   "optionalDependencies": {},
   "devDependencies": {
+    "c8": "^7.11.0",
     "chai": "^4.3.4",
     "esm": "^3.2.25",
     "fs-readdir-recursive": "^1.1.0",
     "mocha": "^9.2.0",
-    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "standard": "^16.0.4"
   }
