@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const { LINE_SPLIT } = require('./regexp')
+import { LINE_SPLIT } from './regexp.js'
 
 // Transform a Buffer into an Array of complete lines.
 // Chunks of data aren't line-by-line, a chunk can begin and end in the middle
@@ -20,7 +20,7 @@ const { LINE_SPLIT } = require('./regexp')
 // the next stream push. Lines are separated by the END OF LINE char.
 // When 7zip writes a progress value to stdout a new line is not created:
 // Instead 7zip uses combination on backpaces and spaces char.
-const fromBuffer = (seven, buffer) => {
+export const fromBuffer = (seven, buffer) => {
   if (seven._lastLinePartial) {
     buffer = Buffer.concat([seven._lastLinePartial, buffer])
   }
@@ -28,7 +28,7 @@ const fromBuffer = (seven, buffer) => {
   const offset = buffer.lastIndexOf('\n') + 1
   const newLastLine = buffer.slice(offset)
   const isNewLastLineComplete = (newLastLine.indexOf('\n') === newLastLine.length - 1)
-  
+
   if (!isNewLastLineComplete) {
     seven._lastLinePartial = newLastLine
     lines.pop()
@@ -38,4 +38,4 @@ const fromBuffer = (seven, buffer) => {
   return lines
 }
 
-module.exports = { fromBuffer }
+export default { fromBuffer }

@@ -1,6 +1,6 @@
 /* global describe, it, beforeEach */
 import { expect } from 'chai'
-import * as Events from '../../src/events.js'
+import Events from '../../src/events.js'
 import { STAGE_HEADERS, STAGE_BODY, STAGE_FOOTERS } from '../../src/references.js'
 import { Readable } from 'stream'
 

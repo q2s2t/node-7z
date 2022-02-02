@@ -1,6 +1,6 @@
 /* globals describe, it */
 import { expect } from 'chai'
-import * as error from '../../src/error.js'
+import error from '../../src/error.js'
 
 describe('Unit: error.js', function () {
   describe('assign()', function () {

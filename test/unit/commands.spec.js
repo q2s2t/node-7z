@@ -1,6 +1,6 @@
 /* global describe, it */
 import { expect } from 'chai'
-import * as Commands from '../../src/commands'
+import Commands from '../../src/commands.js'
 
 const identityFunction = opt => opt
 
@@ -70,6 +70,5 @@ describe('Unit: commands.js', function () {
       const res = simplex('archive', { techInfo: true })
       expect(res._command).to.eql('listTechInfo')
     })
-
   })
 })

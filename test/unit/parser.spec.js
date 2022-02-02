@@ -400,22 +400,22 @@ describe('Unit: parser.js', function () {
     })
 
     it('should create a new map on Path info', function () {
-      let stream = {}
+      const stream = {}
       matchBodyTechInfo(stream, 'Path = DirImages/LICENSE')
       expect(stream._lastTechInfo).to.be.an.instanceof(Map)
     })
 
     it('should add info to the Map', function () {
-      let techInfo = new Map()
-      let stream = { _lastTechInfo: techInfo }
+      const techInfo = new Map()
+      const stream = { _lastTechInfo: techInfo }
       stream._lastTechInfo.set('Path', 'DirImages/LICENSE')
       matchBodyTechInfo(stream, 'CRC = F303F60C')
       expect(stream._lastTechInfo.get('CRC')).to.equal('F303F60C')
     })
 
     it('should return techInfo on empty line', function () {
-      let techInfo = new Map()
-      let stream = { _lastTechInfo: techInfo }
+      const techInfo = new Map()
+      const stream = { _lastTechInfo: techInfo }
       matchBodyTechInfo(stream, 'Path = DirImages/LICENSE')
       matchBodyTechInfo(stream, 'CRC = F303F60C')
       const r = matchBodyTechInfo(stream, '')
@@ -425,15 +425,15 @@ describe('Unit: parser.js', function () {
     })
 
     it('should return file on Windows drive', function () {
-      let techInfo = new Map()
-      let stream = { _lastTechInfo: techInfo }
+      const techInfo = new Map()
+      const stream = { _lastTechInfo: techInfo }
       matchBodyTechInfo(stream, 'Path = C:\\test\\file')
       expect(stream._lastTechInfo.get('Path')).to.equal('C:/test/file')
     })
 
     it('should return file on Windows remote', function () {
-      let techInfo = new Map()
-      let stream = { _lastTechInfo: techInfo }
+      const techInfo = new Map()
+      const stream = { _lastTechInfo: techInfo }
       matchBodyTechInfo(stream, 'Path = \\test\\file')
       expect(stream._lastTechInfo.get('Path')).to.equal('/test/file')
     })

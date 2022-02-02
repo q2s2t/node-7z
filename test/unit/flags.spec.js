@@ -133,10 +133,9 @@ describe('Unit: flags.js', function () {
 
     it('should not add string values if only key is pecidied', function () {
       const r = fromOptions({
-        password: false,
+        password: false
       })
       expect(r).not.to.includes('-p')
     })
-
   })
 })

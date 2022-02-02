@@ -12,14 +12,14 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const negate = require('lodash.negate')
-const isEmpty = require('lodash.isempty')
-const defaultsDeep = require('lodash.defaultsdeep')
-const { FLAGS, OPTIONS_DEFAULT } = require('./references')
+import negate from 'lodash.negate'
+import isEmpty from 'lodash.isempty'
+import defaultsDeep from 'lodash.defaultsdeep'
+import { FLAGS, OPTIONS_DEFAULT } from './references.js'
 
 // Build arguments ready to be passed to `childProcess.spawn()` from the
 // `options` provided by the module consumer.
-const fromOptions = options => {
+export const fromOptions = options => {
   let opts = { ...defaultsDeep(options, OPTIONS_DEFAULT) }
   opts = populateOutputStreams(opts)
   opts = populateOutputDir(opts)
@@ -101,4 +101,4 @@ const populateOutputDir = options => {
   }
 }
 
-module.exports = { fromOptions }
+export default { fromOptions }

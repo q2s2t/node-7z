@@ -1,7 +1,7 @@
 /* global describe, it */
-const { expect } = require('chai')
-const { copyFileSync } = require('fs')
-const Seven = require('../../src/main')
+import { expect } from 'chai'
+import { copyFileSync } from 'fs'
+import Seven from '../../src/main.js'
 
 const list = Seven.list
 const mockDir = './test/_mock'
@@ -146,9 +146,9 @@ describe('Functional: list()', function () {
     const archiveBase = `${mockDir}/DirNew/NewArchive.7z`
     const archive = `${tmpDir}/list-slt.7z`
     copyFileSync(archiveBase, archive)
-    let technical_data = []
+    const technical_data = []
     let integrity_test = false
-    const seven = list(archive, 
+    const seven = list(archive,
       { techInfo: true }
     )
     seven.on('data', function (data) {
@@ -175,9 +175,9 @@ describe('Functional: list()', function () {
     const archiveBase = `${mockDir}/DirNew/NewArchive.zip`
     const archive = `${tmpDir}/list-slt.zip`
     copyFileSync(archiveBase, archive)
-    let technical_data = []
+    const technical_data = []
     let integrity_test = false
-    const seven = list(archive, 
+    const seven = list(archive,
       { techInfo: true }
     )
     seven.on('data', function (data) {

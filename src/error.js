@@ -12,10 +12,10 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const { ERROR } = require('./regexp')
+import { ERROR } from './regexp.js'
 
 // Just assign an error to the stream. The event error is emitted on close
-const assign = (stream, err) => {
+export const assign = (stream, err) => {
   if (stream.err) {
     stream.err = Object.assign(err, stream.err)
   } else {
@@ -24,7 +24,7 @@ const assign = (stream, err) => {
   return stream
 }
 
-const fromBuffer = chunk => {
+export const fromBuffer = chunk => {
   const stderr = chunk.toString()
   const match = stderr.match(ERROR)
   const err = new Error('unknown error')
@@ -36,4 +36,4 @@ const fromBuffer = chunk => {
   return err
 }
 
-module.exports = { assign, fromBuffer }
+export default { assign, fromBuffer }

@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const FLAGS = [
+export const FLAGS = [
   { type: 'bool', api: 'alternateStreamExtract', cli: 'snc' }, // Extract file as alternate stream, if there is ':' character in name
   { type: 'bool', api: 'alternateStreamReplace', cli: 'snr' }, // Replace ':' character to '_' character in paths of alternate streams
   { type: 'bool', api: 'deleteFilesAfter', cli: 'sdel' }, // Delete files after compression
@@ -60,19 +60,19 @@ const FLAGS = [
   // Advanced
 ]
 
-const OPTIONS_DEFAULT = {
+export const OPTIONS_DEFAULT = {
   yes: true,
   logLevel: '3',
   outputStreams: []
 }
 
-const BIN_DEFAULT = '7z'
+export const BIN_DEFAULT = '7z'
 
-const STAGE_HEADERS = Symbol('STAGE_HEADERS')
-const STAGE_BODY = Symbol('STAGE_BODY')
-const STAGE_FOOTERS = Symbol('STAGE_FOOTERS')
+export const STAGE_HEADERS = Symbol('STAGE_HEADERS')
+export const STAGE_BODY = Symbol('STAGE_BODY')
+export const STAGE_FOOTERS = Symbol('STAGE_FOOTERS')
 
-const COMMAND_LETTERS = {
+export const COMMAND_LETTERS = {
   add: 'a',
   delete: 'd',
   extract: 'e',
@@ -87,7 +87,7 @@ const COMMAND_LETTERS = {
 
 /* eslint-disable */
 // =TU+R.-
-const SYMBOL_OPERATIONS = {
+export const SYMBOL_OPERATIONS = {
   '=': 'renamed',
   'T': 'tested',
   'U': 'updated',
@@ -96,14 +96,3 @@ const SYMBOL_OPERATIONS = {
   '-': 'extracted'
 }
 /* eslint-enable */
-
-module.exports = {
-  FLAGS,
-  OPTIONS_DEFAULT,
-  BIN_DEFAULT,
-  STAGE_HEADERS,
-  STAGE_BODY,
-  STAGE_FOOTERS,
-  COMMAND_LETTERS,
-  SYMBOL_OPERATIONS
-}

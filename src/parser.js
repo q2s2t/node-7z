@@ -12,9 +12,9 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-const normalizePath = require('normalize-path')
-const { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, INFOS_PATH, END_OF_STAGE_HYPHEN, END_OF_TECH_INFOS_HEADERS } = require('./regexp')
-const { SYMBOL_OPERATIONS } = require('./references')
+import normalizePath from 'normalize-path'
+import { INFOS, BODY_PROGRESS, BODY_SYMBOL_FILE, BODY_HASH, INFOS_SPLIT, INFOS_PATH, END_OF_STAGE_HYPHEN, END_OF_TECH_INFOS_HEADERS } from './regexp.js'
+import { SYMBOL_OPERATIONS } from './references.js'
 
 // Infos about the opertation are given by 7z on the stdout. They can be:
 // - colon-seprated: `Creating archive: DirNew/BaseExt.7z`
@@ -23,7 +23,7 @@ const { SYMBOL_OPERATIONS } = require('./references')
 // - in the HEADERS or in the FOOTERS
 // This function match if the current line contains some infos. A **Map** is
 // used to store infos in the stream.
-function matchInfos (stream, line) {
+export function matchInfos (stream, line) {
   const infosLine = line
     .split(INFOS_SPLIT)
     .map(res => res.match(INFOS))
@@ -44,14 +44,14 @@ function matchInfos (stream, line) {
 // delimited by a `matchBodySymbol() === true`. Retunring a truthly value would
 // cause the current loop iteration to end and doing so missing to push the
 // current line to the stream, so we have to push in here.
-function matchEndOfHeadersSymbol (stream, line) {
+export function matchEndOfHeadersSymbol (stream, line) {
   return stream._matchBodyData(stream, line)
 }
 
 // Some 7z commands uses a `--- -----` like string as a maker for the end of
 // headers and the end of headers. The position of spaces are saved in the
 // stream to be exploited by the `matchBodyList()` function
-function matchEndOfHeadersHyphen (stream, line) {
+export function matchEndOfHeadersHyphen (stream, line) {
   const isEnd = END_OF_STAGE_HYPHEN.test(line)
   if (isEnd) {
     stream._columnsPositions = Array.from(line)
@@ -62,7 +62,7 @@ function matchEndOfHeadersHyphen (stream, line) {
   return null
 }
 
-function matchEndOfHeadersTechInfo (stream, line) {
+export function matchEndOfHeadersTechInfo (stream, line) {
   const isEnd = END_OF_TECH_INFOS_HEADERS.test(line)
   if (isEnd) {
     return line
@@ -75,7 +75,7 @@ function matchEndOfHeadersTechInfo (stream, line) {
 // - only percent: `  0%`
 // - with file count: ` 23% 4`
 // - with file name: ` 23% 4 file.txt`
-function matchProgress (stream, line) {
+export function matchProgress (stream, line) {
   if (isEmpty(line)) {
     return null
   }
@@ -95,7 +95,7 @@ function matchProgress (stream, line) {
 // command to the file. E.g.:
 // - testing file: `T file/to/test.txt`
 // - adding file to archive: `+ file/to/add.txt`
-function matchBodySymbol (stream, line) {
+export function matchBodySymbol (stream, line) {
   const match = line.match(BODY_SYMBOL_FILE)
   if (match) {
     match.groups.file = normalizePath(match.groups.file)
@@ -113,7 +113,7 @@ function matchBodySymbol (stream, line) {
 // 2018-09-29 09:06:15 ....A            9           24  DirHex/42550418a4ef9
 // The caveat is that each value can be empty. So we don't use a Regexp but
 // the values of were the columns are to split the line into an object.
-function matchBodyList (stream, line) {
+export function matchBodyList (stream, line) {
   const raw = {}
   try {
     const columns = stream._columnsPositions
@@ -138,7 +138,7 @@ function matchBodyList (stream, line) {
 // - hash with all info: `hebdf6      43      hashed/file.txt`
 // - hash with some info: `hebdf6              hashed/file.txt`
 // - hash for directories: `                    hashed/file.txt`
-function matchBodyHash (stream, line) {
+export function matchBodyHash (stream, line) {
   if (isEmpty(line)) {
     return null
   }
@@ -164,9 +164,9 @@ function matchBodyHash (stream, line) {
 // Encrypted = -
 // Method = LZMA2:24
 // Block = 0
-// *Path* is the first and *Block* is the last so we use that to mark the end 
+// *Path* is the first and *Block* is the last so we use that to mark the end
 // of data. The end of the output is marked by 2 empty lines
-function matchBodyTechInfo (stream, line) {
+export function matchBodyTechInfo (stream, line) {
   if (!stream._lastLines) {
     stream._lastLines = ['', '']
   }
@@ -199,7 +199,7 @@ function matchBodyTechInfo (stream, line) {
 // When the progress switch is activated the `formatByLine()` method adds
 // additionnal empty lines: By adding a marker to the `SevenZipStream` object
 // the function can detect two empty lines in a row.
-function matchEndOfBodySymbol (stream, line) {
+export function matchEndOfBodySymbol (stream, line) {
   const isLastLineEmpty = (stream._lastLineEmpty)
   if (!isEmpty(line)) {
     stream._lastLineEmpty = false
@@ -227,7 +227,7 @@ function isEmpty (string) {
 // - To identify the end of the BODY stage a list command outputs a
 // `---- -- --- ---` line.
 // - An extract command outpus the FOOTERS after after an empty line.
-const fetch = (command, parser) => {
+export const fetch = (command, parser) => {
   const PARSERS = {
     add: {
       bodyData: matchBodySymbol,
@@ -293,7 +293,7 @@ const fetch = (command, parser) => {
   return PARSERS[command][parser]
 }
 
-module.exports = {
+export default {
   matchInfos,
   matchEndOfHeadersSymbol,
   matchEndOfHeadersHyphen,

@@ -1,16 +1,17 @@
 {
   "name": "node-7z",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "A Node.js wrapper for 7-Zip with platform binaries",
+  "type": "module",
   "main": "./src/main.js",
   "scripts": {
-    "test": "npx mocha -r esm --reporter=spec \"test/**/*.spec.js\" --timeout=0",
-    "test-unit": "npx mocha -r esm --reporter=spec \"test/unit/*.spec.js\"",
-    "test-unit-coverage": "npx nyc --reporter=html npm run test-unit",
-    "test-func": "npx mocha -r esm --reporter=spec \"test/func/*.spec.js\" --timeout=0",
-    "test-func-coverage": "npx nyc --reporter=html npm run test-func",
+    "test": "npx mocha --reporter=spec \"test/**/*.spec.js\" --timeout=0",
+    "test-unit": "npx mocha --reporter=spec \"test/unit/*.spec.js\"",
+    "test-unit-coverage": "npx c8 --reporter=html npm run test-unit",
+    "test-func": "npx mocha --reporter=spec \"test/func/*.spec.js\" --timeout=0",
+    "test-func-coverage": "npx c8 --reporter=html npm run test-func",
     "test-debug": "DEBUG=node-7z npm run test",
-    "test-coverage": "npx nyc --reporter=lcov npm run test"
+    "test-coverage": "npx c8 --reporter=lcov npm run test"
   },
   "repository": {
     "type": "git",
@@ -33,7 +34,7 @@
   },
   "homepage": "https://github.com/quentinrossetti/node-7zip.git",
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "dependencies": {
     "debug": "^4.3.2",
@@ -46,13 +47,11 @@
   },
   "optionalDependencies": {},
   "devDependencies": {
+    "c8": "^7.11.0",
     "chai": "^4.3.4",
-    "esm": "^3.2.25",
     "fs-readdir-recursive": "^1.1.0",
-    "is-child-process": "^1.0.2",
-    "mocha": "^6.2.3",
-    "nyc": "^14.1.1",
+    "mocha": "^9.2.0",
     "rimraf": "^3.0.2",
-    "standard": "^14.3.4"
+    "standard": "^16.0.4"
   }
 }
