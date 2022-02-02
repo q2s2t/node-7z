@@ -49,7 +49,6 @@
   "devDependencies": {
     "c8": "^7.11.0",
     "chai": "^4.3.4",
-    "esm": "^3.2.25",
     "fs-readdir-recursive": "^1.1.0",
     "mocha": "^9.2.0",
     "rimraf": "^3.0.2",

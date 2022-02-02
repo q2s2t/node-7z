@@ -4,10 +4,14 @@ Code quality:
     ✔ Tests file naming and test naming conventions @done(18-09-29 09:28)
     ✔ Windows testing on AppVeyor @done(18-11-13 20:03)
     ✔ https://conventionalcommits.org @done(18-12-03 22:23)
-    ✘ Use c8 for coverage @cancelled(18-12-02 16:32)
+    ✔ Use c8 for coverage @done(22-02-01 23:07)
     ✔ Move to CircleCI because TravisCI is not using p7zip-full v16.x @done(18-10-17 20:35)
     ✔ CircleCi local test with docker (add circleci to system dev deps) @done(18-10-17 20:36)
-    ✘ git hooks: standardjs, circleci config validate @cancelled(18-12-02 16:34)
+    - git hooks: standardjs, circleci config validate standard-version
+    - Cleanup ESM exports
+    - Find an alternative to david-dm
+    - https://www.npmjs.com/package/standard#what-you-might-do-if-youre-clever
+    - rename master branch to main
 Package:
     ✔ Update all dependencies @done(18-10-17 20:36)
     ✔ Rewite scripts @done(18-10-17 20:36)

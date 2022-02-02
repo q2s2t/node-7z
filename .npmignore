@@ -1,5 +1,4 @@
 test/
-.nyc_output/
 .circleci/
 .vscode/
 coverage/
