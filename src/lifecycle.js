@@ -13,10 +13,10 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import libdebug from 'debug'
-const debug = libdebug('node-7z')
 import { spawn } from 'child_process'
 import { Readable } from 'stream'
 import { STAGE_HEADERS } from './references.js'
+const debug = libdebug('node-7z')
 
 export const createFactory = ({
   Bin,

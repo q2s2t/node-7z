@@ -2,7 +2,6 @@
 import { copyFileSync } from 'fs'
 import rimraf from 'rimraf'
 
-
 const mockDir = './test/_mock'
 const tmpDir = './test/_tmp'
 

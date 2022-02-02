@@ -28,7 +28,7 @@ export const fromBuffer = (seven, buffer) => {
   const offset = buffer.lastIndexOf('\n') + 1
   const newLastLine = buffer.slice(offset)
   const isNewLastLineComplete = (newLastLine.indexOf('\n') === newLastLine.length - 1)
-  
+
   if (!isNewLastLineComplete) {
     seven._lastLinePartial = newLastLine
     lines.pop()

@@ -13,8 +13,8 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import libdebug from 'debug'
-const debug = libdebug('node-7z')
 import { STAGE_BODY } from './references.js'
+const debug = libdebug('node-7z')
 
 export const onErrorFactory = ({ Err }) => (stream, err) => {
   Err.assign(stream, err)

@@ -164,7 +164,7 @@ export function matchBodyHash (stream, line) {
 // Encrypted = -
 // Method = LZMA2:24
 // Block = 0
-// *Path* is the first and *Block* is the last so we use that to mark the end 
+// *Path* is the first and *Block* is the last so we use that to mark the end
 // of data. The end of the output is marked by 2 empty lines
 export function matchBodyTechInfo (stream, line) {
   if (!stream._lastLines) {

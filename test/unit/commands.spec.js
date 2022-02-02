@@ -70,6 +70,5 @@ describe('Unit: commands.js', function () {
       const res = simplex('archive', { techInfo: true })
       expect(res._command).to.eql('listTechInfo')
     })
-
   })
 })
