@@ -348,7 +348,7 @@ mySevenStream.on('error', function (err) {
 Using the CLI, compression is done like this:
 
 ```sh
-# adds *.exe and *.dll files to solid archive archive.7z using LZMA method
+# adds all .exe files to solid archive archive.7z using the LZMA method
 # with 2 MB dictionary and BCJ filter.
 7z a archive.7z *.exe -m0=BCJ -m1=LZMA:d=21
 ```
@@ -358,6 +358,25 @@ Using this module:
 ```js
 const compress = Seven.add('archive.7z', '*.exe', {
   method: ['0=BCJ', '1=LZMA:d=21']
+})
+```
+
+### Encrypt metadata (hide filenames in password protected archives)
+
+This operation is supported only in the 7z file format.
+Using the CLI, if you want to password protect an archive while also hiding filenames you write:
+
+```sh
+# adds all .exe files with a password and also encrypt metadata, thus hiding filenames
+7z a archive.7z *.exe -p -mhe
+```
+
+Using this module:
+
+```js
+const compress = Seven.add('archive.7z', '*.exe', {
+  password: "your-password-here"
+  method: ['he']
 })
 ```
 
