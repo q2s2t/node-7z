@@ -375,7 +375,7 @@ Using this module:
 
 ```js
 const compress = Seven.add('archive.7z', '*.exe', {
-  password: "your-password-here"
+  password: "your-password-here",
   method: ['he']
 })
 ```
