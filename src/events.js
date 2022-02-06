@@ -29,60 +29,60 @@ export const onStderrFactory = ({ Err }) => (stream, buffer) => {
   return stream
 }
 
-export const onStdoutFactory = ({ Lines, Maybe }) => (stream, chunk) => {
-  const lines = Lines.fromBuffer(stream, chunk)
+export const onStdoutFactory = ({ Maybe }) => (stream, chunk) => {
+  const line = chunk //thanks to split2
 
   // Maybe functions check if a condition is true and run the corresponding
   // actions. They can mutate the stream, emit events, etc. The structure bellow
   // only does flow control.
-  for (const line of lines) {
-    debug('stdout: %s', line)
+  // for (const line of lines) {
+  debug('stdout: %s', line)
 
-    // Infos about the opertation are given by 7z on the stdout. They can be:
-    // - colon-seprated: `Creating archive: DirNew/BaseExt.7z`
-    // - equal-separated: `Method = LZMA2:12`
-    // - two on one line: `Prop 1: Data 1,  # Prop 2: Data 2`
-    // - in the HEADERS or in the FOOTERS
-    // stream function match if the current line contains some infos. A **Map**
-    // is used to store infos in the stream.
-    const infos = Maybe.info(stream, line)
-    if (infos) {
-      continue // at next line
-    }
-
-    // End of HEADERS can be easy to detected with list and hash commands that
-    // outputs a `---- -- ----` line, but in symbol commands the end of HEADERS
-    // can only be detected when the line match a BODY data: In such cases the
-    // loop has to continue in order to properly porcess the BODY data.
-    const endOfHeaders = Maybe.endOfHeaders(stream, line)
-    if (endOfHeaders && stream._dataType !== 'symbol') {
-      continue // at next line
-    }
-
-    // Optimization: Continue to the next line. At this point if the stream is
-    // in stage BODY all data carried by the current line has been processed.
-    const stageBody = (stream._stage === STAGE_BODY)
-    if (!stageBody) {
-      continue // at next line
-    }
-
-    const endOfBody = Maybe.endOfBody(stream, line)
-    if (endOfBody) {
-      continue // at next line
-    }
-
-    // Progress as a percentage is only displayed to stdout when the `-bsp1`
-    // switch is specified. Progress can has several forms:
-    // - only percent: `  0%`
-    // - with file count: ` 23% 4`
-    // - with file name: ` 23% 4 file.txt`
-    const bodyProgress = Maybe.progress(stream, line)
-    if (bodyProgress) {
-      continue // at next line
-    }
-
-    Maybe.bodyData(stream, line)
+  // Infos about the opertation are given by 7z on the stdout. They can be:
+  // - colon-seprated: `Creating archive: DirNew/BaseExt.7z`
+  // - equal-separated: `Method = LZMA2:12`
+  // - two on one line: `Prop 1: Data 1,  # Prop 2: Data 2`
+  // - in the HEADERS or in the FOOTERS
+  // stream function match if the current line contains some infos. A **Map**
+  // is used to store infos in the stream.
+  const infos = Maybe.info(stream, line)
+  if (infos) {
+    return stream // at next line
   }
+
+  // End of HEADERS can be easy to detected with list and hash commands that
+  // outputs a `---- -- ----` line, but in symbol commands the end of HEADERS
+  // can only be detected when the line match a BODY data: In such cases the
+  // loop has to continue in order to properly porcess the BODY data.
+  const endOfHeaders = Maybe.endOfHeaders(stream, line)
+  if (endOfHeaders && stream._dataType !== 'symbol') {
+    return stream // at next line
+  }
+
+  // Optimization: Continue to the next line. At this point if the stream is
+  // in stage BODY all data carried by the current line has been processed.
+  const stageBody = (stream._stage === STAGE_BODY)
+  if (!stageBody) {
+    return stream // at next line
+  }
+
+  const endOfBody = Maybe.endOfBody(stream, line)
+  if (endOfBody) {
+    return stream // at next line
+  }
+
+  // Progress as a percentage is only displayed to stdout when the `-bsp1`
+  // switch is specified. Progress can has several forms:
+  // - only percent: `  0%`
+  // - with file count: ` 23% 4`
+  // - with file name: ` 23% 4 file.txt`
+  const bodyProgress = Maybe.progress(stream, line)
+  if (bodyProgress) {
+    return stream // at next line
+  }
+
+  Maybe.bodyData(stream, line)
+  // }
   return stream
 }
 

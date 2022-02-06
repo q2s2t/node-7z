@@ -21,10 +21,10 @@ import { LINE_SPLIT } from './regexp.js'
 // When 7zip writes a progress value to stdout a new line is not created:
 // Instead 7zip uses combination on backpaces and spaces char.
 export const fromBuffer = (seven, buffer) => {
-  // if (seven._lastLinePartial) {
-  //   buffer = Buffer.concat([seven._lastLinePartial, buffer])
-  // }
-  // const lines = buffer.toString().split(LINE_SPLIT)
+  if (seven._lastLinePartial) {
+    buffer = Buffer.concat([seven._lastLinePartial, buffer])
+  }
+  const lines = buffer.toString().split(LINE_SPLIT)
   // const offset = buffer.lastIndexOf('\n') + 1
   // const newLastLine = buffer.slice(offset)
   // const isNewLastLineComplete = (newLastLine.indexOf('\n') === newLastLine.length - 1)
@@ -35,9 +35,6 @@ export const fromBuffer = (seven, buffer) => {
   // } else {
   //   delete seven._lastLinePartial
   // }
-  // return lines
-  const lines = buffer.toString().split(LINE_SPLIT)
-  // console.log(lines)
   return lines
 }
 
