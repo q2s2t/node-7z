@@ -30,7 +30,8 @@ export const onStderrFactory = ({ Err }) => (stream, buffer) => {
 }
 
 export const onStdoutFactory = ({ Maybe }) => (stream, chunk) => {
-  const line = chunk //thanks to split2
+   // Thanks to split2
+  const line = chunk
 
   // Maybe functions check if a condition is true and run the corresponding
   // actions. They can mutate the stream, emit events, etc. The structure bellow
