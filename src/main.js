@@ -19,23 +19,23 @@ import Flags from './flags.js'
 import Parser from './parser.js'
 import { onErrorFactory, onStderrFactory, onStdoutFactory, onEndFactory } from './events.js'
 import Err from './error.js'
-import Lines from './lines.js'
+// import Lines from './lines.js'
 import Maybe from './maybe.js'
 import Commands from './commands.js'
 
 // Expose the listen function to the API so a user can listen to a sdtio stream
 // non emitted by the current (ie. in the run() function).
-const listenFactory = ({ Lifecycle, Err, Lines, Maybe }) => seven => {
+const listenFactory = ({ Lifecycle, Err, Maybe }) => seven => {
   Lifecycle.listenFactory({
     errorHandler: onErrorFactory({ Err }),
     stderrHandler: onStderrFactory({ Err }),
-    stdoutHandler: onStdoutFactory({ Lines, Maybe }),
+    stdoutHandler: onStdoutFactory({ Maybe }),
     endHandler: onEndFactory()
   })(seven)
   return seven
 }
 
-const listen = listenFactory({ Lifecycle, Err, Lines, Maybe })
+const listen = listenFactory({ Lifecycle, Err, Maybe })
 
 // Function responsable for creating the streams using. Advanced usage of
 // $childProcess and $defer is done at this stage.

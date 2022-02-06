@@ -43,9 +43,9 @@
     "lodash.flattendeep": "^4.4.0",
     "lodash.isempty": "^4.4.0",
     "lodash.negate": "^3.0.2",
-    "normalize-path": "^3.0.0"
+    "normalize-path": "^3.0.0",
+    "split2": "^4.1.0"
   },
-  "optionalDependencies": {},
   "devDependencies": {
     "c8": "^7.11.0",
     "chai": "^4.3.4",

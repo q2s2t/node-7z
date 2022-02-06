@@ -13,9 +13,11 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 import libdebug from 'debug'
+import split2 from 'split2'
 import { spawn } from 'child_process'
 import { Readable } from 'stream'
 import { STAGE_HEADERS } from './references.js'
+import { LINE_SPLIT } from './regexp.js'
 const debug = libdebug('node-7z')
 
 export const createFactory = ({
@@ -60,9 +62,14 @@ export const listenFactory = ({
   stderrHandler,
   endHandler
 }) => stream => {
+  debug('lifecycle: listen')
   stream._childProcess.on('error', err => errorHandler(stream, err))
-  stream._childProcess.stderr.on('data', chunk => stderrHandler(stream, chunk))
-  stream._childProcess.stdout.on('data', chunk => stdoutHandler(stream, chunk))
+  stream._childProcess.stderr
+    .pipe(split2(LINE_SPLIT))
+    .on('data', chunk => stderrHandler(stream, chunk))
+  stream._childProcess.stdout
+    .pipe(split2(LINE_SPLIT))
+    .on('data', chunk => stdoutHandler(stream, chunk))
   stream._childProcess.on('close', () => endHandler(stream))
   return stream
 }
@@ -72,6 +79,7 @@ export const run = stream => {
     detached: true,
     windowsHide: true
   }, stream._spawnOptions)
+  debug('lifecycle: spawn', stream._bin, stream._args, spawnOptions)
   stream._childProcess = spawn(stream._bin, stream._args, spawnOptions)
   return stream
 }

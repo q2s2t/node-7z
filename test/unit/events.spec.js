@@ -57,7 +57,6 @@ describe('Unit: events.js', function () {
         if (line === 'bodyData') { ++counter.bodyData; return true } return false
       }
     }
-    const Lines = { fromBuffer: (stream, buffer) => { return buffer } }
 
     beforeEach(function () {
       counter = {
@@ -75,22 +74,19 @@ describe('Unit: events.js', function () {
         _stage: STAGE_HEADERS
       }
       // 2. run
-      const onStdout = Events.onStdoutFactory({ Lines, Maybe })
-      const res = onStdout(sevenFake, [
-        'info',
-        'endOfHeaders',
-        'progress',
-        'bodyData',
-        'progress',
-        'bodyData',
-        'bodyData',
-        'bodyData',
-        'progress',
-        'endOfBody',
-        'info'
-      ])
+      const onStdout = Events.onStdoutFactory({ Maybe })
+      onStdout(sevenFake, 'info')
+      onStdout(sevenFake, 'endOfHeaders')
+      onStdout(sevenFake, 'progress')
+      onStdout(sevenFake, 'bodyData')
+      onStdout(sevenFake, 'progress')
+      onStdout(sevenFake, 'bodyData')
+      onStdout(sevenFake, 'bodyData')
+      onStdout(sevenFake, 'bodyData')
+      onStdout(sevenFake, 'progress')
+      onStdout(sevenFake, 'endOfBody')
+      onStdout(sevenFake, 'info')
       // 3. assert
-      expect(res).to.eql(sevenFake)
       expect(counter.info).to.eql(2)
       expect(counter.endOfHeaders).to.eql(1)
       expect(counter.bodyData).to.eql(4)
@@ -105,23 +101,20 @@ describe('Unit: events.js', function () {
         _dataType: 'symbol'
       }
       // 2. run
-      const onStdout = Events.onStdoutFactory({ Lines, Maybe })
-      const res = onStdout(sevenFake, [
-        'info',
-        'random stuff',
-        'endOfHeaders',
-        'progress',
-        'bodyData',
-        'progress',
-        'bodyData',
-        'bodyData',
-        'bodyData',
-        'progress',
-        'endOfBody',
-        'info'
-      ])
+      const onStdout = Events.onStdoutFactory({ Maybe })
+      onStdout(sevenFake, 'info')
+      onStdout(sevenFake, 'random stuff')
+      onStdout(sevenFake, 'endOfHeaders')
+      onStdout(sevenFake, 'progress')
+      onStdout(sevenFake, 'bodyData')
+      onStdout(sevenFake, 'progress')
+      onStdout(sevenFake, 'bodyData')
+      onStdout(sevenFake, 'bodyData')
+      onStdout(sevenFake, 'bodyData')
+      onStdout(sevenFake, 'progress')
+      onStdout(sevenFake, 'endOfBody')
+      onStdout(sevenFake, 'info')
       // 3. assert
-      expect(res).to.eql(sevenFake)
       expect(counter.info).to.eql(2)
       expect(counter.endOfHeaders).to.eql(1)
       expect(counter.bodyData).to.eql(4)

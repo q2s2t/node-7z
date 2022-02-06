@@ -12,6 +12,7 @@ Code quality:
     - Find an alternative to david-dm
     - https://www.npmjs.com/package/standard#what-you-might-do-if-youre-clever
     - rename master branch to main
+    - Keep support for CommonJS and ESM
 Package:
     ✔ Update all dependencies @done(18-10-17 20:36)
     ✔ Rewite scripts @done(18-10-17 20:36)
