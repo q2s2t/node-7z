@@ -47,7 +47,7 @@ export const onStdoutFactory = ({ Maybe }) => (stream, chunk) => {
   // is used to store infos in the stream.
   const infos = Maybe.info(stream, line)
   if (infos) {
-    return stream // at next line
+    return stream
   }
 
   // End of HEADERS can be easy to detected with list and hash commands that
@@ -56,19 +56,19 @@ export const onStdoutFactory = ({ Maybe }) => (stream, chunk) => {
   // loop has to continue in order to properly porcess the BODY data.
   const endOfHeaders = Maybe.endOfHeaders(stream, line)
   if (endOfHeaders && stream._dataType !== 'symbol') {
-    return stream // at next line
+    return stream
   }
 
   // Optimization: Continue to the next line. At this point if the stream is
   // in stage BODY all data carried by the current line has been processed.
   const stageBody = (stream._stage === STAGE_BODY)
   if (!stageBody) {
-    return stream // at next line
+    return stream
   }
 
   const endOfBody = Maybe.endOfBody(stream, line)
   if (endOfBody) {
-    return stream // at next line
+    return stream
   }
 
   // Progress as a percentage is only displayed to stdout when the `-bsp1`
@@ -78,11 +78,10 @@ export const onStdoutFactory = ({ Maybe }) => (stream, chunk) => {
   // - with file name: ` 23% 4 file.txt`
   const bodyProgress = Maybe.progress(stream, line)
   if (bodyProgress) {
-    return stream // at next line
+    return stream
   }
 
   Maybe.bodyData(stream, line)
-  // }
   return stream
 }
 

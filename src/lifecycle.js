@@ -17,6 +17,7 @@ import split2 from 'split2'
 import { spawn } from 'child_process'
 import { Readable } from 'stream'
 import { STAGE_HEADERS } from './references.js'
+import { LINE_SPLIT } from './regexp.js'
 const debug = libdebug('node-7z')
 
 export const createFactory = ({
@@ -63,8 +64,12 @@ export const listenFactory = ({
 }) => stream => {
   debug('lifecycle: listen')
   stream._childProcess.on('error', err => errorHandler(stream, err))
-  stream._childProcess.stderr.pipe(split2()).on('data', chunk => stderrHandler(stream, chunk))
-  stream._childProcess.stdout.pipe(split2()).on('data', chunk => stdoutHandler(stream, chunk))
+  stream._childProcess.stderr
+    .pipe(split2(LINE_SPLIT))
+    .on('data', chunk => stderrHandler(stream, chunk))
+  stream._childProcess.stdout
+    .pipe(split2(LINE_SPLIT))
+    .on('data', chunk => stdoutHandler(stream, chunk))
   stream._childProcess.on('close', () => endHandler(stream))
   return stream
 }
