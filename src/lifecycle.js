@@ -51,6 +51,7 @@ export const createFactory = ({
   seven._dataType = Parser.fetch(options._command, 'dataType')
   seven._matchInfos = Parser.matchInfos
   seven._matchProgress = Parser.matchProgress
+  seven._spawnOptions = options.$spawnOptions
   seven.info = new Map()
   debug('lifecycle: create %O', options)
   return seven

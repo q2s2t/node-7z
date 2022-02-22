@@ -45,6 +45,21 @@ describe('Unit: lifecycle.js', function () {
       expect(sevenFake._stage).to.eql(STAGE_HEADERS)
     })
 
+    it.only('should handle $spawnOptions', function () {
+      const create = Seven.createFactory({
+        Bin: binFromOptionsFake,
+        Flags: flagsFromOptionsFake,
+        Parser: parserFake,
+        Args: argsFromOptionsFake
+      })
+      const sevenFake = create({
+        $spawnOptions: {
+          background: false
+        }
+      })
+      expect(sevenFake._spawnOptions.background).to.eql(false)
+    })
+
     it('should set _isProgressFlag when specified', function () {
       const create = Seven.createFactory({
         Bin: binFromOptionsFake,
