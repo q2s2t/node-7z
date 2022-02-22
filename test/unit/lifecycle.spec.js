@@ -45,7 +45,7 @@ describe('Unit: lifecycle.js', function () {
       expect(sevenFake._stage).to.eql(STAGE_HEADERS)
     })
 
-    it.only('should handle $spawnOptions', function () {
+    it('should handle $spawnOptions', function () {
       const create = Seven.createFactory({
         Bin: binFromOptionsFake,
         Flags: flagsFromOptionsFake,
