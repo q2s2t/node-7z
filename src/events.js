@@ -60,6 +60,18 @@ export const onStdoutFactory = ({ Maybe }) => (stream, chunk) => {
     return stream
   }
 
+  // Progress as a percentage is only displayed to stdout when the `-bsp1`
+  // switch is specified. Progress can has several forms:
+  // - only percent: `  0%`
+  // - with file count: ` 23% 4`
+  // - with file name: ` 23% 4 file.txt`
+  if (stream._isProgressFlag) {
+    const bodyProgress = Maybe.progress(stream, line)
+    if (bodyProgress) {
+      return stream
+    }
+  }
+
   // Optimization: Continue to the next line. At this point if the stream is
   // in stage BODY all data carried by the current line has been processed.
   const stageBody = (stream._stage === STAGE_BODY)
@@ -69,16 +81,6 @@ export const onStdoutFactory = ({ Maybe }) => (stream, chunk) => {
 
   const endOfBody = Maybe.endOfBody(stream, line)
   if (endOfBody) {
-    return stream
-  }
-
-  // Progress as a percentage is only displayed to stdout when the `-bsp1`
-  // switch is specified. Progress can has several forms:
-  // - only percent: `  0%`
-  // - with file count: ` 23% 4`
-  // - with file name: ` 23% 4 file.txt`
-  const bodyProgress = Maybe.progress(stream, line)
-  if (bodyProgress) {
     return stream
   }
 
