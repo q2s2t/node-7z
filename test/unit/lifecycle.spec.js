@@ -75,7 +75,7 @@ describe('Unit: lifecycle.js', function () {
       expect(once).to.eql(true)
     })
 
-    it.skip('should handle stderr data', function () {
+    it('should handle stderr data', function () {
       let once = false
       const sevenFake = sevenFakeFactory()
       const errFake = 'unknown error\r\n'
@@ -89,10 +89,11 @@ describe('Unit: lifecycle.js', function () {
         endHandler: voidFunction
       })(sevenFake)
       sevenFake._childProcess.stderr.emit('data', errFake)
+      sevenFake._childProcess.stderr.emit('end')
       expect(once).to.eql(true)
     })
 
-    it.skip('should handle stdout data', function () {
+    it('should handle stdout data', function () {
       let once = false
       const sevenFake = sevenFakeFactory()
       const dataFake = 'some data'
@@ -106,6 +107,7 @@ describe('Unit: lifecycle.js', function () {
         endHandler: voidFunction
       })(sevenFake)
       sevenFake._childProcess.stdout.emit('data', dataFake)
+      sevenFake._childProcess.stdout.emit('end')
       expect(once).to.eql(true)
     })
 
