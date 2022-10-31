@@ -71,7 +71,8 @@ describe('Unit: events.js', function () {
     it('should flow the normal way', function () {
       // 1. setup
       const sevenFake = {
-        _stage: STAGE_HEADERS
+        _stage: STAGE_HEADERS,
+        _isProgressFlag: true
       }
       // 2. run
       const onStdout = Events.onStdoutFactory({ Maybe })
@@ -98,7 +99,8 @@ describe('Unit: events.js', function () {
       // 1. setup
       const sevenFake = {
         _stage: STAGE_HEADERS,
-        _dataType: 'symbol'
+        _dataType: 'symbol',
+        _isProgressFlag: true
       }
       // 2. run
       const onStdout = Events.onStdoutFactory({ Maybe })
