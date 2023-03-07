@@ -23,9 +23,8 @@ export const onErrorFactory = ({ Err }) => (stream, err) => {
 }
 
 export const onStderrFactory = ({ Err }) => (stream, buffer) => {
-  const err = Err.fromBuffer(buffer)
-  Err.assign(stream, err)
-  debug('error: from stderr: %O', err)
+  Err.append(stream, buffer)
+  debug('error: append from stderr: %O', buffer)
   return stream
 }
 
@@ -88,7 +87,12 @@ export const onStdoutFactory = ({ Maybe }) => (stream, chunk) => {
   return stream
 }
 
-export const onEndFactory = () => (stream) => {
+export const onEndFactory = ({ Err }) => (stream) => {
+  if (stream.stderr) {
+    const err = Err.fromBuffer(stream.stderr)
+    Err.assign(stream, err)
+    debug('error: from stderr: %O', err)
+  }
   if (stream.err) {
     stream.emit('error', stream.err)
   }

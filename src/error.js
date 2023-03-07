@@ -24,6 +24,16 @@ export const assign = (stream, err) => {
   return stream
 }
 
+// Just append the buffer to the stream. The error is created before emitting on close
+export const append = (stream, buffer) => {
+  if (stream.stderr) {
+    stream.stderr += buffer
+  } else {
+    stream.stderr = buffer
+  }
+  return stream
+}
+
 export const fromBuffer = chunk => {
   const stderr = chunk.toString()
   const match = stderr.match(ERROR)
@@ -36,4 +46,4 @@ export const fromBuffer = chunk => {
   return err
 }
 
-export default { assign, fromBuffer }
+export default { append, assign, fromBuffer }
