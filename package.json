@@ -28,7 +28,8 @@
   ],
   "author": "Quentin Rossetti <quentin.rossetti@gmail.com>",
   "contributors": [
-    {"name": "Jessé LIBEN", "email": "jliben@gmail.com"}
+    {"name": "Jessé LIBEN", "email": "jliben@gmail.com"},
+    {"name": "Daniel Amado", "email": "velkan14@gmail.com"}
   ],
   "license": "ISC",
   "bugs": {
