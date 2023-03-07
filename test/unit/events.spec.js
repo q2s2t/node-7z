@@ -22,19 +22,16 @@ describe('Unit: events.js', function () {
 
   describe('onStderrFactory()', function () {
     it('should operate on stream and error', function () {
-      const sevenFake = { testprop: null }
+      const sevenFake = {}
       const bufferFake = Buffer.from('42')
       const ErrFake = {
-        assign: (stream, err) => {
-          stream.testprop = err
-        },
-        fromBuffer: (buffer) => {
-          return buffer.toString()
+        append: (stream, err) => {
+          stream.stderr = err
         }
       }
       const onError = Events.onStderrFactory({ Err: ErrFake })
       onError(sevenFake, bufferFake)
-      expect(sevenFake.testprop).to.eql('42')
+      expect(sevenFake.stderr).to.eql(bufferFake)
     })
   })
 
@@ -71,7 +68,8 @@ describe('Unit: events.js', function () {
     it('should flow the normal way', function () {
       // 1. setup
       const sevenFake = {
-        _stage: STAGE_HEADERS
+        _stage: STAGE_HEADERS,
+        _isProgressFlag: true
       }
       // 2. run
       const onStdout = Events.onStdoutFactory({ Maybe })
@@ -98,7 +96,8 @@ describe('Unit: events.js', function () {
       // 1. setup
       const sevenFake = {
         _stage: STAGE_HEADERS,
-        _dataType: 'symbol'
+        _dataType: 'symbol',
+        _isProgressFlag: true
       }
       // 2. run
       const onStdout = Events.onStdoutFactory({ Maybe })
@@ -124,8 +123,20 @@ describe('Unit: events.js', function () {
   })
 
   describe('onEndFactory()', function () {
+    const ErrFake = {
+      append: (stream, err) => {
+        stream.stderr = err
+      },
+      assign: (stream, err) => {
+        stream.testprop = err
+      },
+      fromBuffer: (buffer) => {
+        return buffer.toString()
+      }
+    }
+
     it('should emit error and close given error in process', function (done) {
-      const onEnd = Events.onEndFactory()
+      const onEnd = Events.onEndFactory({ ErrFake })
       const sevenFake = new Readable({ read () {} })
       const errFake = new Error('FakeError')
       let counterError = 0
@@ -142,7 +153,7 @@ describe('Unit: events.js', function () {
     })
 
     it('should emit end event', function (done) {
-      const onEnd = Events.onEndFactory()
+      const onEnd = Events.onEndFactory({ ErrFake })
       const sevenFake = new Readable({ read () {} })
       let counterClose = 0
       sevenFake.on('end', () => { ++counterClose })
